@@ -12,6 +12,8 @@ export default function Nav() {
         <nav aria-label="Primary navigation">
           <Link href="/weed-dispensary-jane-street">Jane Street Store</Link>
           <Link href="/visit">Visit</Link>
+          <Link href="/native-cigarettes-jane-street">Cigarettes</Link>
+          <Link href="/nicotine-vapes-jane-street">Nicotine Vapes</Link>
           <div className="navTiers">
             {TIERS.map((tier) => <Link key={tier.slug} href={`/${tier.slug}`}>{tier.name}</Link>)}
           </div>
