@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
@@ -15,10 +16,8 @@ export default function NorthYorkPage() {
     <main>
       <Nav />
       <section className="localHero">
-        <p className="eyebrow">2111 JANE ST · UNIT 12</p>
-        <h1>Weed Dispensary in North York</h1>
-        <p>{STORE.name} is located at {STORE.address}. Use this page for the official address, phone, map, and direct access to the store’s five Weed flower tiers.</p>
-        <div className="heroActions"><a href={STORE.maps}>Open Google Maps</a><a className="ghost" href={`tel:${STORE.phoneHref}`}>Call {STORE.phone}</a></div>
+        <div><p className="eyebrow">2111 JANE ST · UNIT 12</p><h1>Weed Dispensary in North York</h1><p>{STORE.name} is located at {STORE.address}. Use this page for the official address, phone, map, and direct access to the store’s five Weed flower tiers.</p><div className="heroActions"><a href={STORE.maps}>Open Google Maps</a><a className="ghost" href={`tel:${STORE.phoneHref}`}>Call {STORE.phone}</a></div></div>
+        <div className="doorArt"><Image src="/brand/door-upper.svg" width={600} height={700} alt="Jane Wilson Cannabis Dispensary door artwork" /><Image src="/brand/door-lower.svg" width={600} height={700} alt="Jane Wilson green and purple geometric door artwork" /></div>
       </section>
       <section className="localTierList">
         <h2>Explore the Weed flower tiers</h2>

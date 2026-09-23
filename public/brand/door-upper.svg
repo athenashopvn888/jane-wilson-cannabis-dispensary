@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="3500" viewBox="0 0 3000 3500">
+  <rect width="3000" height="3500" fill="#f8faf8"/>
+  <g opacity=".96">
+    <polygon points="0,0 920,0 1380,790 920,1580 0,1580 -460,790" fill="#56db46"/>
+    <polygon points="1680,0 3000,0 3000,1510 2380,1870 1680,1460 1230,720" fill="#b493e6"/>
+    <polygon points="0,1260 840,760 1680,1260 1680,2570 840,3070 0,2570" fill="#6520a4"/>
+    <polygon points="1680,1510 2460,1050 3240,1510 3240,2820 2460,3280 1680,2820" fill="#19ad40"/>
+  </g>
+  <polygon points="280,430 1500,-270 2720,430 2720,2930 1500,3630 280,2930" fill="#351451" opacity=".91"/>
+  <g font-family="Arial, Helvetica, sans-serif" text-anchor="middle" fill="#fff">
+    <text x="1500" y="680" font-size="360">UNIT 12</text>
+    <line x1="920" y1="875" x2="2080" y2="875" stroke="#48ec50" stroke-width="42"/>
+    <text x="1500" y="1430" font-size="315">Jane Wilson</text>
+    <text x="1500" y="1870" font-size="370" font-weight="700" fill="#4df04e">Cannabis</text>
+    <text x="1500" y="2290" font-size="315">Dispensary</text>
+    <circle cx="1500" cy="2960" r="390" fill="#351451" stroke="#4df04e" stroke-width="48"/>
+    <text x="1500" y="3090" font-size="375" font-weight="700">19+</text>
+  </g>
+</svg>

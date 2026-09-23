@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="23000" height="2400" viewBox="0 0 23000 2400">
+  <rect width="23000" height="2400" fill="#ffffff"/><rect y="2310" width="23000" height="90" fill="#4ee348"/>
+  <g fill="#5b189f" stroke="#5b189f" font-family="Arial, Helvetica, sans-serif" font-weight="700">
+    <g transform="translate(900 650)"><path d="M70 880 C310 900 470 720 500 480 C525 260 690 120 900 120" fill="none" stroke-width="105" stroke-linecap="round"/><circle cx="60" cy="885" r="95" stroke="none"/></g>
+    <text x="2300" y="1480" font-size="540" stroke="none">Smoke Accessories</text>
+    <g transform="translate(8040 520)" fill="none" stroke-width="48"><ellipse cx="555" cy="330" rx="500" ry="225"/><path d="M55 330v720c0 165 1000 165 1000 0V330"/><ellipse cx="555" cy="1050" rx="500" ry="225"/><g fill="#5b189f" stroke="none"><circle cx="300" cy="285" r="70"/><circle cx="555" cy="220" r="70"/><circle cx="810" cy="285" r="70"/><circle cx="425" cy="430" r="70"/><circle cx="685" cy="430" r="70"/></g></g>
+    <text x="9375" y="1480" font-size="590" stroke="none">Grinders</text>
+    <g transform="translate(14220 600)" fill="none" stroke-width="70" stroke-linejoin="round"><path d="M120 760 L1530 760 L1745 1290 L335 1290 Z"/><path d="M120 760 L360 210 L1770 210 L1530 760 Z"/><line x1="335" y1="1030" x2="1640" y2="1030"/></g>
+    <text x="16500" y="1480" font-size="590" stroke="none">Rolling Papers</text>
+  </g>
+  <g fill="#15943a"><circle cx="7560" cy="1210" r="92"/><circle cx="13520" cy="1210" r="92"/></g>
+  <g opacity=".96"><polygon points="0,0 650,0 325,560" fill="#61e647"/><polygon points="0,0 325,560 0,1120" fill="#1fbd4e"/><polygon points="0,1120 325,560 650,1120" fill="#8135d5"/><polygon points="23000,0 22350,0 22675,560" fill="#61e647"/><polygon points="23000,0 22675,560 23000,1120" fill="#1fbd4e"/><polygon points="23000,1120 22675,560 22350,1120" fill="#8135d5"/></g>
+</svg>

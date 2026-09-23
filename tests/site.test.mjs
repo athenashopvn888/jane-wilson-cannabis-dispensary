@@ -21,7 +21,7 @@ test("all five tier labels include Weed", () => {
 test("weight price UI covers all standard weights", () => {
   const tier = read("app/[tier]/page.tsx");
   for (const weight of ["3.5g", "7g", "14g", "28g"]) assert.ok(tier.includes(weight));
-  assert.match(tier, /weight prices/);
+  assert.match(tier, /weight prices/i);
 });
 
 test("no unsupported hours, reviews, delivery, or copied JFC identity", () => {

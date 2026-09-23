@@ -12,17 +12,22 @@ export default function HomePage() {
       <Nav />
       <section className="hero">
         <div className="heroCopy">
-          <p className="eyebrow">2111 JANE ST · UNIT 12 · NORTH YORK</p>
-          <h1>Jane Wilson<br /><span>Cannabis Dispensary</span></h1>
+          <div className="heroBadge">19+ · NORTH YORK</div>
+          <p className="eyebrow">2111 JANE ST · UNIT 12</p>
+          <h1>Jane Wilson<span>Cannabis Dispensary</span></h1>
           <p className="heroText">Jane Wilson Cannabis Dispensary is located at 2111 Jane St #12 in North York, Ontario. Explore five clear Weed flower tiers and cannabis information for this location.</p>
           <div className="heroActions"><Link href="#weed-tiers">Browse Weed</Link><a className="ghost" href={STORE.maps}>Get Directions</a></div>
           <p className="truthNote">Current products and prices appear only when the Jane Wilson store feed is connected.</p>
         </div>
         <div className="heroArt" aria-label="Jane Wilson storefront artwork">
-          <Image src="/brand/front-left-grinder.png" width={1200} height={1200} sizes="(max-width: 980px) 70vw, 36vw" alt="Purple grinder with cannabis leaf on green and purple geometric artwork" />
-          <Image src="/brand/front-right-papers.png" width={1200} height={1200} sizes="(max-width: 980px) 70vw, 36vw" alt="Purple rolling paper package on green and purple geometric artwork" />
+          <div className="heroPattern" />
+          <Image className="heroProduct heroProductOne" src="/brand/front-left-grinder.png" width={1200} height={1200} sizes="(max-width: 980px) 74vw, 34vw" priority alt="Purple grinder with cannabis leaf on green and purple geometric artwork" />
+          <Image className="heroProduct heroProductTwo" src="/brand/front-right-papers.png" width={1200} height={1200} sizes="(max-width: 980px) 64vw, 28vw" priority alt="Purple rolling paper package on green and purple geometric artwork" />
+          <div className="heroArtLabel"><b>JANE WILSON</b><span>PURPLE × GREEN</span></div>
         </div>
       </section>
+
+      <section className="artStrip" aria-label="Jane Wilson storefront design"><Image src="/brand/accessories-sign.svg" width={2300} height={240} alt="Jane Wilson smoke accessories, grinders, and rolling papers sign artwork" /></section>
 
       <section className="tiers" id="weed-tiers">
         <p className="eyebrow">SHOP BY WEED TIER</p>
@@ -31,7 +36,7 @@ export default function HomePage() {
         <div className="tierGrid">
           {TIERS.map((tier, index) => (
             <Link className="tierCard" href={`/${tier.slug}`} key={tier.slug} style={{ "--tier": tier.tone } as React.CSSProperties}>
-              <span>0{index + 1}</span><h3>{tier.name}</h3><p>View strains and weight prices</p><b>Explore →</b>
+              <span className="tierNumber">0{index + 1}</span><div className="tierHex" /><h3>{tier.name}</h3><p>Strains · weights · prices</p><b>Explore tier <i>→</i></b>
             </Link>
           ))}
         </div>
@@ -46,7 +51,7 @@ export default function HomePage() {
 
       <section className="featureBand">
         <Image src="/brand/side-window-combined.png" width={1400} height={1000} sizes="(max-width: 980px) 100vw, 50vw" alt="Green and purple geometric Jane Wilson artwork with grinder and rolling papers" />
-        <div><p className="eyebrow">THE JANE WILSON LOOK</p><h2>Bold purple. Fresh green. Built around the storefront.</h2><p>The website carries the same hexagon pattern, purple accessories, green accents, and clean white space used in the approved window and sign artwork.</p></div>
+        <div><p className="eyebrow">THE JANE WILSON LOOK</p><h2>Built from the storefront—not a generic template.</h2><p>The website now carries the same hexagon geometry, rich purple accessories, sharp green accents, and clean white space used across the approved window, door, and fascia artwork.</p><Link className="textLink" href="/weed-dispensary-north-york">Visit the North York store page →</Link></div>
       </section>
 
       <section className="visit" id="visit">
