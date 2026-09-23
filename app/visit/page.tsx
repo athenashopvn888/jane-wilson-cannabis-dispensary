@@ -28,7 +28,7 @@ const faqs = [
   },
   {
     question: "What are today’s opening hours?",
-    answer: `Verified public hours are not yet available on this website. Call ${STORE.phone} before travelling.`
+    answer: `${STORE.name} is open ${STORE.hoursLabel}. Call ${STORE.phone} if you need to confirm a specific product before travelling.`
   },
   {
     question: "Do I need identification?",
@@ -40,7 +40,7 @@ export default function VisitPage() {
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
-      storeSchema(`${STORE.origin}/visit`),
+      storeSchema(),
       {
         "@type": "WebPage",
         "@id": `${STORE.origin}/visit#webpage`,
@@ -77,7 +77,7 @@ export default function VisitPage() {
         <article><span>01</span><h2>Pin the exact address</h2><p><strong>{STORE.street}</strong><br />{STORE.locality}<br />Canada</p><a href={STORE.maps}>Open the supplied Google Maps pin →</a></article>
         <article><span>02</span><h2>Travel the Jane corridor</h2><p>The 35 Jane and 935 Jane Express serve Jane Street and include stops at Wilson Avenue. Check live TTC service and choose the direction that fits your trip.</p><a href="https://www.ttc.ca/routes-and-schedules/35/0/4738">Check the 35 Jane route on TTC →</a></article>
         <article><span>03</span><h2>Find Unit 12</h2><p>Use the storefront number and Jane Wilson purple-and-green window graphics to identify the correct unit. This is one physical Jane Street storefront.</p><a href={`tel:${STORE.phoneHref}`}>Call if you need a landmark check →</a></article>
-        <article><span>04</span><h2>Confirm before travelling</h2><p><strong>Hours:</strong> {STORE.hoursStatus}. Current inventory and prices also require confirmation from this store.</p><a href={`tel:${STORE.phoneHref}`}>{STORE.phone} →</a></article>
+        <article><span>04</span><h2>Hours</h2><p><strong>{STORE.hoursLabel}.</strong> Confirm a specific product at the Jane Wilson counter before you make a special trip.</p><a href={`tel:${STORE.phoneHref}`}>{STORE.phone} →</a></article>
       </section>
 
       <section className="parkingNote">

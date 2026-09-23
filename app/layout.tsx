@@ -6,7 +6,7 @@ import { STORE, storeSchema } from "./lib/store";
 export const metadata: Metadata = {
   metadataBase: new URL(STORE.origin),
   title: { default: "Jane Wilson Cannabis Dispensary | Jane St North York", template: "%s | Jane Wilson Cannabis" },
-  description: "Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12 serves the Jane–Wilson and Downsview corridor. Plan a visit and explore five Weed flower tiers.",
+  description: "Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12 serves the Jane–Wilson and Downsview corridor. Open 10:00 AM to midnight daily. Flower tiers, native cigarettes, and nicotine vapes for adults 19+.",
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
   openGraph: {

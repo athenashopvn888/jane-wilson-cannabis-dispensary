@@ -32,7 +32,7 @@ const faqs = [
   },
   {
     question: "Is the store open now?",
-    answer: `This website does not yet have verified operating hours. Call ${STORE.phone} to confirm today’s hours before travelling.`
+    answer: `${STORE.name} is open ${STORE.hoursLabel}. Call ${STORE.phone} to confirm a specific product before travelling.`
   }
 ];
 
@@ -80,19 +80,19 @@ export default function JaneStreetPage() {
 
       <section className="geoNarrative">
         <div><p className="eyebrow">THE LOCAL STOREFRONT</p><h2>A focused Jane–Wilson cannabis guide</h2></div>
-        <div><p>The address sits on Jane Street near Wilson Avenue, with the Jane corridor connecting the storefront to nearby Downsview. The website keeps that geographic focus instead of claiming to be a storefront in every North York neighbourhood.</p><p>Travelling by TTC? The 35 Jane and 935 Jane Express stop along Jane Street at Wilson Avenue. Driving? Use the exact map pin and obey the parking signs you find on arrival. The <Link href="/visit">visit page</Link> keeps transit, map, Unit 12, and arrival details together.</p><p>Hours have not yet been supplied by an authoritative store source. Call <a href={`tel:${STORE.phoneHref}`}>{STORE.phone}</a> before travelling; no “open now” or 24-hour claim is published here.</p></div>
+        <div><p>The address sits on Jane Street near Wilson Avenue, with the Jane corridor connecting the storefront to nearby Downsview. The website keeps that geographic focus on this Unit 12 counter.</p><p>Travelling by TTC? The 35 Jane and 935 Jane Express stop along Jane Street at Wilson Avenue. Driving? Use the exact map pin and obey the parking signs you find on arrival. The <Link href="/visit">visit page</Link> keeps transit, map, Unit 12, and arrival details together.</p><p>Hours are {STORE.hoursLabel}. Call <a href={`tel:${STORE.phoneHref}`}>{STORE.phone}</a> when a specific flower, carton, or nicotine vape is the reason for the trip.</p></div>
       </section>
 
       <section className="localTierList corridorTiers">
         <p className="eyebrow">FIVE CLEAR WEED TIERS</p><h2>Compare flower tiers before your visit</h2>
-        <p>Each tier page explains its place in the flower ladder and shows the standard weight-price positions. Exact dollar prices and products remain store-confirmed until the JWCD01 governed menu is connected.</p>
+        <p>Each tier page lists flower with 3g, 5g, 14g, and 28g prices. Confirm the jar at the Jane Wilson counter. Native cigarettes and nicotine vapes have their own Jane Street pages.</p>
         <div>{TIERS.map((tier) => <Link key={tier.slug} href={`/${tier.slug}`}><span className="localTierName">{tier.name}</span><small>{tier.summary}</small><b>Explore tier →</b></Link>)}</div>
       </section>
 
       <section className="truthGrid">
         <article><span>ADDRESS</span><h2>{STORE.street}</h2><p>{STORE.locality}</p><a href={STORE.maps}>Open map →</a></article>
-        <article><span>HOURS</span><h2>Confirm by phone</h2><p>{STORE.hoursStatus}</p><a href={`tel:${STORE.phoneHref}`}>{STORE.phone} →</a></article>
-        <article><span>MENU</span><h2>Store-confirmed facts only</h2><p>No other dispensary’s inventory or pricing is shown as Jane Wilson stock.</p><Link href="/#weed-tiers">Browse tier guides →</Link></article>
+        <article><span>HOURS</span><h2>{STORE.hoursLabel}</h2><p>{STORE.street}</p><a href={`tel:${STORE.phoneHref}`}>{STORE.phone} →</a></article>
+        <article><span>MENU</span><h2>Flower, cigarettes, vapes</h2><p>Menu preview — confirm availability and prices at the Jane Wilson counter until the Jane Wilson live feed is connected.</p><Link href="/#weed-tiers">Browse flower tiers →</Link></article>
       </section>
 
       <section className="faq"><p className="eyebrow">JANE STREET FAQ</p><h2>Jane–Wilson store questions</h2>{faqs.map((faq) => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</section>

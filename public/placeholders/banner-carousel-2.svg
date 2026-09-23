@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="640" viewBox="0 0 1600 640" role="img">
+  <!-- PLACEHOLDER_FOR_CODEX -->
+  <rect width="1600" height="640" fill="#0c9638"/>
+  <rect x="28" y="28" width="1544" height="584" fill="none" stroke="#ffffff" stroke-width="8" stroke-dasharray="18 12"/>
+  <text x="800" y="250" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="700">UNIT 12 | 2111 JANE ST</text>
+  <text x="800" y="330" text-anchor="middle" fill="#f3e8ff" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">PLACEHOLDER — Codex: replace with real storefront/banner photo</text>
+  <text x="800" y="390" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="22">banner-carousel-2.svg</text>
+</svg>

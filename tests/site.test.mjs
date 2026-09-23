@@ -1,58 +1,136 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import path from "node:path";
 import test from "node:test";
 
 const root = new URL("../", import.meta.url);
 const read = (file) => readFileSync(new URL(file, root), "utf8");
 
-test("exact approved NAP and canonical domain are centralized", () => {
+function walk(dir) {
+  const abs = path.join(root.pathname, dir);
+  if (!existsSync(abs)) return [];
+  return readdirSync(abs).flatMap((name) => {
+    const rel = path.join(dir, name);
+    const full = path.join(root.pathname, rel);
+    return statSync(full).isDirectory() ? walk(rel) : [rel];
+  });
+}
+
+test("exact approved NAP, hours, and canonical domain are centralized", () => {
   const store = read("app/lib/store.ts");
   assert.match(store, /Jane Wilson Cannabis Dispensary/);
-  assert.match(store, /2111 Jane St #12, North York, ON M3M 1A2, Canada/);
+  assert.match(store, /2111 Jane St, Unit 12, North York, ON M3M 1A2/);
   assert.match(store, /437-465-7700/);
+  assert.match(store, /\+14374657700/);
   assert.match(store, /janewilsoncannabisdispensary\.com/);
   assert.match(store, /jane-wilson-cannabis-dispensary\.vercel\.app/);
+  assert.match(store, /10:00 AM – 12:00 AM \(midnight\) daily/);
+  assert.match(store, /openingHoursSpecification/);
+  assert.match(store, /hoursOpens: "10:00"/);
+  assert.match(store, /hoursCloses: "00:00"/);
+  assert.match(store, /opens: STORE.hoursOpens/);
 });
 
-test("all five tier labels include Weed", () => {
+test("flower weights are the fleet 3g 5g 14g 28g set", () => {
   const store = read("app/lib/store.ts");
-  for (const label of ["Exotic Weed", "Premium Weed", "AAA+ Weed", "AA Weed", "Budget Weed"]) assert.ok(store.includes(label));
+  const inventory = read("app/lib/inventory.ts");
+  const grid = read("app/components/FlowerGrid.tsx");
+  assert.match(store, /WEIGHTS = \["3g", "5g", "14g", "28g"\]/);
+  for (const field of ["price3g", "price5g", "price14g", "price28g"]) assert.ok(inventory.includes(field));
+  assert.match(grid, /WEIGHTS\.map/);
+  const ui = walk("app")
+    .filter((file) => file.endsWith(".tsx") || file.endsWith(".ts"))
+    .map((file) => read(file))
+    .join("\n");
+  assert.doesNotMatch(ui, /3\.5g/);
+  assert.doesNotMatch(ui, /(?<![0-9])7g/);
+  assert.doesNotMatch(ui, /(?<![0-9])6g/);
 });
 
-test("weight price UI covers all standard weights", () => {
-  const tier = read("app/[tier]/page.tsx");
-  const store = read("app/lib/store.ts");
-  for (const weight of ["3.5g", "7g", "14g", "28g"]) assert.ok(store.includes(weight));
-  assert.match(tier, /weight and price formats/i);
-  assert.match(tier, /CALL FOR TODAY’S PRICE/);
+test("temporary menu snapshot has every flower tier plus cigarettes and nicotine vapes", () => {
+  const flowers = JSON.parse(read("app/lib/flowers.json"));
+  const items = JSON.parse(read("app/lib/items.json"));
+  const tiers = new Set(flowers.map((flower) => flower.tier));
+  for (const tier of ["EXOTIC", "PREMIUM", "AAA+", "AA", "BUDGET"]) {
+    const rows = flowers.filter((flower) => flower.tier === tier);
+    assert.ok(rows.length > 0, tier);
+    assert.ok(rows.some((flower) => flower.price3g || flower.price5g || flower.price14g || flower.price28g));
+  }
+  assert.equal(tiers.size, 5);
+  const cigs = items.filter((item) => item.category === "CIGARETTES");
+  const vapes = items.filter((item) => item.category === "VAPE PENS");
+  assert.ok(cigs.length > 0);
+  assert.ok(vapes.length > 0);
+  assert.ok(cigs.every((item) => item.name && item.price && item.sku));
+  assert.ok(vapes.every((item) => item.name && item.price && item.sku));
+  const priceKeys = new Set(flowers.flatMap((flower) => Object.keys(flower).filter((key) => key.startsWith("price"))));
+  assert.deepEqual([...priceKeys].sort(), ["price14g", "price28g", "price3g", "price5g"]);
 });
 
-test("no unsupported hours, reviews, delivery, or copied JFC identity", () => {
-  const files = ["app/page.tsx", "app/layout.tsx", "app/lib/store.ts", "app/[tier]/page.tsx", "app/visit/page.tsx", "app/weed-dispensary-jane-street/page.tsx"].map(read).join("\n");
-  assert.doesNotMatch(files, /24 hours|24\/7|Google reviews|delivery available/i);
-  assert.doesNotMatch(files, /Jane Finch Cannabis|2728 Jane|JFC01/);
+test("public UI does not name the temporary stock source and has no 24-hour or delivery route", () => {
+  const ui = walk("app")
+    .filter((file) => file.endsWith(".tsx"))
+    .map((file) => read(file))
+    .join("\n");
+  assert.doesNotMatch(ui, /Jane Finch|JFC01|Athena|2728 Jane|24 hours|24\/7|open 24/i);
+  assert.equal(walk("app").some((file) => /24-hour|delivery/i.test(file)), false);
+  assert.match(read("app/lib/inventory.ts"), /TEMP_STOCK_SOURCE=JFC01/);
+  assert.match(read("app/lib/store.ts"), /Menu preview — confirm availability and prices at the Jane Wilson counter/);
+  assert.match(read("app/page.tsx"), /MenuPreviewNote/);
 });
 
-test("fleet rebuild ships visit and Jane Street corridor owners", () => {
+test("fleet pages ship visit, Jane Street, cigarettes, vapes, and tier schema", () => {
   const home = read("app/page.tsx");
   const visit = read("app/visit/page.tsx");
   const corridor = read("app/weed-dispensary-jane-street/page.tsx");
+  const tier = read("app/[tier]/page.tsx");
+  const cigs = read("app/native-cigarettes-jane-street/page.tsx");
+  const vapes = read("app/nicotine-vapes-jane-street/page.tsx");
   assert.match(home, /RouteHubs/);
+  assert.match(home, /BannerPlaceholders/);
+  assert.match(home, /CigsDealPlaceholder/);
   assert.match(visit, /FAQPage/);
   assert.match(visit, /35 Jane/);
-  assert.match(corridor, /Jane Street.*Wilson/i);
-  assert.match(corridor, /ItemList/);
+  assert.match(visit, /openingHoursSpecification|storeSchema/);
+  assert.match(corridor, /Jane Street/);
+  assert.match(read("app/lib/collectionSchema.ts"), /CollectionPage/);
+  assert.match(read("app/lib/collectionSchema.ts"), /ItemList/);
+  assert.match(tier, /collectionSchema/);
+  assert.match(tier, /FlowerGrid/);
+  assert.match(cigs, /cigaretteItems/);
+  assert.match(vapes, /nicotineVapeItems/);
+  assert.match(read("app/flower/[tier]/[sku]/page.tsx"), /flowerOffers/);
 });
 
-test("tier pages include CollectionPage ItemList FAQ and internal mesh", () => {
-  const tier = read("app/[tier]/page.tsx");
-  for (const token of ["CollectionPage", "ItemList", "FAQPage", "/visit", "/weed-dispensary-jane-street"]) assert.ok(tier.includes(token));
-  assert.doesNotMatch(tier, /Product name from store feed|menu connection in progress/i);
+test("placeholders are labeled for Codex and brand art remains", () => {
+  for (const file of [
+    "public/placeholders/banner-hero.svg",
+    "public/placeholders/banner-carousel-1.svg",
+    "public/placeholders/banner-carousel-2.svg"
+  ]) {
+    assert.match(read(file), /PLACEHOLDER — Codex: replace with real storefront\/banner photo/);
+  }
+  for (const file of ["public/placeholders/cigs-deal-hero.svg", "public/placeholders/cigs-pack-shot.svg"]) {
+    assert.match(read(file), /PLACEHOLDER — Codex: cigs deal creative/);
+  }
+  assert.match(read("app/components/PlaceholderArt.tsx"), /PLACEHOLDER_FOR_CODEX/);
+  assert.match(read("app/components/CigsDealPlaceholder.tsx"), /PLACEHOLDER_FOR_CODEX/);
+  assert.equal(existsSync(new URL("public/brand/front-left-grinder.png", root)), true);
+  assert.equal(existsSync(new URL("public/brand/door-upper.svg", root)), true);
 });
 
-test("sitemap lists only live indexable owners and tiers", () => {
+test("sitemap lists live routes and omits the demoted North York path", () => {
   const sitemap = read("app/sitemap.ts");
-  assert.match(sitemap, /\/visit/);
-  assert.match(sitemap, /\/weed-dispensary-jane-street/);
-  assert.doesNotMatch(sitemap, /weed-dispensary-north-york/);
+  for (const route of [
+    "/visit",
+    "/weed-dispensary-jane-street",
+    "/native-cigarettes-jane-street",
+    "/nicotine-vapes-jane-street",
+    "flowerPath"
+  ]) {
+    assert.ok(sitemap.includes(route));
+  }
+  assert.doesNotMatch(sitemap, /weed-dispensary-north-york|24-hour|delivery/);
+  const northYork = read("app/weed-dispensary-north-york/page.tsx");
+  assert.match(northYork, /permanentRedirect\("\/weed-dispensary-jane-street"\)/);
 });
