@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { STORE } from "./lib/store";
+import JsonLd from "./components/JsonLd";
+import { STORE, storeSchema } from "./lib/store";
 
 export const metadata: Metadata = {
   metadataBase: new URL(STORE.origin),
   title: { default: "Jane Wilson Cannabis Dispensary | Jane St North York", template: "%s | Jane Wilson Cannabis" },
-  description: "Jane Wilson Cannabis Dispensary is located at 2111 Jane St #12 in North York, Ontario. Explore the store’s Weed flower tiers and cannabis information online.",
+  description: "Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12 serves the Jane–Wilson and Downsview corridor. Plan a visit and explore five Weed flower tiers.",
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
   openGraph: {
@@ -21,24 +22,23 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Store",
-    name: STORE.name,
-    url: STORE.origin,
-    telephone: STORE.phoneHref,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "2111 Jane St, Unit 12",
-      addressLocality: "North York",
-      addressRegion: "ON",
-      postalCode: "M3M 1A2",
-      addressCountry: "CA"
-    }
+    "@graph": [
+      storeSchema(),
+      {
+        "@type": "WebSite",
+        "@id": `${STORE.origin}/#website`,
+        url: STORE.origin,
+        name: STORE.name,
+        publisher: { "@id": `${STORE.origin}/#store` },
+        inLanguage: "en-CA"
+      }
+    ]
   };
   return (
     <html lang="en-CA">
       <body>
         {children}
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+        <JsonLd data={schema} />
       </body>
     </html>
   );
