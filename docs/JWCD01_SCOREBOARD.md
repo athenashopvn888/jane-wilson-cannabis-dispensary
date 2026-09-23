@@ -2,8 +2,8 @@
 
 - Store: Jane Wilson Cannabis Dispensary
 - Code: JWCD01
-- PR: pending
-- SHA: pending
+- PR: #1 https://github.com/athenashopvn888/jane-wilson-cannabis-dispensary/pull/1
+- SHA: b2624760cd47b5b5642b21884e4fa49873119469
 - Hours: 10:00 AM – 12:00 AM (midnight) daily. No 24-hour page.
 - Canonical: https://janewilsoncannabisdispensary.com
 
