@@ -42,9 +42,6 @@
 .hoursCard{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px}
 .hoursCard a{font-weight:900;color:var(--purple)}
 @media(max-width:1150px){
-  .navWrap{flex-wrap:wrap}
-  .navWrap nav{display:flex;flex-wrap:wrap;width:100%;justify-content:flex-start}
-  .navTiers{display:flex;flex-wrap:wrap}
   .flowerGrid,.itemGrid,.cigsDeal,.cigsDealBand,.productLayout{grid-template-columns:1fr 1fr}
 }
 @media(max-width:700px){
@@ -53,4 +50,60 @@
   .cigsDealBand{padding:24px 16px}
   .weightPrices{grid-template-columns:repeat(4,minmax(0,1fr))}
   .weightPrices strong{font-size:.78rem}
+}
+
+/* Mobile storefront chrome: one-row header, menu sheet, readable heroes */
+.navActions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.menuToggle{display:none;place-items:center;width:44px;height:44px;padding:0;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);cursor:pointer}
+.menuBars,.menuBars:before,.menuBars:after{display:block;width:18px;height:2px;border-radius:2px;background:currentColor;position:relative}
+.menuBars:before,.menuBars:after{content:"";position:absolute;left:0}
+.menuBars:before{top:-6px}
+.menuBars:after{top:6px}
+.menuToggle[aria-expanded="true"] .menuBars{background:transparent}
+.menuToggle[aria-expanded="true"] .menuBars:before{top:0;transform:rotate(45deg)}
+.menuToggle[aria-expanded="true"] .menuBars:after{top:0;transform:rotate(-45deg)}
+.callIcon{display:none}
+.menuDrawer{position:fixed;z-index:40;top:var(--header-offset,72px);right:0;bottom:0;left:0;display:flex;flex-direction:column;padding:8px 18px 28px;background:rgba(255,253,248,.98);overflow:auto;overscroll-behavior:contain}
+.menuDrawer[hidden]{display:none!important}
+.menuDrawerHead{display:flex;align-items:center;justify-content:space-between;min-height:48px;border-bottom:1px solid var(--line)}
+.menuDrawerTitle{margin:0;font-size:.72rem;font-weight:950;letter-spacing:.16em;text-transform:uppercase;color:var(--purple)}
+.menuClose{border:0;background:transparent;color:var(--purple);font:inherit;font-weight:900;min-height:44px;padding:8px 4px;cursor:pointer}
+.menuDrawer nav{display:flex;flex-direction:column}
+.menuGroupLabel{margin:18px 0 4px;font-size:.68rem;font-weight:950;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.menuDrawer nav a{display:flex;align-items:center;min-height:48px;padding:10px 8px;border-bottom:1px solid var(--line);text-decoration:none;font-size:1.05rem;font-weight:850}
+.menuDrawer nav a[aria-current="page"]{color:var(--purple);background:#f6effc;border-radius:12px;border-bottom-color:transparent}
+.drawerCall{justify-content:center;margin-top:18px;border-bottom:0!important;border-radius:999px;background:var(--purple);color:#fff!important}
+.menuToggle:focus-visible,.menuClose:focus-visible,.menuDrawer a:focus-visible,.callButton:focus-visible,.desktopNav a:focus-visible{outline:3px solid var(--purple);outline-offset:3px}
+html.navLocked,html.navLocked body{overflow:hidden}
+@media(max-width:1050px){
+  .navWrap{flex-wrap:nowrap}
+  .navActions{margin-left:auto}
+  .navActions .callButton{margin-left:0}
+  .menuToggle{display:inline-grid}
+}
+@media(max-width:768px){
+  .navWrap{min-height:64px;padding:8px 14px;gap:10px}
+  .brand{min-width:0;gap:10px}
+  .brandMark{width:42px;height:42px;border-radius:14px;flex:0 0 auto}
+  .brandWords{min-width:0}
+  .brandWords b,.brandWords small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .navActions{gap:8px;flex-shrink:0}
+  .hero h1,.tierHero h1,.localHero h1,.visitHero h1,.corridorHero h1,.productPage h1{line-height:1.12;letter-spacing:-.04em;text-wrap:balance}
+  .hero h1{font-size:clamp(2.7rem,12vw,3.5rem);margin:14px 0 18px}
+  .hero h1 span{line-height:1.15;margin-top:8px}
+  .visitHero h1,.corridorHero h1,.localHero h1{font-size:clamp(2.15rem,8.6vw,3.15rem);margin:12px 0 16px}
+  .tierHero h1{font-size:clamp(2.8rem,12vw,4rem)}
+  .eyebrow{line-height:1.5}
+  .hero{padding:36px 22px 48px}
+  .visitHero,.corridorHero,.localHero{padding:40px 22px 52px}
+  .heroText,.visitHero>div>p,.corridorHero>div>p,.localHero>div>p{font-size:1.05rem;line-height:1.7}
+  .heroActions{flex-direction:column;align-items:stretch;margin:22px 0 0}
+  .heroActions a{text-align:center}
+  .menuPreviewNote{margin-top:20px;padding:16px}
+  .menuShell{padding:56px 22px 72px}
+}
+@media(max-width:700px){
+  .callButton:after{content:none}
+  .callIcon{display:block}
+  .navActions .callButton{width:44px;height:44px;position:static}
 }

@@ -119,6 +119,21 @@ test("placeholders are labeled for Codex and brand art remains", () => {
   assert.equal(existsSync(new URL("public/brand/door-upper.svg", root)), true);
 });
 
+test("mobile header collapses into one menu control instead of dumping every link", () => {
+  const nav = read("app/components/Nav.tsx");
+  const css = read("app/globals.css");
+  assert.match(nav, /menuToggle/);
+  assert.match(nav, /aria-expanded/);
+  assert.match(nav, /aria-controls/);
+  assert.match(nav, /navLocked/);
+  assert.match(nav, /Close menu/);
+  assert.match(css, /\.menuDrawer\[hidden\]\{display:none!important\}/);
+  assert.match(css, /html\.navLocked/);
+  assert.match(css, /line-height:1\.12/);
+  assert.doesNotMatch(css, /\.navWrap nav\{display:flex;flex-wrap:wrap/);
+  assert.doesNotMatch(css, /\.navTiers\{display:flex;flex-wrap:wrap\}/);
+});
+
 test("sitemap lists live routes and omits the demoted North York path", () => {
   const sitemap = read("app/sitemap.ts");
   for (const route of [
