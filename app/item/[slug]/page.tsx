@@ -6,16 +6,13 @@ import JsonLd from "../../components/JsonLd";
 import MenuPreviewNote from "../../components/MenuPreviewNote";
 import Nav from "../../components/Nav";
 import ProductPhoto from "../../components/ProductPhoto";
-import { findPublicItem, getMenu, itemOfferAmounts, staticItems } from "../../lib/inventory";
+import { cigaretteItems, findPublicItem, getMenu, itemOfferAmounts, nicotineVapeItems, staticItems } from "../../lib/inventory";
 import { STORE } from "../../lib/store";
 
 export const revalidate = 300;
 
 export function generateStaticParams() {
-  const items = [
-    ...staticItems.filter((item) => item.category.toUpperCase() === "CIGARETTES"),
-    ...staticItems.filter((item) => item.category.toUpperCase() === "VAPE PENS")
-  ];
+  const items = [...cigaretteItems(staticItems), ...nicotineVapeItems(staticItems)];
   return items.map((item) => ({ slug: item.slug }));
 }
 

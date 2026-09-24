@@ -18,19 +18,21 @@
 
 Flower weights: 3g, 5g, 14g, 28g (`price3g`, `price5g`, `price14g`, `price28g`).
 
-## Placeholder paths
+## Creative assets
 
-- `public/placeholders/banner-hero.svg`
-- `public/placeholders/banner-carousel-1.svg`
-- `public/placeholders/banner-carousel-2.svg`
-- `public/placeholders/cigs-deal-hero.svg`
-- `public/placeholders/cigs-pack-shot.svg`
+- `public/creative/banner-hero.webp`
+- `public/creative/banner-carousel-1.webp`
+- `public/creative/banner-carousel-2.webp`
+- `public/creative/cigs-deal-hero.webp`
+- `public/creative/cigs-pack-shot.webp`
 
-Components are tagged `PLACEHOLDER_FOR_CODEX` in:
+The former dashed SVG placeholders were removed. The WebP creative is rendered with `next/image` by:
 
-- `app/components/PlaceholderArt.tsx`
-- `app/components/BannerPlaceholders.tsx`
-- `app/components/CigsDealPlaceholder.tsx`
+- `app/components/CreativePhoto.tsx`
+- `app/components/BannerCreative.tsx`
+- `app/components/CigsDealCreative.tsx`
+
+Menu cards show only the weights that have posted source prices; missing prices are not rendered as misleading dashes. Public listings reject one-dollar temporary-mirror rows, including the stray `$1` vape observed in the source snapshot, without suppressing legitimate higher-price items.
 
 Existing art in `public/brand/` is unchanged.
 

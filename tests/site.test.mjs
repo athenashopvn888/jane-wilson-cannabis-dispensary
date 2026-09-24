@@ -37,7 +37,8 @@ test("flower weights are the fleet 3g 5g 14g 28g set", () => {
   const grid = read("app/components/FlowerGrid.tsx");
   assert.match(store, /WEIGHTS = \["3g", "5g", "14g", "28g"\]/);
   for (const field of ["price3g", "price5g", "price14g", "price28g"]) assert.ok(inventory.includes(field));
-  assert.match(grid, /WEIGHTS\.map/);
+  assert.match(grid, /availableFlowerPrices\(flower\)\.map/);
+  assert.doesNotMatch(grid, /price\.current === "—"|>—</);
   const ui = walk("app")
     .filter((file) => file.endsWith(".tsx") || file.endsWith(".ts"))
     .map((file) => read(file))
@@ -87,8 +88,8 @@ test("fleet pages ship visit, Jane Street, cigarettes, vapes, and tier schema", 
   const cigs = read("app/native-cigarettes-jane-street/page.tsx");
   const vapes = read("app/nicotine-vapes-jane-street/page.tsx");
   assert.match(home, /RouteHubs/);
-  assert.match(home, /BannerPlaceholders/);
-  assert.match(home, /CigsDealPlaceholder/);
+  assert.match(home, /BannerCreative/);
+  assert.match(home, /CigsDealCreative/);
   assert.match(visit, /FAQPage/);
   assert.match(visit, /35 Jane/);
   assert.match(visit, /openingHoursSpecification|storeSchema/);
@@ -102,21 +103,39 @@ test("fleet pages ship visit, Jane Street, cigarettes, vapes, and tier schema", 
   assert.match(read("app/flower/[tier]/[sku]/page.tsx"), /flowerOffers/);
 });
 
-test("placeholders are labeled for Codex and brand art remains", () => {
+test("optimized creative replaces every placeholder and brand art remains", () => {
   for (const file of [
-    "public/placeholders/banner-hero.svg",
-    "public/placeholders/banner-carousel-1.svg",
-    "public/placeholders/banner-carousel-2.svg"
+    "public/creative/banner-hero.webp",
+    "public/creative/banner-carousel-1.webp",
+    "public/creative/banner-carousel-2.webp",
+    "public/creative/cigs-deal-hero.webp",
+    "public/creative/cigs-pack-shot.webp"
   ]) {
-    assert.match(read(file), /PLACEHOLDER — Codex: replace with real storefront\/banner photo/);
+    const asset = new URL(file, root);
+    assert.equal(existsSync(asset), true, file);
+    assert.ok(statSync(asset).size < 200_000, `${file} should remain LCP-friendly`);
   }
-  for (const file of ["public/placeholders/cigs-deal-hero.svg", "public/placeholders/cigs-pack-shot.svg"]) {
-    assert.match(read(file), /PLACEHOLDER — Codex: cigs deal creative/);
-  }
-  assert.match(read("app/components/PlaceholderArt.tsx"), /PLACEHOLDER_FOR_CODEX/);
-  assert.match(read("app/components/CigsDealPlaceholder.tsx"), /PLACEHOLDER_FOR_CODEX/);
+  const publicFiles = walk("public");
+  const appSource = walk("app")
+    .filter((file) => file.endsWith(".tsx") || file.endsWith(".ts"))
+    .map((file) => read(file))
+    .join("\n");
+  assert.equal(publicFiles.some((file) => file.includes("placeholders")), false);
+  assert.doesNotMatch(appSource, /PLACEHOLDER_FOR_CODEX|PLACEHOLDER —/);
+  assert.match(read("app/components/CreativePhoto.tsx"), /next\/image/);
   assert.equal(existsSync(new URL("public/brand/front-left-grinder.png", root)), true);
   assert.equal(existsSync(new URL("public/brand/door-upper.svg", root)), true);
+});
+
+test("public menu hides unavailable flower weights and rejects suspicious one-dollar vape rows", () => {
+  const inventory = read("app/lib/inventory.ts");
+  const flowerPage = read("app/flower/[tier]/[sku]/page.tsx");
+  const itemPage = read("app/item/[slug]/page.tsx");
+  assert.match(inventory, /availableFlowerPrices/);
+  assert.match(inventory, /amount > 1/);
+  assert.match(inventory, /VAPE PENS.*filter\(hasCrediblePublicPrice\)/s);
+  assert.match(flowerPage, /availableFlowerPrices\(flower\)\.map/);
+  assert.match(itemPage, /nicotineVapeItems\(staticItems\)/);
 });
 
 test("mobile header collapses into one menu control instead of dumping every link", () => {

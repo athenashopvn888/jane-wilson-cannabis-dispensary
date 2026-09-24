@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import AgeGate from "./components/AgeGate";
-import BannerPlaceholders from "./components/BannerPlaceholders";
-import CigsDealPlaceholder from "./components/CigsDealPlaceholder";
+import BannerCreative from "./components/BannerCreative";
+import CigsDealCreative from "./components/CigsDealCreative";
 import Footer from "./components/Footer";
 import JsonLd from "./components/JsonLd";
 import MenuPreviewNote from "./components/MenuPreviewNote";
@@ -94,8 +94,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PLACEHOLDER_FOR_CODEX homepage banner slots */}
-      <BannerPlaceholders />
+      <BannerCreative />
 
       <section className="artStrip" aria-label="Jane Wilson storefront design">
         <Image src="/brand/accessories-sign.svg" width={2300} height={240} alt="Jane Wilson smoke accessories, grinders, and rolling papers sign artwork" />
@@ -135,8 +134,7 @@ export default function HomePage() {
           <p>Adults 19+. Browse the native cigarette list, then confirm the carton at Unit 12 during store hours.</p>
           <Link href="/native-cigarettes-jane-street">Open native cigarettes →</Link>
         </div>
-        {/* PLACEHOLDER_FOR_CODEX cigs deal creative */}
-        <CigsDealPlaceholder />
+        <CigsDealCreative />
       </section>
 
       <section className="corridorStory">

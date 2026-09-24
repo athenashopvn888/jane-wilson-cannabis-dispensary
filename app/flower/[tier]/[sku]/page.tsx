@@ -6,8 +6,8 @@ import JsonLd from "../../../components/JsonLd";
 import MenuPreviewNote from "../../../components/MenuPreviewNote";
 import Nav from "../../../components/Nav";
 import ProductPhoto from "../../../components/ProductPhoto";
-import { FLOWER_PRICE_FIELDS, flowerHref, flowerOffers, flowersForTier, formatFlowerPrice, getMenu, staticFlowers } from "../../../lib/inventory";
-import { STORE, TIERS, WEIGHTS, tierBySlug } from "../../../lib/store";
+import { availableFlowerPrices, flowerHref, flowerOffers, flowersForTier, formatFlowerPrice, getMenu, staticFlowers } from "../../../lib/inventory";
+import { STORE, TIERS, tierBySlug } from "../../../lib/store";
 
 export const revalidate = 300;
 
@@ -65,8 +65,8 @@ export default async function FlowerPage({ params }: { params: Promise<{ tier: s
             <p>{tier.guide}</p>
             <MenuPreviewNote />
             <dl className="weightPrices productWeights">
-              {WEIGHTS.map((label) => {
-                const price = formatFlowerPrice(flower[FLOWER_PRICE_FIELDS[label]]);
+              {availableFlowerPrices(flower).map(({ label, point }) => {
+                const price = formatFlowerPrice(point);
                 return (
                   <div key={label}>
                     <dt>{label}</dt>
