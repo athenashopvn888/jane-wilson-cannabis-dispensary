@@ -69,8 +69,17 @@ export default function VisitPage() {
     <main>
       <Nav />
       <section className="visitHero">
-        <div><p className="eyebrow">HOW TO REACH UNIT 12</p><h1>Visit Jane Wilson Cannabis on Jane Street</h1><p>Use this guide for the exact storefront address, map, TTC corridor notes, and the last step to Unit 12 near Jane Street and Wilson Avenue.</p><div className="heroActions"><a href={STORE.maps}>Open Google Maps</a><a className="ghost" href={`tel:${STORE.phoneHref}`}>Call {STORE.phone}</a></div></div>
-        <div className="visitDoor"><Image src="/brand/door-upper.svg" width={600} height={700} alt="Jane Wilson Cannabis Dispensary upper door artwork" /><Image src="/brand/door-lower.svg" width={600} height={700} alt="Jane Wilson green and purple lower door artwork" /></div>
+        <div className="visitHeroCopy">
+          <p className="eyebrow">YOUR ROUTE TO UNIT 12</p>
+          <h1>Make Jane Wilson your next Jane Street stop.</h1>
+          <p>Use the exact address, Google Maps pin and Jane corridor transit notes below to reach the storefront near Wilson Avenue.</p>
+          <div className="heroActions"><a href={STORE.maps}>Open Google Maps</a><a className="ghost" href={`tel:${STORE.phoneHref}`}>Call {STORE.phone}</a></div>
+          <div className="visitHeroFacts"><span><b>{STORE.street}</b>{STORE.locality}</span><span><b>Open daily</b>10:00 AM–midnight</span></div>
+        </div>
+        <div className="visitVisual">
+          <Image src="/brand/side-window-combined.png" fill sizes="(max-width: 1150px) 100vw, 48vw" priority alt="Jane Wilson green and purple storefront brand artwork" />
+          <div className="visitVisualBadge"><span>JANE × WILSON</span><strong>Unit 12</strong><small>2111 Jane Street</small></div>
+        </div>
       </section>
 
       <section className="arrivalGrid">

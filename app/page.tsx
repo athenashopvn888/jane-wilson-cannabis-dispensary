@@ -66,35 +66,46 @@ export default function HomePage() {
       <AgeGate />
       <Nav />
       <section className="statusBar" aria-label="Store facts">
-        <span>{STORE.street}</span>
-        <span>{STORE.corridor}</span>
-        <span>Hours: {STORE.hoursLabel}</span>
+        <span>Jane Street · North York</span>
+        <span>Open daily 10:00 AM–midnight</span>
+        <span>Adults 19+</span>
       </section>
-      <section className="hero">
-        <div className="heroCopy">
-          <div className="heroBadge">19+ · JANE–WILSON · DOWNSVIEW</div>
-          <p className="eyebrow">2111 JANE ST · UNIT 12</p>
-          <h1>Jane Wilson<span>Cannabis Dispensary</span></h1>
+      <section className="hero homeHero">
+        <div className="heroCopy homeHeroCopy">
+          <div className="heroBadge">JANE STREET · NORTH YORK · ADULTS 19+</div>
+          <p className="eyebrow">ONE LOCAL STOREFRONT · FIVE CLEAR WEED TIERS</p>
+          <h1><span>Jane Wilson Cannabis Dispensary</span>Find your tier. Know your stop.</h1>
           <p className="heroText">
-            A Jane Street cannabis storefront serving the Jane–Wilson and Downsview corridor in North York. Open {STORE.hoursLabel}. Compare five flower tiers, native cigarettes, and nicotine vapes, then visit Unit 12.
+            Browse five clearly labelled Weed collections, current menu previews, native cigarettes and nicotine vapes before heading to Unit 12 near Jane Street and Wilson Avenue.
           </p>
           <div className="heroActions">
-            <Link href="#weed-tiers">Explore Weed Tiers</Link>
-            <Link className="ghost" href="/visit">Plan Your Visit</Link>
+            <Link href="#weed-tiers">Browse the weed menu</Link>
+            <Link className="ghost" href="/visit">Plan your visit</Link>
           </div>
-          <p className="truthNote">
-            <strong>Hours:</strong> {STORE.hoursLabel}. <strong>Phone:</strong> {STORE.phone}. Adults 19+.
-          </p>
+          <div className="heroTrust" aria-label="Store highlights">
+            <div><strong>5</strong><span>Weed tiers</span></div>
+            <div><strong>Unit 12</strong><span>2111 Jane St</span></div>
+            <div><strong>Daily</strong><span>10 AM–midnight</span></div>
+          </div>
         </div>
-        <div className="heroArt" aria-label="Jane Wilson storefront artwork">
-          <div className="heroPattern" />
-          <Image className="heroProduct heroProductOne" src="/brand/front-left-grinder.png" width={1200} height={1200} sizes="(max-width: 980px) 74vw, 34vw" priority alt="Purple grinder with cannabis leaf on green and purple geometric artwork" />
-          <Image className="heroProduct heroProductTwo" src="/brand/front-right-papers.png" width={1200} height={1200} sizes="(max-width: 980px) 64vw, 28vw" priority alt="Purple rolling paper package on green and purple geometric artwork" />
-          <div className="heroArtLabel"><b>JANE WILSON</b><span>JANE ST · UNIT 12</span></div>
+        <div className="heroArt homeHeroArt" aria-label="Jane Wilson cannabis retail artwork">
+          <Image src="/creative/banner-hero.webp" fill sizes="(max-width: 1050px) 100vw, 55vw" priority alt="Cannabis flower jars on a modern green and purple retail counter" />
+          <div className="homeHeroArtShade" />
+          <div className="heroArtLabel"><b>JANE × WILSON</b><span>NORTH YORK · ONTARIO</span></div>
+          <div className="heroArtAddress"><span>Visit the store</span><strong>{STORE.street}</strong><small>{STORE.locality}</small></div>
         </div>
       </section>
 
-      <BannerCreative />
+      <section className="brandStatement" aria-labelledby="brand-statement-title">
+        <div>
+          <p className="eyebrow">A BETTER WAY TO BROWSE</p>
+          <h2 id="brand-statement-title">Five weed tiers.<br /><em>No guessing where to start.</em></h2>
+        </div>
+        <div>
+          <p>From Exotic Weed through Budget Weed, every collection has its own page, clear product details, and all supplied weight-and-price options.</p>
+          <div className="brandStatementLinks"><Link href="/exotic-weed">Start with Exotic Weed →</Link><Link href="/visit">Get directions →</Link></div>
+        </div>
+      </section>
 
       <section className="artStrip" aria-label="Jane Wilson storefront design">
         <Image src="/brand/accessories-sign.svg" width={2300} height={240} alt="Jane Wilson smoke accessories, grinders, and rolling papers sign artwork" />
@@ -124,6 +135,8 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      <BannerCreative />
 
       <RouteHubs />
 
@@ -167,7 +180,7 @@ export default function HomePage() {
 
       <section className="faq">
         <p className="eyebrow">STORE FAQ</p>
-        <h2>Jane Wilson Cannabis information</h2>
+        <h2>Jane Wilson Cannabis Dispensary FAQs</h2>
         {faqs.map((faq) => (
           <details key={faq.question}>
             <summary>{faq.question}</summary>
