@@ -152,7 +152,9 @@ test("branded favicon is declared through the Next.js metadata contract", () => 
   assert.match(icon, /Jane Wilson Cannabis Dispensary/);
   assert.match(icon, /#55e164/);
   assert.match(icon, /#641aa7/);
-  assert.match(icon, />JW monogram in Jane Wilson green and purple\.</);
+  assert.match(icon, />JWS monogram inside a green and purple cannabis leaf\.</);
+  assert.match(icon, />JWS<\/text>/);
+  assert.doesNotMatch(icon, /<rect/);
 });
 
 test("public menu hides unavailable flower weights and rejects suspicious one-dollar vape rows", () => {
