@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { STORE, TIERS } from "../lib/store";
 
 const STORE_LINKS = [
@@ -32,11 +33,16 @@ export default function Nav() {
   useEffect(() => {
     const header = headerRef.current;
     if (!header) return;
-    const applyOffset = () => header.style.setProperty("--header-offset", `${header.offsetHeight}px`);
+    const applyOffset = () => {
+      document.documentElement.style.setProperty("--mobile-nav-top", `${header.getBoundingClientRect().bottom}px`);
+    };
     applyOffset();
     const observer = new ResizeObserver(applyOffset);
     observer.observe(header);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty("--mobile-nav-top");
+    };
   }, []);
 
   useEffect(() => {
@@ -84,8 +90,9 @@ export default function Nav() {
   }, [open]);
 
   return (
-    <header className="siteHeader" ref={headerRef}>
-      <div className="navWrap">
+    <>
+      <header className="siteHeader" ref={headerRef}>
+        <div className="navWrap">
         <Link className="brand" href="/" aria-label={`${STORE.name} home`}>
           <span className="brandMark" aria-hidden="true">JW</span>
           <span className="brandWords">
@@ -124,51 +131,57 @@ export default function Nav() {
             <span className="menuBars" aria-hidden="true" />
           </button>
         </div>
-      </div>
-      <div
-        id={menuId}
-        ref={drawerRef}
-        className="menuDrawer"
-        hidden={!open}
-        role="dialog"
-        aria-modal={open || undefined}
-        aria-label="Site menu"
-      >
-        <div className="menuDrawerHead">
-          <p className="menuDrawerTitle">Menu</p>
-          <button className="menuClose" type="button" onClick={() => closeMenu()}>
-            Close
-          </button>
         </div>
-        <nav aria-label="Mobile">
-          <p className="menuGroupLabel">Store</p>
-          {STORE_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              aria-current={isCurrent(pathname, link.href) ? "page" : undefined}
-              onClick={() => closeMenu(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <p className="menuGroupLabel">Flower tiers</p>
-          {TIERS.map((tier) => (
-            <Link
-              key={tier.slug}
-              href={`/${tier.slug}`}
-              aria-current={isCurrent(pathname, `/${tier.slug}`) ? "page" : undefined}
-              onClick={() => closeMenu(false)}
-            >
-              {tier.name}
-            </Link>
-          ))}
-          <a className="drawerCall" href={`tel:${STORE.phoneHref}`}>
-            Call {STORE.phone}
-          </a>
-        </nav>
-      </div>
-    </header>
+      </header>
+      {open
+        ? createPortal(
+            <div className="mobileMenuLayer">
+              <button className="menuScrim" type="button" aria-label="Close menu" onClick={() => closeMenu()} />
+              <div id={menuId} ref={drawerRef} className="menuDrawer" role="dialog" aria-modal="true" aria-label="Site menu">
+                <div className="menuDrawerHead">
+                  <div>
+                    <p className="menuDrawerTitle">Browse Jane Wilson</p>
+                    <p className="menuDrawerHint">Choose a section below. Tap the X to close.</p>
+                  </div>
+                </div>
+                <div className="menuQuickActions" aria-label="Store actions">
+                  <a href={STORE.maps} target="_blank" rel="noreferrer">Directions</a>
+                  <a href={`tel:${STORE.phoneHref}`}>Call store</a>
+                </div>
+                <nav aria-label="Mobile navigation">
+                  <p className="menuGroupLabel">Store</p>
+                  <div className="menuLinkGrid">
+                    {STORE_LINKS.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        aria-current={isCurrent(pathname, link.href) ? "page" : undefined}
+                        onClick={() => closeMenu(false)}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                  <p className="menuGroupLabel">Shop flower by tier</p>
+                  <div className="menuLinkGrid menuTierGrid">
+                    {TIERS.map((tier) => (
+                      <Link
+                        key={tier.slug}
+                        href={`/${tier.slug}`}
+                        aria-current={isCurrent(pathname, `/${tier.slug}`) ? "page" : undefined}
+                        onClick={() => closeMenu(false)}
+                      >
+                        {tier.name}
+                      </Link>
+                    ))}
+                  </div>
+                </nav>
+              </div>
+            </div>,
+            document.body
+          )
+        : null}
+    </>
   );
 }
 
