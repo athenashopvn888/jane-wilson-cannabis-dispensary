@@ -130,11 +130,11 @@ export function itemsByCategory(items: ItemProduct[], category: string) {
 }
 
 export function cigaretteItems(items: ItemProduct[]) {
-  return itemsByCategory(items, "CIGARETTES");
+  return itemsByCategory(items, "CIGARETTES").filter(hasCrediblePublicPrice);
 }
 
 export function nicotineVapeItems(items: ItemProduct[]) {
-  return itemsByCategory(items, "VAPE PENS");
+  return itemsByCategory(items, "VAPE PENS").filter(hasCrediblePublicPrice);
 }
 
 export function itemPath(item: ItemProduct) {
@@ -143,6 +143,13 @@ export function itemPath(item: ItemProduct) {
 
 export function findPublicItem(items: ItemProduct[], slug: string) {
   return [...cigaretteItems(items), ...nicotineVapeItems(items)].find((item) => item.slug === slug);
+}
+
+export function availableFlowerPrices(flower: FlowerProduct) {
+  return WEIGHTS.flatMap((label) => {
+    const point = flower[FLOWER_PRICE_FIELDS[label]];
+    return point ? [{ label, point }] : [];
+  });
 }
 
 export function formatFlowerPrice(point: PricePoint | null) {
@@ -172,5 +179,10 @@ export function flowerOffers(flower: FlowerProduct) {
 }
 
 export function itemOfferAmounts(price: string) {
-  return [...price.matchAll(/(\d+(?:\.\d+)?)/g)].map((match) => match[1]);
+  return [...price.matchAll(/\$(\d+(?:\.\d{1,2})?)/g)].map((match) => match[1]);
+}
+
+function hasCrediblePublicPrice(item: ItemProduct) {
+  const amounts = itemOfferAmounts(item.price).map(Number);
+  return amounts.length > 0 && amounts.every((amount) => Number.isFinite(amount) && amount > 1);
 }

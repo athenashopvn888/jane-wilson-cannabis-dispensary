@@ -1,7 +1,6 @@
 import Link from "next/link";
 import ProductPhoto from "./ProductPhoto";
-import { FLOWER_PRICE_FIELDS, flowerPath, formatFlowerPrice, type FlowerProduct } from "../lib/inventory";
-import { WEIGHTS } from "../lib/store";
+import { availableFlowerPrices, flowerPath, formatFlowerPrice, type FlowerProduct } from "../lib/inventory";
 
 function typeLabel(type: string) {
   if (!type) return "Flower";
@@ -26,8 +25,8 @@ export default function FlowerGrid({ flowers }: { flowers: FlowerProduct[] }) {
               <Link href={flowerPath(flower)}>{flower.name}</Link>
             </h3>
             <dl className="weightPrices">
-              {WEIGHTS.map((label) => {
-                const price = formatFlowerPrice(flower[FLOWER_PRICE_FIELDS[label]]);
+              {availableFlowerPrices(flower).map(({ label, point }) => {
+                const price = formatFlowerPrice(point);
                 return (
                   <div key={label}>
                     <dt>{label}</dt>

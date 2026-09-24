@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import CigsDealPlaceholder from "../components/CigsDealPlaceholder";
+import CigsDealCreative from "../components/CigsDealCreative";
 import Footer from "../components/Footer";
 import ItemGrid from "../components/ItemGrid";
 import JsonLd from "../components/JsonLd";
@@ -73,8 +73,7 @@ export default async function NativeCigarettesPage() {
             <Link className="ghost" href="/visit">Plan your visit</Link>
           </div>
         </div>
-        {/* PLACEHOLDER_FOR_CODEX cigs deal creative */}
-        <CigsDealPlaceholder />
+        <CigsDealCreative />
       </section>
 
       <section className="menuShell" id="listings">

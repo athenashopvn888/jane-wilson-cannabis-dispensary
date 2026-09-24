@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "pub-eb3e1fe18a43477eabc885cfb791d97c.r2.dev",
+        pathname: "/products/**"
+      }
+    ]
+  },
   async redirects() {
     return [
       { source: "/exotic", destination: "/exotic-weed", permanent: true },
