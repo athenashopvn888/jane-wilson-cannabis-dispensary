@@ -1,7 +1,21 @@
 import type { Metadata } from "next";
+import { DM_Serif_Display, Manrope } from "next/font/google";
 import "./globals.css";
 import JsonLd from "./components/JsonLd";
 import { STORE, storeSchema } from "./lib/store";
+
+const bodyFont = Manrope({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap"
+});
+
+const displayFont = DM_Serif_Display({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-display",
+  display: "swap"
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(STORE.origin),
@@ -35,7 +49,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     ]
   };
   return (
-    <html lang="en-CA">
+    <html lang="en-CA" className={`${bodyFont.variable} ${displayFont.variable}`}>
       <body>
         {children}
         <JsonLd data={schema} />

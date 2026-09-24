@@ -18,6 +18,8 @@ function walk(dir) {
 
 test("exact approved NAP, hours, and canonical domain are centralized", () => {
   const store = read("app/lib/store.ts");
+  assert.match(store, /code: "JWS01"/);
+  assert.doesNotMatch(store, /JWCD01/);
   assert.match(store, /Jane Wilson Cannabis Dispensary/);
   assert.match(store, /2111 Jane St, Unit 12, North York, ON M3M 1A2/);
   assert.match(store, /437-465-7700/);
@@ -125,6 +127,20 @@ test("optimized creative replaces every placeholder and brand art remains", () =
   assert.match(read("app/components/CreativePhoto.tsx"), /next\/image/);
   assert.equal(existsSync(new URL("public/brand/front-left-grinder.png", root)), true);
   assert.equal(existsSync(new URL("public/brand/door-upper.svg", root)), true);
+});
+
+test("premium marketing layout replaces the blank visit artwork", () => {
+  const home = read("app/page.tsx");
+  const visit = read("app/visit/page.tsx");
+  const css = read("app/globals.css");
+  assert.match(home, /homeHeroArt/);
+  assert.match(home, /brandStatement/);
+  assert.match(home, /Jane Wilson Cannabis Dispensary<\/span>Find your tier/);
+  assert.match(visit, /visitVisual/);
+  assert.match(visit, /side-window-combined\.png/);
+  assert.doesNotMatch(visit, /door-upper|door-lower|visitDoor/);
+  assert.match(css, /\.visitVisual\{position:relative;min-height:570px/);
+  assert.match(css, /\.homeHeroArt>img\{object-fit:cover/);
 });
 
 test("public menu hides unavailable flower weights and rejects suspicious one-dollar vape rows", () => {
