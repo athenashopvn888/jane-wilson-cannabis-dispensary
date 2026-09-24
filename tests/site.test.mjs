@@ -143,6 +143,18 @@ test("premium marketing layout replaces the blank visit artwork", () => {
   assert.match(css, /\.homeHeroArt>img\{object-fit:cover/);
 });
 
+test("branded favicon is declared through the Next.js metadata contract", () => {
+  const layout = read("app/layout.tsx");
+  const icon = read("app/icon.svg");
+  assert.match(layout, /icons:\s*\{/);
+  assert.match(layout, /url: "\/icon\.svg"/);
+  assert.match(layout, /type: "image\/svg\+xml"/);
+  assert.match(icon, /Jane Wilson Cannabis Dispensary/);
+  assert.match(icon, /#55e164/);
+  assert.match(icon, /#641aa7/);
+  assert.match(icon, />JW monogram in Jane Wilson green and purple\.</);
+});
+
 test("public menu hides unavailable flower weights and rejects suspicious one-dollar vape rows", () => {
   const inventory = read("app/lib/inventory.ts");
   const flowerPage = read("app/flower/[tier]/[sku]/page.tsx");
