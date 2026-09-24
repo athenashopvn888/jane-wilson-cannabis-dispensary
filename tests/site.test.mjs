@@ -146,7 +146,13 @@ test("mobile header collapses into one menu control instead of dumping every lin
   assert.match(nav, /aria-controls/);
   assert.match(nav, /navLocked/);
   assert.match(nav, /Close menu/);
-  assert.match(css, /\.menuDrawer\[hidden\]\{display:none!important\}/);
+  assert.match(nav, /createPortal/);
+  assert.match(nav, /document\.body/);
+  assert.match(nav, /--mobile-nav-top/);
+  assert.match(nav, /Directions/);
+  assert.match(css, /\.mobileMenuLayer\{position:fixed;z-index:1000/);
+  assert.match(css, /\.menuScrim\{/);
+  assert.match(css, /min-height:50px/);
   assert.match(css, /html\.navLocked/);
   assert.match(css, /line-height:1\.12/);
   assert.doesNotMatch(css, /\.navWrap nav\{display:flex;flex-wrap:wrap/);
