@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import AgeGate from "./components/AgeGate";
 import BannerCreative from "./components/BannerCreative";
 import CigsDealCreative from "./components/CigsDealCreative";
 import Footer from "./components/Footer";
@@ -63,7 +62,6 @@ export default function HomePage() {
 
   return (
     <main>
-      <AgeGate />
       <Nav />
       <section className="statusBar" aria-label="Store facts">
         <span>Jane Street · North York</span>
