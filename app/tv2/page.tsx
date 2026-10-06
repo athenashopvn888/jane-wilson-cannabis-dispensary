@@ -1,52 +1,294 @@
-import TvAutoRefresh from "../components/TvAutoRefresh";
-import { cigaretteItems, getMenu, nicotineVapeItems, type ItemProduct } from "../lib/inventory";
-import { STORE } from "../lib/store";
+"use client";
+import { useState, useEffect, useCallback, useRef } from "react";
 import styles from "./tv2.module.css";
+import HiringRibbon from "../components/HiringRibbon";
+import TvStoreHeader from "../components/TvStoreHeader";
+import { tvHiring } from "../lib/tvHiring";
+import { formatBoardTime, readStockUpdatedAt } from "../lib/tvStockTime";
+import {
+  getTv2DaytimePromo,
+  isCigaretteOfferVisible,
+  isTv2Daytime,
+} from "./tv2Promos";
 
-export const revalidate = 300;
+/* -- TYPES -- */
+interface Item {
+  sku: string; name: string; category: string;
+  type?: string; thc?: string; mg?: string; price?: string; image?: string; isSale?: boolean;
+}
 
-function ItemBoard({ title, items }: Readonly<{ title: string; items: ItemProduct[] }>) {
+/* -- CATEGORY CONFIG -- */
+const CARD_CONFIG = [
+  { id:"PREROLLS_ADDONS", title:"🔥 PREROLLS & ADD ONS", accent:"#641aa7", filter:(it:Item)=>it.category==="PREROLLS"||it.category==="ADD ONS", preset:"🔥 START SLOW · 2–3 PUFFS · WAIT 5 MIN" },
+  { id:"VAPES",           title:"💨 VAPES",              accent:"#159447", filter:(it:Item)=>["VAPE PENS","VAPE DISPOSABLE"].includes(it.category), preset:"💨 1–2 PUFFS · WAIT 2–3 MIN · REPEAT" },
+  { id:"EDIBLES",         title:"🍬 EDIBLES",            accent:"#7d31bd", filter:(it:Item)=>it.category==="EDIBLES", preset:"🍬 START SMALL · WAIT 45 MIN · THEN MORE" },
+  { id:"CONCENTRATES",    title:"⚗️ CONCENTRATES",       accent:"#0f7e3b", filter:(it:Item)=>it.category==="CONCENTRATES", preset:"⚠️ VERY STRONG · TINY AMOUNT · WAIT 10–15 MIN" },
+  { id:"CIGARETTES",      title:"🚬 CIGARETTES",         accent:"#4d1769", filter:(it:Item)=>it.category==="CIGARETTES", preset:"" },
+  { id:"MAGIC",           title:"🍄 MAGIC & OTHERS",     accent:"#43c95b", filter:(it:Item)=>it.category==="MAGIC & OTHERS", preset:"🍫 START SMALL · WAIT 45 MIN · THEN MORE" },
+];
+
+/* -- HELPERS -- */
+const fmtPrice = (v?:string) => { const s=String(v||"").trim(); if(!s)return""; return /^\$/.test(s)?s:"$"+s; };
+const fmtTHC = (v?:string) => { const s=String(v||"").trim(); if(!s)return""; if(/^\d+(\.\d+)?%?$/.test(s)){const n=parseFloat(s);return(n<=1?Math.round(n*100):Math.round(n))+"%";}return s; };
+const fmtMG = (v?:string) => { const s=String(v||"").trim(); if(!s)return""; if(/^\d+(\.\d+)?$/.test(s))return s+"mg"; return s; };
+
+/* -- ITEM CARD -- */
+function ItemCard({ title, accent, items, hiIdx, preset, offerOverlay = false }: {
+  title:string; accent:string; items:Item[]; hiIdx:number; preset:string; offerOverlay?:boolean;
+}) {
+  const MAX = 10;
+  const hiW = Math.min(hiIdx % Math.max(1, items.length), items.length - 1);
+  const hi = items[hiW] || items[0];
+
+  const prevRef = useRef<string>("");
+  const [fadeImg, setFadeImg] = useState("");
+  const [prevImg, setPrevImg] = useState("");
+  useEffect(() => {
+    if (hi?.image && hi.image !== prevRef.current) {
+      setPrevImg(prevRef.current);
+      setFadeImg(hi.image);
+      prevRef.current = hi.image;
+    }
+  }, [hi?.image]);
+
+  const topIdx = items.length > MAX ? Math.floor(hiIdx / MAX) * MAX % items.length : 0;
+  const displayItems = items.length > MAX
+    ? Array.from({length: MAX}, (_,i) => items[(topIdx+i)%items.length])
+    : items.slice(0, MAX);
+
+  const metaParts: string[] = [];
+  if (hi?.type) metaParts.push(hi.type);
+  if (hi?.thc) metaParts.push(fmtTHC(hi.thc));
+  if (hi?.mg) metaParts.push(fmtMG(hi.mg));
+  if (hi?.price) metaParts.push(fmtPrice(hi.price));
+
   return (
-    <section className={styles.board}>
-      <h2>{title}</h2>
-      <div className={styles.rows}>
-        {items.map((item) => (
-          <div className={styles.row} key={item.sku}>
-            <div>
-              <strong>{item.name}</strong>
-              <span>{[item.type, item.thc, item.mg].filter(Boolean).join(" · ")}</span>
+    <div className={styles.card} style={{"--accent":accent} as React.CSSProperties}>
+      <div className={styles.cardHeader}>{title}</div>
+      <div className={styles.cardMain}>
+        {/* LEFT */}
+        <div className={styles.mediaSide}>
+          <div className={styles.mediaFrame}>
+            <div className={styles.mediaViewport}>
+              {prevImg && <img src={prevImg} alt="" className={`${styles.budImg} ${styles.budImgFadeOut}`} referrerPolicy="no-referrer"
+            onError={(e) => {
+              const t = e.currentTarget;
+              if (t.src.indexOf('r2.dev') !== -1 || t.src.indexOf('images.torontodispensaryhub.com') !== -1) {
+                const filename = t.src.split('/').pop();
+                t.src = 'https://athena-cannabis-images.vercel.app/products/' + filename;
+              }
+            }}
+          />}
+              {fadeImg && <img key={fadeImg} src={fadeImg} alt={hi?.name||""} className={`${styles.budImg} ${styles.budImgFadeIn}`} referrerPolicy="no-referrer"
+            onError={(e) => {
+              const t = e.currentTarget;
+              if (t.src.indexOf('r2.dev') !== -1 || t.src.indexOf('images.torontodispensaryhub.com') !== -1) {
+                const filename = t.src.split('/').pop();
+                t.src = 'https://athena-cannabis-images.vercel.app/products/' + filename;
+              }
+            }}
+          />}
             </div>
-            <b>{item.price}</b>
           </div>
-        ))}
+          <div className={styles.detailCard}>
+            <div className={styles.detailAccent} style={{background:accent}} />
+            <div className={styles.detailContent}>
+              <div className={styles.detailTop}>
+                {metaParts.map((p,i) => (
+                  <span key={i}>
+                    {i > 0 && <span className={styles.detailSep}> · </span>}
+                    <span className={p===fmtTHC(hi?.thc)?styles.detailThc:undefined} style={p===fmtPrice(hi?.price)?{fontWeight:900}:undefined}>{p}</span>
+                  </span>
+                ))}
+              </div>
+              <div className={styles.detailName}>{hi?.name||""}</div>
+              {preset && <div className={styles.detailPreset}>{preset}</div>}
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT */}
+        <div className={styles.listSide}>
+          <div className={styles.listHead}>
+            <div className={styles.mh}>Item</div>
+            <div className={styles.mh}>Price</div>
+          </div>
+          <div className={styles.listBody}>
+            {displayItems.map((it,i) => {
+              const isHi = i === (hiW % Math.max(1, displayItems.length));
+              const hiStyle = isHi ? {
+                borderColor:`color-mix(in srgb, ${accent} 70%, rgba(2,6,23,.18) 30%)`,
+                boxShadow:`0 0 0 3px color-mix(in srgb, ${accent} 50%, transparent 50%), 0 8px 20px rgba(2,6,23,.18), 0 0 28px color-mix(in srgb, ${accent} 70%, transparent 30%)`
+              } : undefined;
+              return (
+                <div key={it.sku+i} className={`${styles.row} ${isHi?styles.rowHi:""}`} style={hiStyle}>
+                  <div className={styles.mcItem}>
+                    {it.name}
+                    {it.type && <span className={styles.submeta}> · {it.type}</span>}
+                    {it.thc && <span className={styles.submeta}> · {fmtTHC(it.thc)}</span>}
+                    {it.mg && <span className={styles.submeta}> · {fmtMG(it.mg)}</span>}
+                  </div>
+                  <div className={styles.mcPrice}>{fmtPrice(it.price)}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
-    </section>
+      {offerOverlay && (
+        <div className={styles.timedPromoOverlay} aria-label="Mix and Match 2 Pack $5 Cigarette Offer">
+          <img
+            src="/banners/2pack5cig.webp"
+            alt="Mix and Match 2 Pack $5 Cigarette Offer"
+          />
+        </div>
+      )}
+    </div>
   );
 }
 
-export default async function Tv2Page() {
-  const menu = await getMenu();
-  const cigarettes = cigaretteItems(menu.items);
-  const nicotineVapes = nicotineVapeItems(menu.items);
+/* -- MAIN TV2 PAGE -- */
+export default function TV2Page() {
+  const [bgUrl, setBgUrl] = useState("");
+  useEffect(() => {
+    fetch("https://athena-cannabis-images.vercel.app/backgrounds/list.json")
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.length) {
+          const hourIndex = Math.floor(Date.now() / (3600 * 1000)) % data.length;
+          setBgUrl(`https://athena-cannabis-images.vercel.app/backgrounds/${data[hourIndex]}`);
+        }
+      })
+      .catch(err => console.warn("[BG] Load failed:", err));
+  }, []);
+  const [items, setItems] = useState<Item[]>([]);
+  const [highlights, setHighlights] = useState<Record<string,number>>({});
+  const [lastUpdate, setLastUpdate] = useState("");
+  const [stockUpdated, setStockUpdated] = useState<string | null>(null);
+  const [daytime, setDaytime] = useState(() => isTv2Daytime());
+  const [cigaretteOfferVisible, setCigaretteOfferVisible] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const iv = setInterval(() => setDaytime(isTv2Daytime()), 60_000);
+    return () => clearInterval(iv);
+  }, []);
+
+  useEffect(() => {
+    const startedAt = performance.now();
+    const updateOffer = () => {
+      setCigaretteOfferVisible(
+        isCigaretteOfferVisible(isTv2Daytime(), performance.now() - startedAt),
+      );
+    };
+    const iv = setInterval(updateOffer, 250);
+    return () => clearInterval(iv);
+  }, []);
+
+  const loadData = useCallback(async () => {
+    try {
+      const res = await fetch("/api/tv-data?type=items");
+      const data: Item[] = res.ok ? await res.json() : [];
+      setItems(data);
+      setStockUpdated(readStockUpdatedAt(res, data));
+      const hi: Record<string,number> = {};
+      CARD_CONFIG.forEach(c => { hi[c.id] = 0; });
+      setHighlights(hi);
+      setLastUpdate(formatBoardTime(new Date()) || "");
+    } catch (err) { console.warn("[TV2] Load failed:", err); }
+  }, []);
+
+  const fitToScreen = useCallback(() => {
+    if (!wrapRef.current) return;
+    const W = window.innerWidth, H = window.innerHeight;
+    const s = Math.min(W/3840, H/2160);
+    const tx = Math.round((W - 3840*s)/2);
+    const ty = Math.round((H - 2160*s)/2);
+    wrapRef.current.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
+  }, []);
+
+  useEffect(() => {
+    const initial = window.setTimeout(() => {
+      void loadData();
+      fitToScreen();
+    }, 0);
+    window.addEventListener("resize", fitToScreen);
+    const refresh = setInterval(loadData, 5*60*1000);
+    return () => { window.clearTimeout(initial); window.removeEventListener("resize", fitToScreen); clearInterval(refresh); };
+  }, [loadData, fitToScreen]);
+
+  useEffect(() => {
+    if (!items.length) return;
+    const interval = setInterval(() => {
+      setHighlights(prev => {
+        const next = {...prev};
+        CARD_CONFIG.forEach(c => {
+          const filtered = items.filter(c.filter);
+          next[c.id] = ((prev[c.id]||0) + 1) % Math.max(1, filtered.length);
+        });
+        return next;
+      });
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [items]);
 
   return (
-    <main className={styles.screen}>
-      <TvAutoRefresh />
-      <header className={styles.header}>
-        <div>
-          <p>{STORE.corridor}</p>
-          <h1>{STORE.shortName}</h1>
+    <div className={styles.tvPage} style={bgUrl ? { backgroundImage: `url(${bgUrl})`, backgroundSize: "cover" } : undefined}>
+      <div className={styles.wrap} ref={wrapRef}>
+        <TvStoreHeader eyebrow="Secondary Menu Board" stockUpdated={stockUpdated} />
+
+        {/* GRID */}
+        <div className={styles.stage}>
+          <HiringRibbon hiring={tvHiring} />
+          <div className={styles.grid}>
+            {CARD_CONFIG.map(card => {
+              const filtered = items.filter(card.filter);
+              const promo = getTv2DaytimePromo(card.id, daytime);
+
+              if (promo) {
+                return (
+                  <div
+                    key={card.id}
+                    className={styles.card}
+                    data-promo-card={card.id}
+                    style={{"--accent":card.accent} as React.CSSProperties}
+                  >
+                    <div className={styles.cardHeader}>PROMO</div>
+                    <div className={styles.promoMain}>
+                      <div className={styles.promoViewport}>
+                        <img
+                          className={`${styles.promoImg} ${styles.promoActive}`}
+                          src={promo.src}
+                          alt={promo.alt}
+                          referrerPolicy="no-referrer"
+                          onError={(event) => {
+                            const target = event.currentTarget;
+                            if (
+                              promo.fallbackSrc &&
+                              target.dataset.fallbackApplied !== "true"
+                            ) {
+                              target.dataset.fallbackApplied = "true";
+                              target.src = promo.fallbackSrc;
+                            }
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <ItemCard key={card.id} title={card.title} accent={card.accent}
+                  items={filtered} hiIdx={highlights[card.id]||0} preset={card.preset}
+                  offerOverlay={card.id === "CIGARETTES" && cigaretteOfferVisible} />
+              );
+            })}
+          </div>
         </div>
-        <div className={styles.storeFacts}>
-          <strong>{STORE.street}</strong>
-          <span>{STORE.hoursLabel}</span>
-          <span>Adults 19+</span>
-        </div>
-      </header>
-      <div className={styles.grid}>
-        <ItemBoard title="Native Cigarettes" items={cigarettes} />
-        <ItemBoard title="Nicotine Vapes" items={nicotineVapes} />
+
       </div>
-    </main>
+      {lastUpdate ? <div className={styles.lastUpdated}>Refreshed {lastUpdate}</div> : null}
+    </div>
   );
 }
