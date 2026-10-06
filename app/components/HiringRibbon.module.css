@@ -285,6 +285,7 @@
 }
 
 .hiringRibbon {
+  --hiringRed: #ff334f;
   border: 3px solid rgba(195,143,255,.78);
   background:
     radial-gradient(circle at 10% 50%, rgba(74,235,128,.20), transparent 24%),
@@ -308,9 +309,15 @@
 }
 .phaseHeadline,
 .phaseApply,
-.phaseUrl,
-.phasePolicy,
-.hiringStatic {
+.phaseUrl {
   color: #c9ffd4;
   text-shadow: 0 3px 0 rgba(34,4,44,.72), 0 0 20px rgba(83,255,139,.22);
+}
+.phasePolicy,
+.hiringStatic {
+  color: #ffffff;
+  text-shadow:
+    0 4px 0 rgba(85,0,16,.82),
+    0 0 12px rgba(255,45,73,.96),
+    0 0 32px rgba(255,45,73,.62);
 }
