@@ -1,146 +1,521 @@
-.screen {
-  --jws-purple: #681ca8;
-  --jws-green: #43dc50;
-  --jws-cream: #fffdf8;
-  position: relative;
-  isolation: isolate;
-  height: 100vh;
-  overflow: hidden;
-  padding: 1rem;
-  background:
-    radial-gradient(circle at 8% 4%, rgba(67,220,80,.28), transparent 28%),
-    radial-gradient(circle at 92% 0%, rgba(154,69,219,.35), transparent 32%),
-    linear-gradient(145deg, #12061a 0%, #271039 50%, #092617 100%);
-  color: #fff;
-  font-family: var(--font-body), Arial, Helvetica, sans-serif;
-}
+/* ================================================================
+   JANE FINCH CANNABIS — TV MENU 2: ITEMS (Landscape 3840×2160)
+   Clone of TVMenu2.html — 3×2 grid of item category cards
+   ================================================================ */
 
-.screen::before {
-  position: absolute;
-  z-index: -1;
+/* ── FULLSCREEN RESET ── */
+.tvPage {
+  position: fixed;
+  inset: 0;
+  background: url("/banners/TVbackground.png") no-repeat center center fixed;
+  background-size: cover;
+  color: #ecfdf5;
+  font: 650 clamp(18px,1.25vw,22px)/1.18 'Outfit', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+.tvPage::before {
+  content: "";
+  position: fixed;
   inset: 0;
   background:
-    linear-gradient(30deg, transparent 48%, rgba(255,255,255,.035) 49%, rgba(255,255,255,.035) 51%, transparent 52%) 0 0 / 92px 80px,
-    linear-gradient(150deg, transparent 48%, rgba(67,220,80,.045) 49%, rgba(67,220,80,.045) 51%, transparent 52%) 0 0 / 92px 80px;
+    radial-gradient(ellipse 80% 80% at 15% 20%, rgba(16, 185, 129, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 80% at 85% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── CANVAS (3840×2160 auto-fit) ── */
+.wrap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  z-index: 1;
+  width: 3840px;
+  height: 2160px;
+  transform-origin: top left;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* ── STAGE ── */
+.stage {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 26px;
+  padding: 18px;
+  box-sizing: border-box;
+  margin-left: 90px;
+  margin-right: 90px;
+  background: rgba(255,255,255,.85);
+  border: 2px solid rgba(0,0,0,.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 22px 58px rgba(0,0,0,.10);
+  position: relative;
+}
+.stage::before {
   content: "";
+  position: absolute;
+  left: 10px; right: 10px; top: 10px;
+  height: 34%;
+  border-radius: 22px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.03) 0%, rgba(0,0,0,.01) 55%, rgba(0,0,0,0) 100%);
+}
+
+/* ── GRID: 3×2 ── */
+.grid {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 48px;
+}
+
+/* ── CARD ── */
+.card {
+  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 18px;
+  overflow: visible;
+  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.95), 0 30px 60px -15px var(--accent), 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent), 0 2px 0 rgba(255,255,255,0.9) inset;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 0;
+  height: 100%;
+}
+
+/* ── CARD HEADER ── */
+.cardHeader {
+  font-weight: 900;
+  letter-spacing: 1.6px;
+  padding: 16px 12px;
+  color: #fff;
+  font-size: 36px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--accent, #2563eb) 0%, color-mix(in srgb, var(--accent, #2563eb) 82%, #000 18%) 100%);
+  text-shadow: 0 3px 0 rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.55);
+}
+.cardHeader::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,.35), rgba(255,255,255,0) 40%, rgba(0,0,0,.20));
+  opacity: .55;
   pointer-events: none;
 }
+.cardHeader::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,.55), var(--accent, #2563eb), rgba(0,0,0,.33));
+  box-shadow: 6px 0 22px rgba(0,0,0,.45);
+}
 
-.header {
+/* ── CARD MAIN (image left, list right) ── */
+.cardMain {
+  flex: 1 1 auto;
   display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 2rem;
-  margin-bottom: .75rem;
-  padding: .7rem 1rem .72rem 1.15rem;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 14px;
+  padding: 12px;
   overflow: hidden;
-  border: 2px solid rgba(255,255,255,.22);
-  border-radius: 1.2rem;
-  background: linear-gradient(90deg, rgba(104,28,168,.96), rgba(48,13,70,.96) 58%, rgba(12,92,45,.96));
-  box-shadow: 0 0 0 1px rgba(67,220,80,.32), 0 18px 42px rgba(4,0,9,.32);
+  min-height: 0;
+  padding-bottom: 18px;
+  box-sizing: border-box;
 }
 
-.header p,
-.header h1,
-.storeFacts span,
-.storeFacts strong { margin: 0; }
+/* ── MEDIA SIDE (left 44%) ── */
+.mediaSide {
+  flex: 0 0 44%;
+  width: 44%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
 
-.header p {
-  color: #a6ffae;
-  font-size: clamp(.8rem, 1vw, 1.15rem);
+.mediaFrame {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: #fff;
+  border: 2px solid rgba(2,6,23,.10);
+  border-radius: 14px;
+  padding: 10px;
+  box-sizing: border-box;
+  box-shadow: 0 10px 20px rgba(2,6,23,.10);
+  overflow: hidden;
+}
+
+.mediaViewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.budImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #fff;
+}
+
+/* Dissolve transitions */
+.budImgFadeIn {
+  opacity: 0;
+  animation: dissolveIn 650ms ease forwards;
+  z-index: 2;
+}
+.budImgFadeOut {
+  opacity: 1;
+  animation: dissolveOut 650ms ease forwards;
+  z-index: 1;
+}
+@keyframes dissolveIn { 0%{opacity:0;} 100%{opacity:1;} }
+@keyframes dissolveOut { 0%{opacity:1;} 100%{opacity:0;} }
+
+/* ── DETAIL CARD ── */
+.detailCard {
+  margin-top: 10px;
+  background: rgba(255,255,255,.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #0b1220;
+  border-radius: 14px;
+  padding: 12px 14px;
+  border: 2px solid color-mix(in srgb, var(--accent, #2563eb) 35%, rgba(2,6,23,.10) 65%);
+  box-shadow: 0 12px 22px rgba(2,6,23,.10);
+  height: 150px;
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+  position: relative;
+}
+.detailAccent {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 10px;
+  opacity: .85;
+  border-radius: 14px 0 0 14px;
+}
+.detailContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  line-height: 1.05;
+  padding-left: 12px;
+}
+.detailTop {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: baseline;
   font-weight: 900;
-  letter-spacing: .16em;
+  font-size: 26px;
+}
+.detailName {
+  font-weight: 900;
+  font-size: 30px;
+  letter-spacing: .35px;
+}
+.detailSep {
+  opacity: .35;
+  font-weight: 900;
+}
+.detailThc {
+  color: #2e7d32;
+  font-weight: 900;
+}
+.detailPreset {
+  margin-top: 4px;
+  font-weight: 900;
+  font-size: 20px;
+  color: rgba(2,6,23,.75);
+  letter-spacing: .8px;
   text-transform: uppercase;
 }
 
-.header h1 {
-  color: var(--jws-cream);
-  font-family: var(--font-display), Georgia, serif;
-  font-size: clamp(2rem, 3.4vw, 4.6rem);
-  font-weight: 400;
-  letter-spacing: -.025em;
-  line-height: .95;
-  text-shadow: 0 6px 24px rgba(0,0,0,.28);
+/* ── LIST SIDE (right 56%) ── */
+.listSide {
+  flex: 1 1 56%;
+  width: 56%;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  border-radius: 14px;
+  min-width: 0;
 }
 
-.storeFacts {
+/* Column headers */
+.listHead {
   display: grid;
-  justify-items: end;
-  gap: .2rem;
-  font-size: clamp(.85rem, 1.1vw, 1.25rem);
-}
-
-.storeFacts strong { color: #d9ffdc; font-size: 1.15em; }
-.storeFacts span { color: rgba(255,255,255,.9); }
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.board {
+  grid-template-columns: 2.40fr 1.00fr;
+  align-items: center;
+  background: rgba(255,255,255,.16);
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(2,6,23,.08);
+  border-radius: 12px;
   overflow: hidden;
-  border: 2px solid #9a45db;
-  border-radius: 1.1rem;
-  background: rgba(255,253,248,.975);
-  color: #1d1221;
-  box-shadow: 0 16px 38px rgba(7,1,12,.34);
 }
-
-.board:nth-child(2) { border-color: #43dc50; }
-
-.board h2 {
-  margin: 0;
-  padding: .5rem .75rem;
-  background: linear-gradient(100deg, #681ca8, #321046 88%);
-  color: #fff;
-  font-family: var(--font-display), Georgia, serif;
-  font-size: clamp(1rem, 1.45vw, 1.85rem);
-  font-weight: 400;
-  letter-spacing: .025em;
+.mh {
+  padding: 12px 10px;
+  font-weight: 900;
   text-transform: uppercase;
-  text-shadow: 0 2px 8px rgba(0,0,0,.28);
+  letter-spacing: 1.0px;
+  font-size: 26px;
+  color: #0b1220;
+  background: linear-gradient(180deg, rgba(2,6,23,.04), rgba(255,255,255,1));
 }
 
-.board:nth-child(2) h2 { background: linear-gradient(100deg, #0c9638, #153f29 88%); }
-
-.rows { display: grid; }
-
+/* ── ROWS ── */
+.listBody {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
 .row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: 2.40fr 1.00fr;
   align-items: center;
-  gap: 1rem;
-  min-height: clamp(1.7rem, calc((100vh - 12rem) / 18), 2.7rem);
-  padding: .12rem .55rem;
-  border-top: 1px solid #e4d8e8;
-  background: rgba(255,253,248,.96);
-}
-
-.row:nth-child(even) {
-  background: linear-gradient(90deg, rgba(104,28,168,.05), rgba(67,220,80,.055));
-}
-
-.row div { min-width: 0; }
-.row strong, .row span { display: block; }
-
-.row strong {
+  min-height: 66px;
+  border-radius: 12px;
+  margin-top: 8px;
+  background: rgba(0,0,0,.02);
+  border: 2px solid rgba(0,0,0,.06);
   overflow: hidden;
-  color: #211326;
-  font-size: clamp(.65rem, .9vw, 1.05rem);
-  font-weight: 850;
-  text-overflow: ellipsis;
+  transition: background-color 160ms ease, transform 160ms ease, box-shadow 300ms ease;
+}
+.rowHi {
+  background: rgba(0,0,0,.04) !important;
+  transform: translateY(-1px);
+}
+
+.mcItem {
+  padding: 12px 10px;
+  border-top: 1px solid rgba(2,6,23,.06);
+  color: #0b1220;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1.05;
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.submeta {
+  font-weight: 700;
+  font-size: 16px;
+  color: rgba(2,6,23,.55);
+  margin-left: 6px;
   white-space: nowrap;
 }
+.mcPrice {
+  padding: 12px 10px;
+  border-top: 1px solid rgba(2,6,23,.06);
+  color: #0b1220;
+  font-weight: 900;
+  font-size: 26px;
+  white-space: nowrap;
+  text-align: right;
+}
+/* ── PROMO CARD (daytime cigarette and VAPES posters) ── */
+.promoMain {
+  flex: 1 1 auto;
+  padding: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.promoViewport {
+  flex: 1 1 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+  border: 2px solid rgba(255,255,255,.85);
+  box-shadow: 0 10px 28px rgba(0,0,0,.45);
+  position: relative;
+  min-height: 0;
+}
+.promoImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 900ms ease;
+}
+.promoImg.promoActive {
+  opacity: 1;
+}
 
-.row span { color: #74677a; font-size: clamp(.55rem, .65vw, .78rem); }
-.row > b { color: #681ca8; font-size: clamp(.8rem, 1vw, 1.2rem); text-align: right; }
-.board:nth-child(2) .row > b { color: #0b7e31; }
+[data-promo-card="VAPES"] .promoImg {
+  object-position: center top;
+}
 
-@media (max-width: 900px) {
-  .screen { height: auto; min-height: 100vh; overflow: visible; padding: .65rem; }
-  .header { align-items: start; padding: .75rem; }
-  .storeFacts { font-size: .7rem; }
-  .grid { grid-template-columns: 1fr; }
+.timedPromoOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: inherit;
+  background: #fff;
+  animation: timedPromoFadeIn 350ms ease-out both;
+}
+
+.timedPromoOverlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #fff;
+}
+
+@keyframes timedPromoFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── TICKER (vertical scroll, section by section) ── */
+.ticker {
+  height: 100px;
+  border-radius: 18px;
+  width: 100%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 40px 80px -20px rgba(0,0,0,0.95), 0 20px 40px -10px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.1), 0 2px 0 rgba(255,255,255,0.9) inset;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 30px;
+  color: #0b1220;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  font-size: 42px;
+  text-shadow: none;
+}
+
+.tickerInner {
+  width: 100%;
+  overflow: hidden;
+  height: 100px;
+  position: relative;
+}
+
+.tickerSlide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+.tickerSlide.tickerActive {
+  opacity: 1;
+  transform: translateY(0);
+}
+.tickerSlide.tickerExit {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+/* ── LAST UPDATED ── */
+.lastUpdated {
+  position: fixed;
+  bottom: 8px;
+  right: 16px;
+  color: rgba(15, 23, 42, 0.78);
+  background: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 8px;
+  z-index: 99;
+}
+
+/* Header + hiring ribbon take vertical space. Keep every product row on screen. */
+.mediaFrame {
+  aspect-ratio: auto;
+  flex: 1 1 0;
+  min-height: 0;
+  height: auto;
+}
+.cardHeader {
+  padding: 10px 12px;
+  font-size: 30px;
+}
+.row {
+  min-height: 44px;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+.mcItem,
+.mcPrice {
+  padding: 6px 8px;
+  font-size: 22px;
+}
+.mh {
+  padding: 6px 10px;
+  font-size: 20px;
+}
+
+/* JWS01 visual skin: fleet structure and motion remain unchanged. */
+.tvPage {
+  background-color: #160720 !important;
+  background-image:
+    radial-gradient(circle at 8% 5%, rgba(67,220,80,.34), transparent 28%),
+    radial-gradient(circle at 92% 8%, rgba(151,75,211,.42), transparent 31%),
+    linear-gradient(145deg, #12061a 0%, #301345 52%, #092617 100%) !important;
+}
+.tvPage::before {
+  background:
+    linear-gradient(30deg, transparent 48%, rgba(255,255,255,.045) 49%, rgba(255,255,255,.045) 51%, transparent 52%) 0 0 / 120px 104px,
+    linear-gradient(150deg, transparent 48%, rgba(67,220,80,.06) 49%, rgba(67,220,80,.06) 51%, transparent 52%) 0 0 / 120px 104px;
+}
+.stage {
+  border-color: rgba(117,39,172,.32);
+  background: rgba(255,253,248,.9);
+  box-shadow: 0 24px 70px rgba(12,2,18,.34), 0 0 0 2px rgba(67,220,80,.12) inset;
+}
+.card { border-color: rgba(100,26,167,.2); }
+.ticker {
+  border-color: rgba(100,26,167,.28);
+  background: linear-gradient(90deg, #fffdf8, #f3eafb 48%, #effff0);
+  color: #2c1238;
 }
