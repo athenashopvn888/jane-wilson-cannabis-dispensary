@@ -519,3 +519,117 @@
   background: linear-gradient(90deg, #fffdf8, #f3eafb 48%, #effff0);
   color: #2c1238;
 }
+
+/* JWS art direction: same fleet structure, fully store-specific visual system. */
+.tvPage {
+  font-family: "Trebuchet MS", "Arial Narrow", Arial, sans-serif;
+  color: #25112f;
+  background-image:
+    radial-gradient(circle at 12% 16%, rgba(92,255,151,.28) 0 4%, transparent 26%),
+    radial-gradient(circle at 84% 10%, rgba(189,112,255,.30) 0 7%, transparent 32%),
+    radial-gradient(circle at 70% 92%, rgba(43,199,126,.22), transparent 28%),
+    linear-gradient(135deg, #100517 0%, #2a0b3f 38%, #4b126f 64%, #073520 100%) !important;
+}
+.tvPage::before {
+  opacity: .9;
+  background:
+    radial-gradient(circle at 24px 24px, rgba(194,255,206,.10) 0 4px, transparent 5px) 0 0 / 86px 86px,
+    linear-gradient(45deg, transparent 47%, rgba(255,255,255,.035) 48% 52%, transparent 53%) 0 0 / 170px 170px,
+    linear-gradient(-45deg, transparent 47%, rgba(126,255,170,.04) 48% 52%, transparent 53%) 0 0 / 170px 170px;
+}
+.stage {
+  background: linear-gradient(150deg, rgba(255,249,236,.95), rgba(244,231,255,.93) 48%, rgba(226,255,235,.93));
+  border: 3px solid rgba(198,144,255,.52);
+  box-shadow: 0 30px 90px rgba(4,0,8,.55), 0 0 0 5px rgba(49,221,118,.10) inset, 0 0 54px rgba(127,45,190,.26);
+}
+.stage::before {
+  background:
+    linear-gradient(110deg, rgba(255,255,255,.62), transparent 45%),
+    repeating-linear-gradient(135deg, rgba(109,40,217,.025) 0 18px, transparent 18px 38px);
+}
+.stage::after {
+  content: "JW";
+  position: absolute;
+  right: 44px;
+  bottom: -76px;
+  z-index: 0;
+  color: rgba(91,29,132,.055);
+  font: 900 430px/.8 Georgia, serif;
+  letter-spacing: -44px;
+  transform: rotate(-7deg);
+  pointer-events: none;
+}
+.card {
+  border-radius: 26px;
+  border: 3px solid color-mix(in srgb, var(--accent) 40%, #fff 60%);
+  box-shadow: 0 26px 58px -24px rgba(26,3,39,.72), 0 8px 18px rgba(31,5,46,.20), 0 0 0 2px rgba(255,255,255,.76) inset;
+  background: linear-gradient(145deg, #fffaf1, #f4eaff);
+}
+.card::after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  right: -54px;
+  bottom: -54px;
+  border-radius: 50%;
+  border: 12px double color-mix(in srgb, var(--accent) 14%, transparent);
+  pointer-events: none;
+}
+.grid > .card:nth-child(1) { --accent: #6b238f !important; background: linear-gradient(145deg, #fff8ff, #eee0fa); }
+.grid > .card:nth-child(2) { --accent: #157447 !important; background: linear-gradient(145deg, #f3fff6, #dff6e8); }
+.grid > .card:nth-child(3) { --accent: #9a3478 !important; background: linear-gradient(145deg, #fff7fb, #f6e1ef); }
+.grid > .card:nth-child(4) { --accent: #167c6b !important; background: linear-gradient(145deg, #f3fffb, #dcf4ed); }
+.grid > .card:nth-child(5) { --accent: #48247e !important; background: linear-gradient(145deg, #faf7ff, #e8e1f7); }
+.grid > .card:nth-child(6) { --accent: #4d8b39 !important; background: linear-gradient(145deg, #fbfff2, #e7f3d9); }
+.cardHeader {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 1.1px;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--accent) 82%, #180523 18%), var(--accent) 58%, color-mix(in srgb, var(--accent) 62%, #66e495 38%));
+  text-shadow: 0 3px 0 rgba(24,2,31,.34), 0 8px 20px rgba(24,2,31,.30);
+}
+.cardHeader::before {
+  width: 14px;
+  background: linear-gradient(180deg, #d9ffdd, var(--accent), #291036);
+}
+.mediaFrame {
+  background: radial-gradient(circle at 50% 42%, #fff 0 38%, #efe1fb 70%, #d7f4e1 100%);
+  border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+  box-shadow: inset 0 0 36px rgba(95,34,135,.09), 0 10px 24px rgba(40,8,55,.13);
+}
+.mediaViewport {
+  background: radial-gradient(circle, #fff 0 44%, #f1e6f8 75%, #d9f3e3 100%);
+}
+.budImg {
+  filter: saturate(1.16) contrast(1.05) drop-shadow(0 13px 13px rgba(35,7,47,.22));
+}
+.listHead {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 14%, #fff), rgba(58,205,116,.13));
+  border-color: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.row {
+  background: rgba(255,255,255,.68);
+  border-color: color-mix(in srgb, var(--accent) 11%, transparent);
+}
+.row:nth-child(even) { background: color-mix(in srgb, var(--accent) 6%, #fff 94%); }
+.rowHi {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 15%, #fff), rgba(80,218,133,.14)) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 22%, transparent), 0 6px 14px rgba(37,7,49,.12);
+}
+.mcItem { color: #25102f; }
+.mcPrice { color: var(--accent); }
+.submeta { color: rgba(42,16,51,.61); }
+.promoViewport {
+  background: linear-gradient(145deg, #260a35, #0e5532);
+  border: 4px solid rgba(255,255,255,.84);
+  box-shadow: 0 16px 34px rgba(29,5,40,.35), 0 0 0 3px color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.promoImg {
+  filter: saturate(1.12) contrast(1.04);
+}
+.lastUpdated {
+  color: #2d1238;
+  background: linear-gradient(90deg, rgba(255,249,238,.94), rgba(225,249,230,.94));
+  border: 1px solid rgba(98,35,132,.20);
+  box-shadow: 0 5px 16px rgba(20,3,29,.18);
+}

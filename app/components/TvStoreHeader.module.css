@@ -111,3 +111,53 @@
 }
 .eyebrow { color: #b9ffbf; opacity: 1; }
 .header h1 { font-family: var(--font-display), Georgia, serif; font-weight: 400; }
+
+.stack { gap: 14px; }
+.header {
+  position: relative;
+  overflow: hidden;
+  height: 126px;
+  border: 3px solid rgba(199,151,255,.62);
+  background:
+    radial-gradient(circle at 9% 50%, rgba(102,255,145,.30), transparent 18%),
+    linear-gradient(105deg, #40105d 0%, #651b8e 36%, #2b103f 68%, #075235 100%);
+  box-shadow: 0 20px 48px rgba(10,1,16,.42), 0 0 0 5px rgba(68,230,126,.10) inset;
+}
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(120deg, transparent 0 54px, rgba(255,255,255,.035) 55px 58px),
+    radial-gradient(circle at 76% 10%, rgba(216,174,255,.18), transparent 24%);
+}
+.brand,
+.meta { position: relative; z-index: 1; }
+.brand img {
+  width: 90px;
+  height: 90px;
+  border: 4px solid rgba(218,255,224,.86);
+  box-shadow: 0 0 0 7px rgba(60,224,119,.14), 0 10px 24px rgba(7,1,11,.34);
+  filter: saturate(1.14) contrast(1.04);
+}
+.eyebrow {
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  color: #c8ffd2;
+  letter-spacing: 3.4px;
+}
+.header h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  letter-spacing: .2px;
+  text-shadow: 0 4px 0 rgba(32,5,42,.42), 0 9px 24px rgba(12,1,18,.40);
+}
+.meta > div {
+  padding: 11px 17px;
+  border-radius: 14px;
+  background: rgba(10,35,23,.28);
+  border: 1px solid rgba(188,255,201,.20);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.13);
+}
+.meta span { color: #c8ffd2; opacity: .82; }
+.meta strong { font-family: "Trebuchet MS", Arial, sans-serif; }
