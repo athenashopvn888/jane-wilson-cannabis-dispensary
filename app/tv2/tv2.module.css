@@ -1,0 +1,120 @@
+.screen {
+  min-height: 100vh;
+  padding: 1.6rem;
+  background: radial-gradient(circle at top, #32124d, #0b0610 58%);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid #b176db;
+  background: rgba(18, 5, 27, 0.9);
+}
+
+.header p,
+.header h1,
+.storeFacts span,
+.storeFacts strong {
+  margin: 0;
+}
+
+.header p {
+  color: #dcb7f5;
+  font-size: clamp(0.8rem, 1vw, 1.15rem);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.header h1 {
+  font-size: clamp(2rem, 3.4vw, 4.6rem);
+  line-height: 0.95;
+}
+
+.storeFacts {
+  display: grid;
+  justify-items: end;
+  gap: 0.2rem;
+  font-size: clamp(0.85rem, 1.1vw, 1.25rem);
+}
+
+.storeFacts strong {
+  color: #f1d77a;
+  font-size: 1.15em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.board {
+  overflow: hidden;
+  border: 3px solid #8c49b9;
+  background: rgba(255, 255, 255, 0.97);
+  color: #161019;
+}
+
+.board h2 {
+  margin: 0;
+  padding: 0.7rem 1rem;
+  background: linear-gradient(90deg, #5e2189, #263b77);
+  color: #fff;
+  font-size: clamp(1.4rem, 2vw, 2.5rem);
+  text-transform: uppercase;
+}
+
+.rows {
+  display: grid;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  min-height: 3.35rem;
+  padding: 0.45rem 0.8rem;
+  border-top: 1px solid #d9cfe0;
+}
+
+.row div {
+  min-width: 0;
+}
+
+.row strong,
+.row span {
+  display: block;
+}
+
+.row strong {
+  overflow: hidden;
+  font-size: clamp(0.8rem, 1.15vw, 1.35rem);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row span {
+  color: #665b6d;
+  font-size: clamp(0.65rem, 0.8vw, 0.95rem);
+}
+
+.row > b {
+  color: #4e176f;
+  font-size: clamp(1rem, 1.35vw, 1.6rem);
+  text-align: right;
+}
+
+@media (max-width: 900px) {
+  .screen { padding: 0.65rem; }
+  .header { align-items: start; padding: 0.75rem; }
+  .storeFacts { font-size: 0.7rem; }
+  .grid { grid-template-columns: 1fr; }
+}
