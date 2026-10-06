@@ -1,0 +1,135 @@
+.screen {
+  min-height: 100vh;
+  padding: 1.6rem;
+  background: radial-gradient(circle at top, #1d4934, #07140f 55%);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid #64d986;
+  background: rgba(5, 20, 14, 0.88);
+}
+
+.header p,
+.header h1,
+.storeFacts span,
+.storeFacts strong {
+  margin: 0;
+}
+
+.header p {
+  color: #9eeab5;
+  font-size: clamp(0.8rem, 1vw, 1.15rem);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.header h1 {
+  font-size: clamp(2rem, 3.4vw, 4.6rem);
+  line-height: 0.95;
+}
+
+.storeFacts {
+  display: grid;
+  justify-items: end;
+  gap: 0.2rem;
+  font-size: clamp(0.85rem, 1.1vw, 1.25rem);
+}
+
+.storeFacts strong {
+  color: #f1d77a;
+  font-size: 1.15em;
+}
+
+.tierGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.tier {
+  overflow: hidden;
+  border: 3px solid var(--tier);
+  background: rgba(255, 255, 255, 0.96);
+  color: #101712;
+}
+
+.tier:last-child {
+  grid-column: 1 / -1;
+}
+
+.tier h2 {
+  margin: 0;
+  padding: 0.55rem 0.8rem;
+  background: var(--tier);
+  color: #fff;
+  font-size: clamp(1.2rem, 1.7vw, 2.1rem);
+  text-transform: uppercase;
+}
+
+.tableHead,
+.row {
+  display: grid;
+  grid-template-columns: minmax(10rem, 2.5fr) repeat(4, minmax(4rem, 0.7fr));
+  align-items: center;
+}
+
+.tableHead {
+  padding: 0.35rem 0.65rem;
+  background: #e7eee9;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.tableHead span:not(:first-child),
+.price {
+  text-align: center;
+}
+
+.row {
+  min-height: 2.15rem;
+  padding: 0.2rem 0.65rem;
+  border-top: 1px solid #c9d4cc;
+  font-size: clamp(0.72rem, 0.9vw, 1.05rem);
+}
+
+.flowerName {
+  overflow: hidden;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.price del {
+  color: #6d746f;
+  font-size: 0.8em;
+}
+
+.price b {
+  color: #0b5629;
+  font-size: 1.1em;
+}
+
+@media (max-width: 900px) {
+  .screen { padding: 0.65rem; }
+  .header { align-items: start; padding: 0.75rem; }
+  .storeFacts { font-size: 0.7rem; }
+  .tierGrid { grid-template-columns: 1fr; }
+  .tier:last-child { grid-column: auto; }
+  .tableHead, .row { grid-template-columns: minmax(7rem, 2.1fr) repeat(4, minmax(3rem, 0.7fr)); }
+}
