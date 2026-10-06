@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback, useRef } from "react";
 import styles from "./tv2.module.css";
-import { CIGARETTE_FLASH_MESSAGE, isCigaretteFlashWindow } from "../tv/flashMessages";
 import HiringRibbon from "../components/HiringRibbon";
 import TvStoreHeader from "../components/TvStoreHeader";
 import { tvHiring } from "../lib/tvHiring";
@@ -144,48 +143,6 @@ function ItemCard({ title, accent, items, hiIdx, preset, offerOverlay = false }:
           />
         </div>
       )}
-    </div>
-  );
-}
-
-/* -- TICKER -- */
-const TICKER_SLIDES = [
-  "🔥 Jane Finch Cannabis — 2728 Jane St, North York",
-  "Browse Current Flower Tiers",
-  "Open 24 Hours",
-  "Pre-Rolls · Edibles · Vapes · Concentrates",
-  "ALL SALES ARE FINAL",
-];
-
-function VerticalTicker() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [exitIdx, setExitIdx] = useState(-1);
-  const [showCigaretteFlash, setShowCigaretteFlash] = useState(() => isCigaretteFlashWindow());
-  const slides = showCigaretteFlash ? [CIGARETTE_FLASH_MESSAGE, ...TICKER_SLIDES] : TICKER_SLIDES;
-
-  useEffect(() => {
-    const update = () => setShowCigaretteFlash(isCigaretteFlashWindow());
-    const iv = setInterval(update, 60_000);
-    return () => clearInterval(iv);
-  }, []);
-  useEffect(() => {
-    const iv = setInterval(() => {
-      setExitIdx(activeIdx);
-      setActiveIdx(prev => (prev + 1) % slides.length);
-    }, 3000);
-    return () => clearInterval(iv);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeIdx]);
-
-  return (
-    <div className={styles.ticker}>
-      <div className={styles.tickerInner}>
-        {slides.map((text, i) => (
-          <div key={i} className={`${styles.tickerSlide} ${i===activeIdx?styles.tickerActive:""} ${i===exitIdx?styles.tickerExit:""}`}>
-            {text}
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

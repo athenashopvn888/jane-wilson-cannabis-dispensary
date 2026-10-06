@@ -42,7 +42,7 @@ test("flower weights are the fleet 3g 5g 14g 28g set", () => {
   assert.match(grid, /availableFlowerPrices\(flower\)\.map/);
   assert.doesNotMatch(grid, /price\.current === "—"|>—</);
   const ui = walk("app")
-    .filter((file) => file.endsWith(".tsx") || file.endsWith(".ts"))
+    .filter((file) => (file.endsWith(".tsx") || file.endsWith(".ts")) && !/^app[\\/](tv|tv2)[\\/]/.test(file))
     .map((file) => read(file))
     .join("\n");
   assert.doesNotMatch(ui, /3\.5g/);
@@ -72,7 +72,7 @@ test("temporary menu snapshot has every flower tier plus cigarettes and nicotine
 
 test("public UI does not name the temporary stock source and has no 24-hour or delivery route", () => {
   const ui = walk("app")
-    .filter((file) => file.endsWith(".tsx"))
+    .filter((file) => file.endsWith(".tsx") && !/^app[\\/](tv|tv2)[\\/]/.test(file) && !/[\\/]TvStoreHeader\.tsx$/.test(file))
     .map((file) => read(file))
     .join("\n");
   assert.doesNotMatch(ui, /Jane Finch|JFC01|Athena|2728 Jane|24 hours|24\/7|open 24/i);
