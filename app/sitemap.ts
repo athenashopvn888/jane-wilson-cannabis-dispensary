@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pages = [
     { path: "", changeFrequency: "weekly" as const, priority: 1 },
     { path: "/visit", changeFrequency: "monthly" as const, priority: 0.9 },
+    { path: "/hours", changeFrequency: "monthly" as const, priority: 0.7 },
     { path: "/weed-dispensary-jane-street", changeFrequency: "weekly" as const, priority: 0.95 },
     { path: "/native-cigarettes-jane-street", changeFrequency: "daily" as const, priority: 0.8 },
     { path: "/nicotine-vapes-jane-street", changeFrequency: "daily" as const, priority: 0.8 }
