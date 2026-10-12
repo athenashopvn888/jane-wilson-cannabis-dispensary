@@ -258,3 +258,14 @@ h1,h2{font-family:var(--font-display),Georgia,serif;font-weight:400}
 .fg-header .fg-deal-price{font-size:15px;color:#1B4332}
 .fg-header .fg-deal-price strong{font-size:20px}
 .fg-header .fg-deal-meta{margin-top:4px;font-size:12px;font-weight:700;color:#5d705d}
+
+/* JWS01 2026-10-13: Weed dropdown groups the 5 tier links so the desktop nav fits on one row. */
+.desktopNav a{white-space:nowrap}
+.navWeed{position:relative;display:flex;align-items:center}
+.navWeedToggle{display:inline-flex;align-items:center;gap:5px;padding:8px 2px;border:0;background:none;color:inherit;font:inherit;font-size:.75rem;font-weight:850;letter-spacing:.015em;cursor:pointer;white-space:nowrap}
+.navWeedToggle.isActive,.navWeedToggle:hover{color:var(--purple)}
+.navWeedToggle:focus-visible{outline:3px solid var(--purple);outline-offset:3px}
+.navWrap nav .navWeedMenu{position:absolute;top:100%;left:50%;transform:translateX(-50%);display:none;flex-direction:column;align-items:stretch;gap:2px;min-width:190px;padding:8px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 44px #2b0d3526;z-index:40}
+.navWrap nav .navWeed.isOpen .navWeedMenu,.navWrap nav .navWeed:hover .navWeedMenu,.navWrap nav .navWeed:focus-within .navWeedMenu{display:flex}
+.navWrap nav .navWeedMenu a{padding:9px 12px;border-radius:10px}
+.navWrap nav .navWeedMenu a:hover,.navWrap nav .navWeedMenu a[aria-current="page"]{background:#f3e9fc}
