@@ -18,8 +18,8 @@ export const revalidate = 300;
 
 const PATH = "/delivery";
 const URL_ = `${STORE.origin}${PATH}`;
-const TITLE = "Cannabis Delivery Menu in North York | Jane Wilson Cannabis Dispensary";
-const DESC = "Cannabis delivery menu from Jane Wilson Cannabis Dispensary in North York. Bulk delivery pricing from 7g, separate from in-store prices. Adults 19+, ID checked at the door.";
+const TITLE = "Weed Delivery Menu in North York | Jane Wilson Cannabis Dispensary Weed Delivery";
+const DESC = "Weed delivery and cannabis delivery menu from Jane Wilson Cannabis Dispensary in North York. Bulk delivery pricing from 7g, separate from in-store prices. Adults 19+, ID checked at the door.";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -49,7 +49,7 @@ export default async function DeliveryPage() {
         "@type": "CollectionPage",
         "@id": `${URL_}#webpage`,
         url: URL_,
-        name: "Cannabis Delivery Menu in North York",
+        name: "Weed Delivery Menu in North York",
         description: DESC,
         about: { "@id": `${STORE.origin}/#store` },
         isPartOf: { "@id": `${STORE.origin}/#website` },
@@ -57,7 +57,17 @@ export default async function DeliveryPage() {
           ? { mainEntity: { "@type": "ItemList", numberOfItems: products.length, itemListElement: sortProducts(products).map((p, i) => ({ "@type": "ListItem", position: i + 1, name: p.name })) } }
           : {})
       },
-      { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: STORE.origin }, { "@type": "ListItem", position: 2, name: "Delivery", item: URL_ }] },
+      {
+        "@type": "Service",
+        "@id": `${URL_}#service`,
+        name: "Jane Wilson Cannabis Dispensary Weed Delivery",
+        serviceType: "Weed delivery",
+        url: URL_,
+        provider: { "@id": `${STORE.origin}/#store` },
+        areaServed: STORE.neighbourhoods.map((name) => ({ "@type": "Place", name })),
+        availableChannel: { "@type": "ServiceChannel", servicePhone: { "@type": "ContactPoint", telephone: STORE.phoneHref, contactType: "orders" } }
+      },
+      { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: STORE.origin }, { "@type": "ListItem", position: 2, name: "Weed delivery", item: URL_ }] },
       faqSchema(FAQS, `${URL_}#faq`)
     ]
   };
@@ -67,12 +77,12 @@ export default async function DeliveryPage() {
       <JsonLd data={schema} />
       <Nav />
       <div className={styles.content}>
-        <nav className={styles.crumbs} aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><span>Delivery</span></nav>
+        <nav className={styles.crumbs} aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><span>Weed delivery</span></nav>
         <section className={styles.hero}>
           <div className={styles.heroCard}>
             <span className={styles.kicker}>Jane St · North York · 19+</span>
-            <h1>Cannabis Delivery from Jane Wilson</h1>
-            <p>Delivery has its own menu with bulk pricing, starting at 7 grams. Browse it below, then call us to order. Adults 19+, photo ID checked at the door.</p>
+            <h1>Weed Delivery from Jane Wilson</h1>
+            <p>Jane Wilson Cannabis Dispensary Weed Delivery serves Jane and Wilson, Downsview and North York. Delivery has its own menu with bulk pricing, starting at 7 grams. Browse it below, then call us to order. Adults 19+, photo ID checked at the door.</p>
             <p>Want a small amount, or want it right now? Our store at {STORE.street} is the fastest way, with in-store deals like Buy 2g Get 1g FREE.</p>
           </div>
           <aside className={styles.sideCard} aria-label="Order by phone">
