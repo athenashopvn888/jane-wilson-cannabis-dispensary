@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import FlowerGrid from "../components/FlowerGrid";
+import { FreeGramTierHeader } from "../components/FreeGramPromo";
 import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
 import MenuPreviewNote from "../components/MenuPreviewNote";
@@ -96,6 +97,7 @@ export default async function TierPage({ params }: { params: Promise<{ tier: str
           <p>{tier.summary}</p>
           <p>{tier.guide}</p>
           <p>{flowers.length} flowers listed · weights {WEIGHTS.join(", ")}</p>
+          <FreeGramTierHeader tier={tier.key} prices3g={flowers.flatMap((f) => (f.price3g && f.price3g.regular > 0 ? [f.price3g.regular] : []))} prices6g={[]} show6g={false} />
           <div className="tierHeroActions">
             <a href="#listings">View listings</a>
             <Link href="/visit">Visit Unit 12</Link>

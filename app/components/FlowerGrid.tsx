@@ -1,6 +1,13 @@
 import Link from "next/link";
 import ProductPhoto from "./ProductPhoto";
+import { FreeGramCardLine } from "./FreeGramPromo";
 import { availableFlowerPrices, flowerPath, formatFlowerPrice, type FlowerProduct } from "../lib/inventory";
+
+function freeGram3g(point: { regular: number; sale: number | null } | null | undefined) {
+  if (!point || typeof point.regular !== "number" || point.regular <= 0) return null;
+  const amount = typeof point.sale === "number" && point.sale > 0 && point.sale !== point.regular ? point.sale : point.regular;
+  return { amount, regular: point.regular };
+}
 
 function typeLabel(type: string) {
   if (!type) return "Flower";
@@ -38,6 +45,7 @@ export default function FlowerGrid({ flowers }: { flowers: FlowerProduct[] }) {
                 );
               })}
             </dl>
+            <FreeGramCardLine name={flower.name} tier={flower.tier} price3g={freeGram3g(flower.price3g)} show6g={false} />
           </div>
         </article>
       ))}
