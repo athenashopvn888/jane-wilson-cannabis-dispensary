@@ -10,7 +10,10 @@ const STORE_LINKS = [
   { href: "/weed-dispensary-jane-street", label: "Jane Street Store" },
   { href: "/visit", label: "Visit" },
   { href: "/native-cigarettes-jane-street", label: "Cigarettes" },
-  { href: "/nicotine-vapes-jane-street", label: "Nicotine Vapes" }
+  { href: "/nicotine-vapes-jane-street", label: "Nicotine Vapes" },
+  { href: "/delivery", label: "Delivery" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/guides", label: "Guides" }
 ] as const;
 
 function isCurrent(pathname: string, href: string) {
@@ -106,13 +109,7 @@ export default function Nav() {
               {link.label}
             </Link>
           ))}
-          <div className="navTiers">
-            {TIERS.map((tier) => (
-              <Link key={tier.slug} href={`/${tier.slug}`} aria-current={isCurrent(pathname, `/${tier.slug}`) ? "page" : undefined}>
-                {tier.name}
-              </Link>
-            ))}
-          </div>
+          <WeedMenu pathname={pathname} />
         </nav>
         <div className="navActions">
           <a className="callButton" href={`tel:${STORE.phoneHref}`} aria-label={`Call ${STORE.phone}`}>
@@ -182,6 +179,35 @@ export default function Nav() {
           )
         : null}
     </>
+  );
+}
+
+function WeedMenu({ pathname }: { pathname: string }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const menuId = useId();
+  const active = TIERS.some((tier) => isCurrent(pathname, `/${tier.slug}`));
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (event: MouseEvent) => { if (ref.current && !ref.current.contains(event.target as Node)) setOpen(false); };
+    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDown); document.removeEventListener("keydown", onKey); };
+  }, [open]);
+  return (
+    <div className={`navWeed${open ? " isOpen" : ""}`} ref={ref} onMouseLeave={() => setOpen(false)}>
+      <button type="button" className={`navWeedToggle${active ? " isActive" : ""}`} aria-expanded={open} aria-controls={menuId} onClick={() => setOpen((v) => !v)}>
+        Weed <span aria-hidden="true">▾</span>
+      </button>
+      <div id={menuId} className="navWeedMenu navTiers" role="group" aria-label="Weed tiers">
+        {TIERS.map((tier) => (
+          <Link key={tier.slug} href={`/${tier.slug}`} aria-current={isCurrent(pathname, `/${tier.slug}`) ? "page" : undefined} onClick={() => setOpen(false)}>
+            {tier.name}
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 }
 

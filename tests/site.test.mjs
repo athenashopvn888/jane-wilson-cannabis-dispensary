@@ -1,17 +1,18 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 const root = new URL("../", import.meta.url);
 const read = (file) => readFileSync(new URL(file, root), "utf8");
 
 function walk(dir) {
-  const abs = path.join(root.pathname, dir);
+  const abs = path.join(fileURLToPath(root), dir);
   if (!existsSync(abs)) return [];
   return readdirSync(abs).flatMap((name) => {
     const rel = path.join(dir, name);
-    const full = path.join(root.pathname, rel);
+    const full = path.join(fileURLToPath(root), rel);
     return statSync(full).isDirectory() ? walk(rel) : [rel];
   });
 }
@@ -33,6 +34,8 @@ test("exact approved NAP, hours, and canonical domain are centralized", () => {
   assert.match(store, /opens: STORE.hoursOpens/);
 });
 
+const DELIVERY_PRICING_FILE = /^app[\\/](delivery[\\/]|lib[\\/](delivery|deliveryStats|pricing)\.ts$|components[\\/](DeliveryCatalog|PriceBlock|PriceNotice)\.tsx$)/;
+
 test("flower weights are the fleet 3g 5g 14g 28g set", () => {
   const store = read("app/lib/store.ts");
   const inventory = read("app/lib/inventory.ts");
@@ -46,7 +49,12 @@ test("flower weights are the fleet 3g 5g 14g 28g set", () => {
     .map((file) => read(file))
     .join("\n");
   assert.doesNotMatch(ui, /3\.5g/);
-  assert.doesNotMatch(ui, /(?<![0-9])7g/);
+  // 7g is allowed ONLY on delivery pricing surfaces: delivery uses bulk packs that start at 7g (Tri 2026-10-13).
+  const storeUi = walk("app")
+    .filter((file) => (file.endsWith(".tsx") || file.endsWith(".ts")) && !/^app[\\/](tv|tv2)[\\/]/.test(file) && !DELIVERY_PRICING_FILE.test(file))
+    .map((file) => read(file))
+    .join("\n");
+  assert.doesNotMatch(storeUi, /(?<![0-9])7g/);
   // 6g is allowed: the top-3 tiers (Exotic, Premium, AAA+) sell the second pack as 6g (feed field price5g). AA stays a true 5g.
 });
 
@@ -70,13 +78,15 @@ test("temporary menu snapshot has every flower tier plus cigarettes and nicotine
   assert.deepEqual([...priceKeys].sort(), ["price14g", "price28g", "price3g", "price5g"]);
 });
 
-test("public UI does not name the temporary stock source and has no 24-hour or delivery route", () => {
+test("public UI does not name the temporary stock source and has no 24-hour route", () => {
   const ui = walk("app")
     .filter((file) => file.endsWith(".tsx") && !/^app[\\/](tv|tv2)[\\/]/.test(file) && !/[\\/]TvStoreHeader\.tsx$/.test(file))
     .map((file) => read(file))
     .join("\n");
   assert.doesNotMatch(ui, /Jane Finch|JFC01|Athena|2728 Jane|24 hours|24\/7|open 24/i);
-  assert.equal(walk("app").some((file) => /24-hour|delivery/i.test(file)), false);
+  // JWS01 delivers (Tri 2026-10-13): /delivery is an allowed route; 24-hour routes stay banned.
+  assert.equal(walk("app").some((file) => /24-hour/i.test(file)), false);
+  assert.ok(existsSync(new URL("app/delivery/page.tsx", root)));
   assert.match(read("app/lib/inventory.ts"), /TEMP_STOCK_SOURCE=JFC01/);
   assert.match(read("app/lib/store.ts"), /Menu preview — confirm availability and prices at the Jane Wilson counter/);
   assert.match(read("app/page.tsx"), /MenuPreviewNote/);
@@ -200,7 +210,9 @@ test("sitemap lists live routes and omits the demoted North York path", () => {
   ]) {
     assert.ok(sitemap.includes(route));
   }
-  assert.doesNotMatch(sitemap, /weed-dispensary-north-york|24-hour|delivery/);
+  assert.doesNotMatch(sitemap, /weed-dispensary-north-york|24-hour/);
+  // JWS01 delivers (Tri 2026-10-13): /delivery is a live route and belongs in the sitemap.
+  assert.ok(sitemap.includes('"/delivery"'));
   const northYork = read("app/weed-dispensary-north-york/page.tsx");
   assert.match(northYork, /permanentRedirect\("\/weed-dispensary-jane-street"\)/);
 });

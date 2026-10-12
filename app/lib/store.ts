@@ -5,6 +5,8 @@ export const STORE = {
   address: "2111 Jane St, Unit 12, North York, ON M3M 1A2",
   street: "2111 Jane St, Unit 12",
   locality: "North York, ON M3M 1A2",
+  /** Public Master Lines number (see lib/phoneLines.ts). The only phone shown on the site. */
+  masterLine: "+1 437-465-7700",
   phone: "437-465-7700",
   phoneHref: "+14374657700",
   /** Canonical host for schema, sitemap, robots, and canonical tags. */

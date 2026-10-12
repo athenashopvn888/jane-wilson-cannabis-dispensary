@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { flowerPath, staticFlowers, staticItems } from "./lib/inventory";
 import { STORE, TIERS } from "./lib/store";
+import { GUIDES } from "./lib/content/guides";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -10,7 +11,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/hours", changeFrequency: "monthly" as const, priority: 0.7 },
     { path: "/weed-dispensary-jane-street", changeFrequency: "weekly" as const, priority: 0.95 },
     { path: "/native-cigarettes-jane-street", changeFrequency: "daily" as const, priority: 0.8 },
-    { path: "/nicotine-vapes-jane-street", changeFrequency: "daily" as const, priority: 0.8 }
+    { path: "/nicotine-vapes-jane-street", changeFrequency: "daily" as const, priority: 0.8 },
+    { path: "/delivery", changeFrequency: "daily" as const, priority: 0.9 },
+    { path: "/faq", changeFrequency: "monthly" as const, priority: 0.7 },
+    { path: "/guides", changeFrequency: "weekly" as const, priority: 0.7 },
+    { path: "/guides/indica", changeFrequency: "weekly" as const, priority: 0.6 },
+    { path: "/guides/sativa", changeFrequency: "weekly" as const, priority: 0.6 },
+    { path: "/guides/hybrid", changeFrequency: "weekly" as const, priority: 0.6 },
+    { path: "/guides/strains-a-to-z", changeFrequency: "weekly" as const, priority: 0.6 },
+    ...GUIDES.map((g) => ({ path: `/guides/${g.slug}`, changeFrequency: "monthly" as const, priority: 0.5 }))
   ];
   const publicItems = staticItems.filter((item) => item.category === "CIGARETTES" || item.category === "VAPE PENS");
 
