@@ -44,7 +44,7 @@ export const TIERS = [
     name: "Exotic Weed",
     tone: "#681ca8",
     summary: "The top flower tier for shoppers comparing standout aroma, appearance, and cultivar character.",
-    guide: "Exotic Weed is the top shelf in the Jane Wilson five-tier flower ladder. Compare 3g, 5g, 14g, and 28g prices on this page, then confirm the jar at the Unit 12 counter."
+    guide: "Exotic Weed is the top shelf in the Jane Wilson five-tier flower ladder. Compare 3g, 6g, 14g, and 28g prices on this page, then confirm the jar at the Unit 12 counter."
   },
   {
     slug: "premium-weed",
@@ -52,7 +52,7 @@ export const TIERS = [
     name: "Premium Weed",
     tone: "#7d31bd",
     summary: "An upper flower tier for people looking for a strong balance of quality, presentation, and value.",
-    guide: "Premium Weed sits below Exotic Weed and above AAA+ Weed. Weights on this page are 3g, 5g, 14g, and 28g."
+    guide: "Premium Weed sits below Exotic Weed and above AAA+ Weed. Weights on this page are 3g, 6g, 14g, and 28g."
   },
   {
     slug: "aaa-weed",
@@ -60,7 +60,7 @@ export const TIERS = [
     name: "AAA+ Weed",
     tone: "#913fd0",
     summary: "The middle tier in the Jane Wilson flower ladder, designed for straightforward comparison shopping.",
-    guide: "AAA+ Weed is the middle collection. Use the 3g, 5g, 14g, and 28g columns, then confirm today’s jar at Jane Wilson."
+    guide: "AAA+ Weed is the middle collection. Use the 3g, 6g, 14g, and 28g columns, then confirm today’s jar at Jane Wilson."
   },
   {
     slug: "aa-weed",

@@ -3,7 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import FlowerGrid from "../components/FlowerGrid";
-import { FreeGramTierHeader } from "../components/FreeGramPromo";
+import { FreeGramTierHeader, isFreeGramTier } from "../components/FreeGramPromo";
+
+// Top-3 tiers (Exotic, Premium, AAA+): the second pack is 6g (feed field price5g). AA stays a true 5g.
+const weightsFor = (key: string) => (isFreeGramTier(key) ? WEIGHTS.map((w) => (w === "5g" ? "6g" : w)) : [...WEIGHTS]);
 import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
 import MenuPreviewNote from "../components/MenuPreviewNote";
@@ -24,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ tier: str
   if (!tier) return {};
   return {
     title: `${tier.name} on Jane Street | North York`,
-    description: `${tier.summary} Compare 3g, 5g, 14g, and 28g listings at Jane Wilson Cannabis Dispensary near Jane Street and Wilson Avenue in North York.`,
+    description: `${tier.summary} Compare 3g, ${isFreeGramTier(tier.key) ? "6g" : "5g"}, 14g, and 28g listings at Jane Wilson Cannabis Dispensary near Jane Street and Wilson Avenue in North York.`,
     alternates: { canonical: `/${tier.slug}` },
     openGraph: { title: `${tier.name} | Jane Wilson Cannabis`, url: `/${tier.slug}` }
   };
@@ -46,7 +49,7 @@ export default async function TierPage({ params }: { params: Promise<{ tier: str
     },
     {
       question: `Which weights are listed for ${tier.name}?`,
-      answer: "Listings use 3g, 5g, 14g, and 28g. A dash means that weight is not posted for that flower."
+      answer: `Listings use 3g, ${isFreeGramTier(tier.key) ? "6g" : "5g"}, 14g, and 28g. A dash means that weight is not posted for that flower.`
     },
     {
       question: `Where can I confirm today’s ${tier.name} selection?`,
@@ -96,8 +99,8 @@ export default async function TierPage({ params }: { params: Promise<{ tier: str
           <p className="tierSubtitle">Flower tier at Jane &amp; Wilson in North York</p>
           <p>{tier.summary}</p>
           <p>{tier.guide}</p>
-          <p>{flowers.length} flowers listed · weights {WEIGHTS.join(", ")}</p>
-          <FreeGramTierHeader tier={tier.key} prices3g={flowers.flatMap((f) => (f.price3g && f.price3g.regular > 0 ? [f.price3g.regular] : []))} prices6g={[]} show6g={false} />
+          <p>{flowers.length} flowers listed · weights {weightsFor(tier.key).join(", ")}</p>
+          <FreeGramTierHeader tier={tier.key} prices3g={flowers.flatMap((f) => (f.price3g && f.price3g.regular > 0 ? [f.price3g.regular] : []))} prices6g={flowers.flatMap((f) => (f.price5g && f.price5g.regular > 0 ? [f.price5g.regular] : []))} show6g />
           <div className="tierHeroActions">
             <a href="#listings">View listings</a>
             <Link href="/visit">Visit Unit 12</Link>
@@ -112,7 +115,7 @@ export default async function TierPage({ params }: { params: Promise<{ tier: str
       <section className="menuShell" id="listings">
         <div className="menuIntro">
           <div>
-            <p className="eyebrow">3g · 5g · 14g · 28g</p>
+            <p className="eyebrow">{weightsFor(tier.key).join(" · ")}</p>
             <h2>{tier.name} listings</h2>
           </div>
           <MenuPreviewNote />

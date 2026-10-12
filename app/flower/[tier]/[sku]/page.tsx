@@ -6,6 +6,7 @@ import JsonLd from "../../../components/JsonLd";
 import MenuPreviewNote from "../../../components/MenuPreviewNote";
 import Nav from "../../../components/Nav";
 import ProductPhoto from "../../../components/ProductPhoto";
+import { isFreeGramTier } from "../../../components/FreeGramPromo";
 import { availableFlowerPrices, flowerHref, flowerOffers, flowersForTier, formatFlowerPrice, getMenu, staticFlowers } from "../../../lib/inventory";
 import { STORE, TIERS, tierBySlug } from "../../../lib/store";
 
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ tier: str
   if (!tier || !flower) return {};
   return {
     title: `${flower.name} | ${tier.name}`,
-    description: `${flower.name} in ${tier.name} at Jane Wilson Cannabis Dispensary. Weights: 3g, 5g, 14g, and 28g.`,
+    description: `${flower.name} in ${tier.name} at Jane Wilson Cannabis Dispensary. Weights: 3g, ${isFreeGramTier(flower.tier) ? "6g" : "5g"}, 14g, and 28g.`,
     alternates: { canonical: `/flower/${tier.slug}/${flower.sku}` }
   };
 }
@@ -69,7 +70,7 @@ export default async function FlowerPage({ params }: { params: Promise<{ tier: s
                 const price = formatFlowerPrice(point);
                 return (
                   <div key={label}>
-                    <dt>{label}</dt>
+                    <dt>{(isFreeGramTier(flower.tier) && label === "5g" ? "6g" : label)}</dt>
                     <dd>
                       <strong>{price.current}</strong>
                       {price.compare ? <s>{price.compare}</s> : null}
