@@ -10,7 +10,10 @@ const STORE_LINKS = [
   { href: "/weed-dispensary-jane-street", label: "Jane Street Store" },
   { href: "/visit", label: "Visit" },
   { href: "/native-cigarettes-jane-street", label: "Cigarettes" },
-  { href: "/nicotine-vapes-jane-street", label: "Nicotine Vapes" }
+  { href: "/nicotine-vapes-jane-street", label: "Nicotine Vapes" },
+  { href: "/delivery", label: "Delivery" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/guides", label: "Guides" }
 ] as const;
 
 function isCurrent(pathname: string, href: string) {

@@ -1,0 +1,43 @@
+/* JWS01 page system: Jane Wilson purple/green on cream, distinct from AVC01. */
+.main { min-height: 100vh; background: #f7f3ec; color: #1d1530; }
+.content { width: min(1080px, calc(100% - 2rem)); margin: 0 auto; padding: 116px 0 72px; }
+.crumbs { display: flex; gap: 8px; margin: 0 0 16px; color: #6b5d80; font-size: .85rem; }
+.crumbs a { color: #681ca8; text-decoration: none; }
+.hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 28px; align-items: stretch; margin-bottom: 28px; }
+.heroCard { padding: 30px; border-radius: 22px; background: linear-gradient(135deg, #3d0f66, #681ca8 60%, #913fd0); color: #fff; }
+.heroCard h1 { margin: 6px 0 14px; font-family: var(--font-display), serif; font-size: clamp(2rem, 4.8vw, 3.2rem); line-height: 1.05; font-weight: 400; }
+.heroCard p { margin: 0 0 12px; line-height: 1.65; color: #efe4fb; }
+.kicker { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #43cc5c; color: #0d2a14; font-size: .74rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.sideCard { padding: 24px; border-radius: 22px; background: #fff; border: 2px solid #43cc5c; display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+.sideCard strong { font-size: 1.15rem; }
+.callBtn { display: inline-block; padding: 12px 18px; border-radius: 12px; background: #27a951; color: #fff; font-weight: 800; text-decoration: none; text-align: center; }
+.ghostBtn { display: inline-block; padding: 12px 18px; border-radius: 12px; border: 2px solid #681ca8; color: #681ca8; font-weight: 800; text-decoration: none; text-align: center; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 0 0 30px; padding: 0; list-style: none; counter-reset: s; }
+.steps li { counter-increment: s; padding: 18px; border-radius: 16px; background: #fff; border-left: 6px solid #913fd0; line-height: 1.5; }
+.steps li::before { content: counter(s, decimal-leading-zero); display: block; color: #27a951; font-weight: 900; font-size: 1.3rem; }
+.section { margin: 32px 0; }
+.section h2, .faqs h2 { margin: 0 0 14px; font-family: var(--font-display), serif; font-weight: 400; font-size: 1.7rem; color: #3d0f66; }
+.section p, .prose { line-height: 1.7; color: #3a2d4f; }
+.band { padding: 22px; border-radius: 18px; background: #e9f8ec; border: 1px dashed #27a951; }
+.ranges { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; padding: 0; list-style: none; }
+.ranges li { padding: 14px; border-radius: 12px; background: #fff; }
+.loyalty ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; padding: 0; list-style: none; }
+.loyalty li { padding: 14px; border-radius: 12px; background: #fff; display: flex; flex-direction: column; gap: 4px; }
+.loyalty aside { margin-top: 12px; padding: 14px; border-radius: 12px; background: #f3e9fc; }
+.notice { padding: 16px 18px; border-radius: 14px; background: #fff7e0; border: 1px solid #e3c35a; line-height: 1.6; }
+.faqs { margin: 32px 0; }
+.faqItem { margin-bottom: 8px; border-radius: 12px; background: #fff; border: 1px solid #ddd0ee; }
+.faqItem summary { padding: 13px 16px; cursor: pointer; font-weight: 700; color: #3d0f66; }
+.faqItem p { margin: 0; padding: 0 16px 14px; line-height: 1.6; color: #3a2d4f; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.tile { display: block; padding: 20px; border-radius: 18px; background: #fff; border-top: 6px solid #43cc5c; color: inherit; text-decoration: none; }
+.tile span { color: #681ca8; font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.tile h3 { margin: 6px 0; font-size: 1.15rem; }
+.tile p { margin: 0; color: #5a4d6e; line-height: 1.5; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; }
+.chips a { display: inline-block; padding: 7px 13px; border-radius: 999px; background: #fff; border: 1px solid #913fd0; color: #681ca8; text-decoration: none; font-weight: 700; }
+.figure { margin: 0 0 24px; border-radius: 20px; overflow: hidden; }
+.figure img { width: 100%; height: auto; display: block; }
+.more summary { cursor: pointer; margin: 14px 0; font-weight: 800; color: #681ca8; }
+@media (max-width: 860px) { .hero { grid-template-columns: 1fr; } .steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .steps { grid-template-columns: 1fr; } .content { padding-top: 100px; } }
