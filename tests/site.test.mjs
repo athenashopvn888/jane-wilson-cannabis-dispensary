@@ -200,7 +200,9 @@ test("sitemap lists live routes and omits the demoted North York path", () => {
   ]) {
     assert.ok(sitemap.includes(route));
   }
-  assert.doesNotMatch(sitemap, /weed-dispensary-north-york|24-hour|delivery/);
+  assert.doesNotMatch(sitemap, /weed-dispensary-north-york|24-hour/);
+  // JWS01 delivers (Tri 2026-10-13): /delivery is a live route and belongs in the sitemap.
+  assert.ok(sitemap.includes('"/delivery"'));
   const northYork = read("app/weed-dispensary-north-york/page.tsx");
   assert.match(northYork, /permanentRedirect\("\/weed-dispensary-jane-street"\)/);
 });
