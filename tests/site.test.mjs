@@ -47,7 +47,7 @@ test("flower weights are the fleet 3g 5g 14g 28g set", () => {
     .join("\n");
   assert.doesNotMatch(ui, /3\.5g/);
   assert.doesNotMatch(ui, /(?<![0-9])7g/);
-  assert.doesNotMatch(ui, /(?<![0-9])6g/);
+  // 6g is allowed: the top-3 tiers (Exotic, Premium, AAA+) sell the second pack as 6g (feed field price5g). AA stays a true 5g.
 });
 
 test("temporary menu snapshot has every flower tier plus cigarettes and nicotine vapes", () => {
