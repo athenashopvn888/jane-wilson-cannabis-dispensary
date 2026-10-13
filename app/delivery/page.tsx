@@ -6,6 +6,7 @@ import JsonLd from "../components/JsonLd";
 import FaqBlock, { faqSchema } from "../components/FaqBlock";
 import PriceNotice from "../components/PriceNotice";
 import DeliveryCatalog from "../components/DeliveryCatalog";
+import IdVerificationChat from "./IdVerificationChat";
 import { getDeliveryCatalog } from "../lib/delivery";
 import { deliveryTierStats, tierRangeText } from "../lib/deliveryStats";
 import { sortProducts, type DeliveryProduct } from "../lib/pricing";
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
 
 const FAQS = [
   { q: "Where does delivery start?", a: "Delivery uses bulk pricing, starting at 7 grams, with a minimum order. We confirm the total when you order." },
-  { q: "How do I order?", a: `Browse the delivery menu, then call us on ${STORE.phone}. We confirm stock, address coverage and the total.` },
+  { q: "How do I order?", a: "Browse the delivery menu, open LIVE ORDER, and send your choices in Web Chat. The dispatcher confirms stock, address coverage and the total." },
   { q: "Do I need ID?", a: "Yes. Photo ID showing you are 19+ is checked at the door." },
   { q: PRICE_RULE_FAQ.q, a: PRICE_RULE_FAQ.a },
   { q: STORE_PRICE_ON_DELIVERY_FAQ.q, a: STORE_PRICE_ON_DELIVERY_FAQ.a }
@@ -65,7 +66,7 @@ export default async function DeliveryPage() {
         url: URL_,
         provider: { "@id": `${STORE.origin}/#store` },
         areaServed: STORE.neighbourhoods.map((name) => ({ "@type": "Place", name })),
-        availableChannel: { "@type": "ServiceChannel", servicePhone: { "@type": "ContactPoint", telephone: STORE.phoneHref, contactType: "orders" } }
+        availableChannel: { "@type": "ServiceChannel", serviceUrl: `${URL_}?liveOrder=1#live-order`, name: "LIVE ORDER Web Chat" }
       },
       { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: STORE.origin }, { "@type": "ListItem", position: 2, name: "Weed delivery", item: URL_ }] },
       faqSchema(FAQS, `${URL_}#faq`)
@@ -82,26 +83,27 @@ export default async function DeliveryPage() {
           <div className={styles.heroCard}>
             <span className={styles.kicker}>Jane St · North York · 19+</span>
             <h1>Weed Delivery from Jane Wilson</h1>
-            <p>Jane Wilson Cannabis Dispensary Weed Delivery serves Jane and Wilson, Downsview and North York. Delivery has its own menu with bulk pricing, starting at 7 grams. Browse it below, then call us to order. Adults 19+, photo ID checked at the door.</p>
+            <p>Jane Wilson Cannabis Dispensary Weed Delivery serves Jane and Wilson, Downsview and North York. Delivery has its own menu with bulk pricing, starting at 7 grams. Browse it below, then open LIVE ORDER to message the dispatcher. Adults 19+, photo ID checked at the door.</p>
             <p>Want a small amount, or want it right now? Our store at {STORE.street} is the fastest way, with in-store deals like Buy 2g Get 1g FREE.</p>
           </div>
-          <aside className={styles.sideCard} aria-label="Order by phone">
-            <strong>Order by phone</strong>
-            <span>{STORE.hoursLabel}</span>
-            <a className={styles.callBtn} href={`tel:${STORE.phoneHref}`}>Call {STORE.phone}</a>
+          <aside className={styles.sideCard} aria-label="Order through Web Chat">
+            <strong>LIVE ORDER</strong>
+            <span>Message the SOD dispatcher through Web Chat.</span>
+            <Link className={styles.callBtn} href="/delivery?liveOrder=1#live-order">Open Web Chat</Link>
             <Link className={styles.ghostBtn} href="/faq#delivery-price-rule">Why delivery prices differ</Link>
           </aside>
         </section>
 
         <ol className={styles.steps} aria-label="How delivery works">
           <li>Look through the delivery menu.</li>
-          <li>Call us on {STORE.phone}.</li>
-          <li>We confirm stock, address coverage and the total.</li>
+          <li>Open LIVE ORDER and choose new or returning customer.</li>
+          <li>Send your choices and Canadian mobile number in Web Chat.</li>
+          <li>The dispatcher confirms stock, address coverage and the total.</li>
           <li>Show photo ID at the door.</li>
         </ol>
 
-        {d.state === "soon" && <div className={styles.notice} role="status"><strong>Delivery menu coming soon.</strong> The online delivery menu for this store is not connected yet, so there is no delivery menu to show. Visit the <Link href="/#weed-tiers">store menu</Link> or call {STORE.phone}.</div>}
-        {d.state === "unavailable" && <div className={styles.notice} role="status"><strong>Delivery menu temporarily unavailable.</strong> Please check back shortly or call the store.</div>}
+        {d.state === "soon" && <div className={styles.notice} role="status"><strong>Delivery menu coming soon.</strong> The online delivery menu for this store is not connected yet, so there is no delivery menu to show. Visit the <Link href="/#weed-tiers">store menu</Link> or check back shortly.</div>}
+        {d.state === "unavailable" && <div className={styles.notice} role="status"><strong>Delivery menu temporarily unavailable.</strong> Please check back shortly.</div>}
 
         {d.state === "live" && (
           <>
@@ -130,6 +132,7 @@ export default async function DeliveryPage() {
         <FaqBlock faqs={FAQS} title="Delivery questions" />
         <p className={styles.prose}>More answers on the <Link href="/faq">FAQ page</Link>. Learn about strains in our <Link href="/guides">strain guides</Link>.</p>
       </div>
+      <IdVerificationChat />
       <Footer />
     </main>
   );
