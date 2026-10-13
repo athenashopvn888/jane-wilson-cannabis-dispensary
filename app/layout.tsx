@@ -21,10 +21,15 @@ export const metadata: Metadata = {
   metadataBase: new URL(STORE.origin),
   title: { default: "Jane Wilson Cannabis Dispensary Weed Delivery | Jane St North York", template: "%s | Jane Wilson Cannabis" },
   description: "Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12 serves the Jane–Wilson and Downsview corridor. Open 10:00 AM to midnight daily. Flower tiers, native cigarettes, and nicotine vapes for adults 19+.",
+  manifest: "/manifest.webmanifest",
   icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    shortcut: ["/icon.svg"],
-    apple: [{ url: "/icon.svg", type: "image/svg+xml" }]
+    icon: [
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" }
+    ],
+    shortcut: ["/favicon-32x32.png"],
+    apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }]
   },
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
