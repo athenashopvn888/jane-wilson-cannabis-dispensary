@@ -216,3 +216,29 @@ test("sitemap lists live routes and omits the demoted North York path", () => {
   const northYork = read("app/weed-dispensary-north-york/page.tsx");
   assert.match(northYork, /permanentRedirect\("\/weed-dispensary-jane-street"\)/);
 });
+
+test("delivery orders use JWS01 LIVE ORDER Web Chat instead of a phone-order CTA", () => {
+  const delivery = read("app/delivery/page.tsx");
+  const chat = read("app/delivery/IdVerificationChat.tsx");
+  const css = read("app/delivery/delivery.css");
+
+  assert.match(delivery, /IdVerificationChat/);
+  assert.match(delivery, /LIVE ORDER/);
+  assert.match(delivery, /Open Web Chat/);
+  assert.match(delivery, /serviceUrl/);
+  assert.doesNotMatch(delivery, /Order by phone|call us to order|servicePhone|contactType: "orders"/i);
+
+  assert.match(chat, /sod-web-chat:JWS01/);
+  assert.match(chat, /storeId: "JWS01"/);
+  assert.match(chat, /READY_V1/);
+  assert.match(chat, /\/api\/web-chat\/session/);
+  assert.match(chat, /\/api\/web-chat\/messages/);
+  assert.match(chat, /\/api\/web-chat\/id-review/);
+  assert.match(chat, /\/api\/web-chat\/phone/);
+  assert.match(chat, /\/api\/web-chat\/order-cycle/);
+  assert.doesNotMatch(chat, /SOD_STORE_JWS01_PHONE/);
+
+  assert.match(css, /\.sod-chat-launcher/);
+  assert.match(css, /body\.sod-chat-open/);
+  assert.match(css, /@media \(max-width: 520px\)/);
+});
