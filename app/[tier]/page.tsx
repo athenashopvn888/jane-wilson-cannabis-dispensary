@@ -14,6 +14,7 @@ import Nav from "../components/Nav";
 import { collectionSchema } from "../lib/collectionSchema";
 import { flowerHref, flowersForTier, getMenu } from "../lib/inventory";
 import { STORE, TIERS, WEIGHTS } from "../lib/store";
+import BannerSlots from "../components/BannerSlots";
 
 export const revalidate = 300;
 
@@ -111,6 +112,8 @@ export default async function TierPage({ params }: { params: Promise<{ tier: str
           <Image src={art} width={1200} height={1200} priority sizes="(max-width: 760px) 90vw, 42vw" alt={`${tier.name} Jane Wilson green and purple collection artwork`} />
         </div>
       </section>
+
+      {tier.slug === "premium-weed" ? <BannerSlots page="premium-weed" /> : null}
 
       <section className="menuShell" id="listings">
         <div className="menuIntro">
