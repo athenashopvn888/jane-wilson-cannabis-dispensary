@@ -8,6 +8,7 @@ import MenuPreviewNote from "./components/MenuPreviewNote";
 import Nav from "./components/Nav";
 import RouteHubs from "./components/RouteHubs";
 import { STORE, TIERS } from "./lib/store";
+import BannerSlots from "./components/BannerSlots";
 
 const faqs = [
   {
@@ -93,6 +94,8 @@ export default function HomePage() {
           <div className="heroArtAddress"><span>Visit the store</span><strong>{STORE.street}</strong><small>{STORE.locality}</small></div>
         </div>
       </section>
+
+      <BannerSlots page="home" />
 
       <section className="brandStatement" aria-labelledby="brand-statement-title">
         <div>

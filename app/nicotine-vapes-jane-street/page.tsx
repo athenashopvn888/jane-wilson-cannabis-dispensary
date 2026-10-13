@@ -8,6 +8,7 @@ import Nav from "../components/Nav";
 import { collectionSchema } from "../lib/collectionSchema";
 import { getMenu, nicotineVapeItems } from "../lib/inventory";
 import { STORE } from "../lib/store";
+import BannerSlots from "../components/BannerSlots";
 
 export const revalidate = 300;
 
@@ -84,6 +85,8 @@ export default async function NicotineVapesPage() {
           <Link href="/visit">Unit 12 arrival guide →</Link>
         </aside>
       </section>
+
+      <BannerSlots page="vapes" />
 
       <section className="menuShell" id="listings">
         <div className="menuIntro">

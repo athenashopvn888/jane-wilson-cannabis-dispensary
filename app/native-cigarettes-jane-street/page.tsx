@@ -9,6 +9,7 @@ import Nav from "../components/Nav";
 import { collectionSchema } from "../lib/collectionSchema";
 import { cigaretteItems, getMenu } from "../lib/inventory";
 import { STORE } from "../lib/store";
+import BannerSlots from "../components/BannerSlots";
 
 export const revalidate = 300;
 
@@ -75,6 +76,8 @@ export default async function NativeCigarettesPage() {
         </div>
         <CigsDealCreative />
       </section>
+
+      <BannerSlots page="cigarettes" />
 
       <section className="menuShell" id="listings">
         <div className="menuIntro">

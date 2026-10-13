@@ -14,6 +14,7 @@ import { PRICE_RULE_FAQ, STORE_PRICE_ON_DELIVERY_FAQ } from "../lib/content/faqs
 import { STORE } from "../lib/store";
 import styles from "../jws-pages.module.css";
 import "./delivery.css";
+import BannerSlots from "../components/BannerSlots";
 
 export const revalidate = 300;
 
@@ -94,6 +95,8 @@ export default async function DeliveryPage() {
           </aside>
         </section>
 
+        <BannerSlots page="delivery" />
+
         <ol className={styles.steps} aria-label="How delivery works">
           <li>Look through the delivery menu.</li>
           <li>Open LIVE ORDER and choose new or returning customer.</li>
@@ -109,6 +112,7 @@ export default async function DeliveryPage() {
           <>
             <PriceNotice scope="delivery" />
             {tierLines.length > 0 && (
+
               <section className={`${styles.section} ${styles.band}`} aria-label="Delivery price per gram by tier">
                 <h2>Delivery prices per gram</h2>
                 <ul className={styles.ranges}>{tierLines.map((x) => <li key={x.tier}><strong>{x.tier}</strong><br />{x.line}</li>)}</ul>
