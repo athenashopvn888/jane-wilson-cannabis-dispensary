@@ -19,7 +19,7 @@ const displayFont = DM_Serif_Display({
 
 export const metadata: Metadata = {
   metadataBase: new URL(STORE.origin),
-  title: { default: "Jane Wilson Cannabis Dispensary | Jane St North York", template: "%s | Jane Wilson Cannabis" },
+  title: { default: "Jane Wilson Cannabis Dispensary Weed Delivery | Jane St North York", template: "%s | Jane Wilson Cannabis" },
   description: "Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12 serves the Jane–Wilson and Downsview corridor. Open 10:00 AM to midnight daily. Flower tiers, native cigarettes, and nicotine vapes for adults 19+.",
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
