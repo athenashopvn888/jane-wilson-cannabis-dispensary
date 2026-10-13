@@ -5,5 +5,5 @@ export const tvStore = {
   shortAddress: STORE.street,
   hours: STORE.hoursLabel,
   open24Hours7Days: false,
-  logo: "/icon.svg",
+  logo: "/images/jane-wilson-jws-logo.webp",
 };

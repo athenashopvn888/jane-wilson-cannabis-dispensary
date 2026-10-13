@@ -1487,14 +1487,15 @@
     repeating-linear-gradient(135deg, rgba(109,40,217,.025) 0 18px, transparent 18px 38px);
 }
 .stage::after {
-  content: "JW";
+  content: "";
   position: absolute;
   right: 44px;
-  bottom: -76px;
+  bottom: 20px;
   z-index: 0;
-  color: rgba(91, 29, 132, .055);
-  font: 900 430px/.8 Georgia, serif;
-  letter-spacing: -44px;
+  width: 360px;
+  height: 360px;
+  background: url("/images/jane-wilson-jws-logo.webp") center / contain no-repeat;
+  opacity: .055;
   transform: rotate(-7deg);
   pointer-events: none;
 }

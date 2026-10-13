@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -97,7 +98,9 @@ export default function Nav() {
       <header className="siteHeader" ref={headerRef}>
         <div className="navWrap">
         <Link className="brand" href="/" aria-label={`${STORE.name} home`}>
-          <span className="brandMark" aria-hidden="true">JW</span>
+          <span className="brandMark" aria-hidden="true">
+            <Image src="/images/jane-wilson-jws-logo.webp" alt="" width={64} height={64} priority />
+          </span>
           <span className="brandWords">
             <b>JANE WILSON</b>
             <small>CANNABIS DISPENSARY</small>

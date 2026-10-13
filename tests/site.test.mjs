@@ -187,16 +187,30 @@ test("premium marketing layout replaces the blank visit artwork", () => {
 
 test("branded favicon is declared through the Next.js metadata contract", () => {
   const layout = read("app/layout.tsx");
-  const icon = read("app/icon.svg");
+  const nav = read("app/components/Nav.tsx");
+  const tvStore = read("app/lib/tvStore.ts");
+  const manifest = read("app/manifest.ts");
   assert.match(layout, /icons:\s*\{/);
-  assert.match(layout, /url: "\/icon\.svg"/);
-  assert.match(layout, /type: "image\/svg\+xml"/);
-  assert.match(icon, /Jane Wilson Cannabis Dispensary/);
-  assert.match(icon, /#55e164/);
-  assert.match(icon, /#641aa7/);
-  assert.match(icon, />JWS monogram inside a green and purple cannabis leaf\.</);
-  assert.match(icon, />JWS<\/text>/);
-  assert.doesNotMatch(icon, /<rect/);
+  assert.match(layout, /url: "\/icon\.png"/);
+  assert.match(layout, /url: "\/apple-icon\.png"/);
+  assert.match(layout, /url: "\/favicon-32x32\.png"/);
+  assert.match(layout, /url: "\/favicon-16x16\.png"/);
+  assert.match(layout, /manifest: "\/manifest\.webmanifest"/);
+  assert.match(nav, /\/images\/jane-wilson-jws-logo\.webp/);
+  assert.match(tvStore, /\/images\/jane-wilson-jws-logo\.webp/);
+  assert.match(manifest, /\/jws-icon-192\.png/);
+  assert.match(manifest, /\/jws-icon-512\.png/);
+  for (const file of [
+    "app/icon.png",
+    "app/apple-icon.png",
+    "public/favicon-32x32.png",
+    "public/favicon-16x16.png",
+    "public/jws-icon-192.png",
+    "public/jws-icon-512.png",
+    "public/images/jane-wilson-jws-logo.webp"
+  ]) {
+    assert.ok(existsSync(new URL(file, root)), `${file} should exist`);
+  }
 });
 
 test("public menu hides unavailable flower weights and rejects suspicious one-dollar vape rows", () => {
