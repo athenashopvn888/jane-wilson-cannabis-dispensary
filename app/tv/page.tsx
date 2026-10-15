@@ -6,6 +6,7 @@ import { getFlowerEffects } from "./flowerEffects";
 import { TOP_TIER_BUNDLE_LABELS } from "./bundleLabels";
 import HiringRibbon from "../components/HiringRibbon";
 import TvStoreHeader from "../components/TvStoreHeader";
+import CigaretteNightTicker from "../components/CigaretteNightTicker";
 import { tvHiring } from "../lib/tvHiring";
 import { formatBoardTime, readStockUpdatedAt } from "../lib/tvStockTime";
 
@@ -853,6 +854,7 @@ export default function TVMenuPage() {
 
 
       </div>
+      <CigaretteNightTicker />
       {lastUpdate ? <div className={styles.lastUpdated}>Refreshed {lastUpdate}</div> : null}
     </div>
   );

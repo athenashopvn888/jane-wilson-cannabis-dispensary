@@ -1,3 +1,4 @@
+import PinnedNavClearance from "./components/PinnedNavClearance";
 import type { Metadata } from "next";
 import { DM_Serif_Display, Manrope } from "next/font/google";
 import "./globals.css";
@@ -62,6 +63,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en-CA" className={`${bodyFont.variable} ${displayFont.variable}`}>
       <body>
         {children}
+        <PinnedNavClearance />
         <JsonLd data={schema} />
       </body>
     </html>

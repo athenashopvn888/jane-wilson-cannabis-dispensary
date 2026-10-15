@@ -1,8 +1,10 @@
 "use client";
+import { isNicotineItem } from "../tv/flashMessages";
 import { useState, useEffect, useCallback, useRef } from "react";
 import styles from "./tv2.module.css";
 import HiringRibbon from "../components/HiringRibbon";
 import TvStoreHeader from "../components/TvStoreHeader";
+import CigaretteNightTicker from "../components/CigaretteNightTicker";
 import { tvHiring } from "../lib/tvHiring";
 import { formatBoardTime, readStockUpdatedAt } from "../lib/tvStockTime";
 import {
@@ -244,7 +246,7 @@ export default function TV2Page() {
           <HiringRibbon hiring={tvHiring} />
           <div className={styles.grid}>
             {CARD_CONFIG.map(card => {
-              const filtered = items.filter(card.filter);
+              const filtered = items.filter(card.filter).filter(it => !(daytime && isNicotineItem(it)));
               const promo = getTv2DaytimePromo(card.id, daytime);
 
               if (promo) {
@@ -290,6 +292,7 @@ export default function TV2Page() {
         </div>
 
       </div>
+      <CigaretteNightTicker />
       {lastUpdate ? <div className={styles.lastUpdated}>Refreshed {lastUpdate}</div> : null}
     </div>
   );

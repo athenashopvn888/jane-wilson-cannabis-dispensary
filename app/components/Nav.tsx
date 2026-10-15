@@ -95,7 +95,7 @@ export default function Nav() {
 
   return (
     <>
-      <header className="siteHeader" ref={headerRef}>
+      <header id="main-nav" className="siteHeader" ref={headerRef}>
         <div className="navWrap">
         <Link className="brand" href="/" aria-label={`${STORE.name} home`}>
           <span className="brandMark" aria-hidden="true">

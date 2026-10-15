@@ -273,3 +273,11 @@ h1,h2{font-family:var(--font-display),Georgia,serif;font-weight:400}
 .navWrap nav .navWeed.isOpen .navWeedMenu,.navWrap nav .navWeed:hover .navWeedMenu,.navWrap nav .navWeed:focus-within .navWeedMenu{display:flex}
 .navWrap nav .navWeedMenu a{padding:9px 12px;border-radius:10px}
 .navWrap nav .navWeedMenu a:hover,.navWrap nav .navWeedMenu a[aria-current="page"]{background:#f3e9fc}
+
+/* Pinned nav: opaque (no content showing through) and above page content, in the store's own nav colour so nav text stays readable. */
+#main-nav {
+  z-index: 1000 !important;
+  background: rgb(251, 250, 245) !important;
+  background-color: rgb(251, 250, 245) !important;
+  backdrop-filter: none !important;
+}
