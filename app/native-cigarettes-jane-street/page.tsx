@@ -1,3 +1,4 @@
+import CigaretteSeasonalNotice from "../components/CigaretteSeasonalNotice";
 import type { Metadata } from "next";
 import Link from "next/link";
 import CigsDealCreative from "../components/CigsDealCreative";
@@ -61,6 +62,7 @@ export default async function NativeCigarettesPage() {
   return (
     <main>
       <Nav />
+      <CigaretteSeasonalNotice sticky />
       <section className="corridorHero">
         <div>
           <p className="eyebrow">JANE STREET · ADULTS 19+</p>
