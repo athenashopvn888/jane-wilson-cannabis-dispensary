@@ -196,18 +196,19 @@ test("branded favicon is declared through the Next.js metadata contract", () => 
   assert.match(layout, /url: "\/favicon-32x32\.png"/);
   assert.match(layout, /url: "\/favicon-16x16\.png"/);
   assert.match(layout, /manifest: "\/manifest\.webmanifest"/);
-  assert.match(nav, /\/images\/jane-wilson-jws-logo\.webp/);
-  assert.match(tvStore, /\/images\/jane-wilson-jws-logo\.webp/);
-  assert.match(manifest, /\/jws-icon-192\.png/);
-  assert.match(manifest, /\/jws-icon-512\.png/);
+  assert.match(nav, /\/images\/jane-wilson-jwc-logo\.webp/);
+  assert.match(tvStore, /\/images\/jane-wilson-jwc-logo\.webp/);
+  assert.match(manifest, /\/jwc-icon-192\.png/);
+  assert.match(manifest, /\/jwc-icon-512\.png/);
+  assert.doesNotMatch(`${nav}\n${tvStore}\n${manifest}`, /jws-(?:logo|icon)/i);
   for (const file of [
     "app/icon.png",
     "app/apple-icon.png",
     "public/favicon-32x32.png",
     "public/favicon-16x16.png",
-    "public/jws-icon-192.png",
-    "public/jws-icon-512.png",
-    "public/images/jane-wilson-jws-logo.webp"
+    "public/jwc-icon-192.png",
+    "public/jwc-icon-512.png",
+    "public/images/jane-wilson-jwc-logo.webp"
   ]) {
     assert.ok(existsSync(new URL(file, root)), `${file} should exist`);
   }

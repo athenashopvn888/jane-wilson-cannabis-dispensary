@@ -99,7 +99,7 @@ export default function Nav() {
         <div className="navWrap">
         <Link className="brand" href="/" aria-label={`${STORE.name} home`}>
           <span className="brandMark" aria-hidden="true">
-            <Image src="/images/jane-wilson-jws-logo.webp" alt="" width={64} height={64} priority />
+            <Image src="/images/jane-wilson-jwc-logo.webp" alt="" width={64} height={64} priority />
           </span>
           <span className="brandWords">
             <b>JANE WILSON</b>
