@@ -1,3 +1,4 @@
+import { FULL_NAME_NAP } from "./lib/fullNameNap";
 import Image from "next/image";
 import Link from "next/link";
 import BannerCreative from "./components/BannerCreative";
@@ -74,6 +75,7 @@ export default function HomePage() {
           <div className="heroBadge">JANE STREET · NORTH YORK · ADULTS 19+</div>
           <p className="eyebrow">ONE LOCAL STOREFRONT · FIVE CLEAR WEED TIERS</p>
           <h1><span>Jane Wilson Cannabis Dispensary</span>Find your tier. Know your stop.</h1>
+          <p data-fullname-subline="" style={{ margin: "4px 0 0", fontSize: "13px", fontWeight: 600, lineHeight: 1.35, opacity: 0.85, color: "inherit", overflowWrap: "anywhere" }}>{FULL_NAME_NAP.fullName}</p>
           <p className="heroText">
             Browse five clearly labelled Weed collections, current menu previews, native cigarettes and nicotine vapes before heading to Unit 12 near Jane Street and Wilson Avenue.
           </p>
