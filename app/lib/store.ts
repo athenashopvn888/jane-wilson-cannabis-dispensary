@@ -103,7 +103,8 @@ export function storeSchema() {
   return {
     "@type": "CannabisStore",
     "@id": `${STORE.origin}/#store`,
-    name: STORE.name,
+    name: "Jane Wilson Cannabis Dispensary Weed Delivery",
+    alternateName: STORE.name,
     url: STORE.origin,
     telephone: STORE.phoneHref,
     openingHoursSpecification: {
