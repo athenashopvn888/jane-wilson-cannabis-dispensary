@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Footer from "../../components/Footer";
 import JsonLd from "../../components/JsonLd";
 import MenuPreviewNote from "../../components/MenuPreviewNote";
 import Nav from "../../components/Nav";
 import ProductPhoto from "../../components/ProductPhoto";
 import { cigaretteItems, findPublicItem, getMenu, itemOfferAmounts, nicotineVapeItems, staticItems } from "../../lib/inventory";
+import { isHiddenCigaretteItem, VAPE_PAGE_PATH } from "../../lib/siteConfig";
 import { STORE } from "../../lib/store";
 
 export const revalidate = 300;
@@ -19,7 +20,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const item = findPublicItem(staticItems, slug);
-  if (!item) return {};
+  if (!item || isHiddenCigaretteItem(item)) return {};
   const section = item.category.toUpperCase() === "CIGARETTES" ? "Native cigarettes" : "Nicotine vapes";
   return {
     title: `${item.name} | ${section}`,
@@ -33,6 +34,7 @@ export default async function ItemPage({ params }: { params: Promise<{ slug: str
   const menu = await getMenu();
   const item = findPublicItem(menu.items, slug);
   if (!item) notFound();
+  if (isHiddenCigaretteItem(item)) redirect(VAPE_PAGE_PATH);
   const isCigarette = item.category.toUpperCase() === "CIGARETTES";
   const backHref = isCigarette ? "/native-cigarettes-jane-street" : "/nicotine-vapes-jane-street";
   const backLabel = isCigarette ? "Native cigarettes" : "Nicotine vapes";

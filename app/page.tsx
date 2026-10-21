@@ -8,6 +8,7 @@ import JsonLd from "./components/JsonLd";
 import MenuPreviewNote from "./components/MenuPreviewNote";
 import Nav from "./components/Nav";
 import RouteHubs from "./components/RouteHubs";
+import { SHOW_CIGARETTES } from "./lib/siteConfig";
 import { STORE, TIERS } from "./lib/store";
 import BannerSlots from "./components/BannerSlots";
 
@@ -24,13 +25,20 @@ const faqs = [
     question: "Which flower tiers can I compare?",
     answer: "Flower is organized as Exotic Weed, Premium Weed, AAA+ Weed, AA Weed, and Budget Weed. Each tier lists 3g, 5g, 14g, and 28g prices."
   },
-  {
-    question: "Do you list native cigarettes and nicotine vapes?",
-    answer: "Yes. Native cigarettes and nicotine vapes each have a Jane Street page with current menu listings. Both are for adults 19+."
-  },
+  ...(SHOW_CIGARETTES
+    ? [{
+        question: "Do you list native cigarettes and nicotine vapes?",
+        answer: "Yes. Native cigarettes and nicotine vapes each have a Jane Street page with current menu listings. Both are for adults 19+."
+      }]
+    : [{
+        question: "Do you list nicotine vapes?",
+        answer: "Yes. Nicotine vapes have a Jane Street page with current menu listings. Nicotine vapes are for adults 19+."
+      }]),
   {
     question: "What ID do I need?",
-    answer: "Cannabis, tobacco, and nicotine retail is for adults 19+. Bring valid government-issued photo identification when you visit."
+    answer: SHOW_CIGARETTES
+      ? "Cannabis, tobacco, and nicotine retail is for adults 19+. Bring valid government-issued photo identification when you visit."
+      : "Cannabis and nicotine retail is for adults 19+. Bring valid government-issued photo identification when you visit."
   },
   {
     question: "How do I reach Unit 12 by TTC?",
@@ -77,7 +85,9 @@ export default function HomePage() {
           <h1><span>Jane Wilson Cannabis Dispensary</span>Find your tier. Know your stop.</h1>
           <p data-fullname-subline="" style={{ margin: "4px 0 0", fontSize: "13px", fontWeight: 600, lineHeight: 1.35, opacity: 0.85, color: "inherit", overflowWrap: "anywhere" }}>{FULL_NAME_NAP.fullName}</p>
           <p className="heroText">
-            Browse five clearly labelled Weed collections, current menu previews, native cigarettes and nicotine vapes before heading to Unit 12 near Jane Street and Wilson Avenue.
+            {SHOW_CIGARETTES
+              ? "Browse five clearly labelled Weed collections, current menu previews, native cigarettes and nicotine vapes before heading to Unit 12 near Jane Street and Wilson Avenue."
+              : "Browse five clearly labelled Weed collections, current menu previews, and nicotine vapes before heading to Unit 12 near Jane Street and Wilson Avenue."}
           </p>
           <div className="heroActions">
             <Link href="#weed-tiers">Browse the weed menu</Link>
@@ -143,6 +153,7 @@ export default function HomePage() {
 
       <RouteHubs />
 
+      {SHOW_CIGARETTES ? (
       <section className="cigsDealBand">
         <div>
           <p className="eyebrow">NATIVE CIGARETTES</p>
@@ -152,6 +163,7 @@ export default function HomePage() {
         </div>
         <CigsDealCreative />
       </section>
+      ) : null}
 
       <section className="corridorStory">
         <div>

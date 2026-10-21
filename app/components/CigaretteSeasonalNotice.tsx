@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { SHOW_CIGARETTES } from "../lib/siteConfig";
 
 export const CIGARETTE_SEASONAL_TEXT =
   "Cigarettes are seasonal and in limited stock. Please check in store for availability.";
@@ -81,6 +82,8 @@ export default function CigaretteSeasonalNotice({ sticky = false }: { sticky?: b
       window.removeEventListener("resize", update);
     };
   }, [sticky]);
+
+  if (!SHOW_CIGARETTES) return null;
 
   return (
     <div

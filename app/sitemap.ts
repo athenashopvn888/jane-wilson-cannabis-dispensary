@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { flowerPath, staticFlowers, staticItems } from "./lib/inventory";
+import { SHOW_CIGARETTES, isHiddenCigaretteItem } from "./lib/siteConfig";
 import { STORE, TIERS } from "./lib/store";
 import { GUIDES } from "./lib/content/guides";
 
@@ -10,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/visit", changeFrequency: "monthly" as const, priority: 0.9 },
     { path: "/hours", changeFrequency: "monthly" as const, priority: 0.7 },
     { path: "/weed-dispensary-jane-street", changeFrequency: "weekly" as const, priority: 0.95 },
-    { path: "/native-cigarettes-jane-street", changeFrequency: "daily" as const, priority: 0.8 },
+    ...(SHOW_CIGARETTES ? [{ path: "/native-cigarettes-jane-street", changeFrequency: "daily" as const, priority: 0.8 }] : []),
     { path: "/nicotine-vapes-jane-street", changeFrequency: "daily" as const, priority: 0.8 },
     { path: "/delivery", changeFrequency: "daily" as const, priority: 0.9 },
     { path: "/faq", changeFrequency: "monthly" as const, priority: 0.7 },
@@ -21,7 +22,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/guides/strains-a-to-z", changeFrequency: "weekly" as const, priority: 0.6 },
     ...GUIDES.map((g) => ({ path: `/guides/${g.slug}`, changeFrequency: "monthly" as const, priority: 0.5 }))
   ];
-  const publicItems = staticItems.filter((item) => item.category === "CIGARETTES" || item.category === "VAPE PENS");
+  const publicItems = staticItems.filter((item) => {
+    if (item.category === "VAPE PENS") return true;
+    if (item.category !== "CIGARETTES") return false;
+    return !isHiddenCigaretteItem(item);
+  });
 
   return [
     ...pages.map((page) => ({ url: `${STORE.origin}${page.path}`, lastModified: now, changeFrequency: page.changeFrequency, priority: page.priority })),

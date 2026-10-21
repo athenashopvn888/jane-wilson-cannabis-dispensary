@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SHOW_CIGARETTES } from "../lib/siteConfig";
 import { LOCAL_ROUTES, TIERS } from "../lib/store";
 
 export default function RouteHubs() {
@@ -7,7 +8,7 @@ export default function RouteHubs() {
       <p className="eyebrow">PLAN YOUR VISIT · EXPLORE THE MENU</p>
       <h2 id="route-hubs-title">Everything for the Jane–Wilson location</h2>
       <div className="hubGrid">
-        {LOCAL_ROUTES.map((route) => (
+        {(SHOW_CIGARETTES ? LOCAL_ROUTES : LOCAL_ROUTES.filter((route) => route.href !== "/native-cigarettes-jane-street")).map((route) => (
           <Link className="hubCard hubCardLocal" href={route.href} key={route.href}>
             <span>LOCAL GUIDE</span>
             <h3>{route.label}</h3>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { SHOW_CIGARETTES } from "../lib/siteConfig";
 import { STORE, TIERS } from "../lib/store";
 
 const STORE_LINKS = [
@@ -16,6 +17,10 @@ const STORE_LINKS = [
   { href: "/faq", label: "FAQ" },
   { href: "/guides", label: "Guides" }
 ] as const;
+
+const VISIBLE_STORE_LINKS = SHOW_CIGARETTES
+  ? STORE_LINKS
+  : STORE_LINKS.filter((link) => link.href !== "/native-cigarettes-jane-street");
 
 function isCurrent(pathname: string, href: string) {
   return pathname === href;
@@ -107,7 +112,7 @@ export default function Nav() {
           </span>
         </Link>
         <nav className="desktopNav" aria-label="Primary navigation">
-          {STORE_LINKS.map((link) => (
+          {VISIBLE_STORE_LINKS.map((link) => (
             <Link key={link.href} href={link.href} aria-current={isCurrent(pathname, link.href) ? "page" : undefined}>
               {link.label}
             </Link>
@@ -151,7 +156,7 @@ export default function Nav() {
                 <nav aria-label="Mobile navigation">
                   <p className="menuGroupLabel">Store</p>
                   <div className="menuLinkGrid">
-                    {STORE_LINKS.map((link) => (
+                    {VISIBLE_STORE_LINKS.map((link) => (
                       <Link
                         key={link.href}
                         href={link.href}
