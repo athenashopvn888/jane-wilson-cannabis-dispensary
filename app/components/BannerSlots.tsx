@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { BANNER_SLOTS, type BannerPage } from "../lib/banners";
+import { CIGARETTE_PAGE_PATH, SHOW_CIGARETTES } from "../lib/siteConfig";
 import styles from "./BannerSlots.module.css";
 import CigaretteSeasonalNotice from "./CigaretteSeasonalNotice";
 
@@ -8,14 +9,16 @@ import CigaretteSeasonalNotice from "./CigaretteSeasonalNotice";
 export default function BannerSlots({ page }: { page: BannerPage }) {
   const group = BANNER_SLOTS[page];
   const headingId = `banner-slots-${page}`;
+  const slots = SHOW_CIGARETTES ? group.slots : group.slots.filter((slot) => slot.href !== CIGARETTE_PAGE_PATH);
+  const heading = page === "home" && !SHOW_CIGARETTES ? "Shop Top Weed and Vapes on Jane Street" : group.heading;
   // Homepage: seasonal cigarette notice sits directly above the first cigarette banner.
   const isCig = (slot: { id: string; href: string }) => /cig/i.test(`${slot.id} ${slot.href}`);
-  const firstCig = page === "home" ? group.slots.findIndex(isCig) : -1;
+  const firstCig = page === "home" ? slots.findIndex(isCig) : -1;
   return (
     <section className={styles.wrap} aria-labelledby={headingId} data-banner-page={page}>
-      <h2 id={headingId} className={styles.heading}>{group.heading}</h2>
+      <h2 id={headingId} className={styles.heading}>{heading}</h2>
       <ul className={styles.grid}>
-        {group.slots.map((slot, i) => (
+        {slots.map((slot, i) => (
           <Fragment key={slot.id}>
           {i === firstCig ? (
             <li style={{ gridColumn: "1 / -1", listStyle: "none" }}>

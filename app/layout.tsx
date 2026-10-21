@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { DM_Serif_Display, Manrope } from "next/font/google";
 import "./globals.css";
 import JsonLd from "./components/JsonLd";
+import { SHOW_CIGARETTES } from "./lib/siteConfig";
 import { STORE, storeSchema } from "./lib/store";
 
 const bodyFont = Manrope({
@@ -22,7 +23,9 @@ const displayFont = DM_Serif_Display({
 export const metadata: Metadata = {
   metadataBase: new URL(STORE.origin),
   title: { default: "Jane Wilson Cannabis Dispensary Weed Delivery | Jane St North York", template: "%s | Jane Wilson Cannabis" },
-  description: "Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12 serves the Jane–Wilson and Downsview corridor. Open 10:00 AM to midnight daily. Flower tiers, native cigarettes, and nicotine vapes for adults 19+.",
+  description: SHOW_CIGARETTES
+    ? "Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12 serves the Jane–Wilson and Downsview corridor. Open 10:00 AM to midnight daily. Flower tiers, native cigarettes, and nicotine vapes for adults 19+."
+    : "Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12 serves the Jane–Wilson and Downsview corridor. Open 10:00 AM to midnight daily. Flower tiers and nicotine vapes for adults 19+.",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [

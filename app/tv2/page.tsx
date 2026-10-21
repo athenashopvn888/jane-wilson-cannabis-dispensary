@@ -7,6 +7,7 @@ import TvStoreHeader from "../components/TvStoreHeader";
 import CigaretteNightTicker from "../components/CigaretteNightTicker";
 import { tvHiring } from "../lib/tvHiring";
 import { formatBoardTime, readStockUpdatedAt } from "../lib/tvStockTime";
+import { SHOW_CIGARETTES } from "../lib/siteConfig";
 import {
   getTv2DaytimePromo,
   isCigaretteOfferVisible,
@@ -28,6 +29,8 @@ const CARD_CONFIG = [
   { id:"CIGARETTES",      title:"🚬 CIGARETTES",         accent:"#4d1769", filter:(it:Item)=>it.category==="CIGARETTES", preset:"" },
   { id:"MAGIC",           title:"🍄 MAGIC & OTHERS",     accent:"#43c95b", filter:(it:Item)=>it.category==="MAGIC & OTHERS", preset:"🍫 START SMALL · WAIT 45 MIN · THEN MORE" },
 ];
+
+const VISIBLE_CARDS = SHOW_CIGARETTES ? CARD_CONFIG : CARD_CONFIG.filter((card) => card.id !== "CIGARETTES");
 
 /* -- HELPERS -- */
 const fmtPrice = (v?:string) => { const s=String(v||"").trim(); if(!s)return""; return /^\$/.test(s)?s:"$"+s; };
@@ -137,7 +140,7 @@ function ItemCard({ title, accent, items, hiIdx, preset, offerOverlay = false }:
           </div>
         </div>
       </div>
-      {offerOverlay && (
+      {SHOW_CIGARETTES && offerOverlay && (
         <div className={styles.timedPromoOverlay} aria-label="Mix and Match 2 Pack $5 Cigarette Offer">
           <img
             src="/banners/2pack5cig.webp"
@@ -182,7 +185,7 @@ export default function TV2Page() {
     const startedAt = performance.now();
     const updateOffer = () => {
       setCigaretteOfferVisible(
-        isCigaretteOfferVisible(isTv2Daytime(), performance.now() - startedAt),
+        SHOW_CIGARETTES && isCigaretteOfferVisible(isTv2Daytime(), performance.now() - startedAt),
       );
     };
     const iv = setInterval(updateOffer, 250);
@@ -196,7 +199,7 @@ export default function TV2Page() {
       setItems(data);
       setStockUpdated(readStockUpdatedAt(res, data));
       const hi: Record<string,number> = {};
-      CARD_CONFIG.forEach(c => { hi[c.id] = 0; });
+      VISIBLE_CARDS.forEach(c => { hi[c.id] = 0; });
       setHighlights(hi);
       setLastUpdate(formatBoardTime(new Date()) || "");
     } catch (err) { console.warn("[TV2] Load failed:", err); }
@@ -226,8 +229,8 @@ export default function TV2Page() {
     const interval = setInterval(() => {
       setHighlights(prev => {
         const next = {...prev};
-        CARD_CONFIG.forEach(c => {
-          const filtered = items.filter(c.filter);
+        VISIBLE_CARDS.forEach(c => {
+          const filtered = items.filter(c.filter).filter((it) => SHOW_CIGARETTES || it.category !== "CIGARETTES");
           next[c.id] = ((prev[c.id]||0) + 1) % Math.max(1, filtered.length);
         });
         return next;
@@ -245,8 +248,8 @@ export default function TV2Page() {
         <div className={styles.stage}>
           <HiringRibbon hiring={tvHiring} />
           <div className={styles.grid}>
-            {CARD_CONFIG.map(card => {
-              const filtered = items.filter(card.filter).filter(it => !(daytime && isNicotineItem(it)));
+            {VISIBLE_CARDS.map(card => {
+              const filtered = items.filter(card.filter).filter(it => !(daytime && isNicotineItem(it))).filter((it) => SHOW_CIGARETTES || it.category !== "CIGARETTES");
               const promo = getTv2DaytimePromo(card.id, daytime);
 
               if (promo) {
@@ -285,7 +288,7 @@ export default function TV2Page() {
               return (
                 <ItemCard key={card.id} title={card.title} accent={card.accent}
                   items={filtered} hiIdx={highlights[card.id]||0} preset={card.preset}
-                  offerOverlay={card.id === "CIGARETTES" && cigaretteOfferVisible} />
+                  offerOverlay={SHOW_CIGARETTES && card.id === "CIGARETTES" && cigaretteOfferVisible} />
               );
             })}
           </div>

@@ -13,6 +13,7 @@ import MenuPreviewNote from "../components/MenuPreviewNote";
 import Nav from "../components/Nav";
 import { collectionSchema } from "../lib/collectionSchema";
 import { flowerHref, flowersForTier, getMenu } from "../lib/inventory";
+import { SHOW_CIGARETTES } from "../lib/siteConfig";
 import { STORE, TIERS, WEIGHTS } from "../lib/store";
 import BannerSlots from "../components/BannerSlots";
 
@@ -149,7 +150,7 @@ export default async function TierPage({ params }: { params: Promise<{ tier: str
         <div className="tierLinks">
           <Link href="/weed-dispensary-jane-street">Jane Street Weed Dispensary</Link>
           <Link href="/visit">Visit Jane Wilson</Link>
-          <Link href="/native-cigarettes-jane-street">Native cigarettes</Link>
+          {SHOW_CIGARETTES ? <Link href="/native-cigarettes-jane-street">Native cigarettes</Link> : null}
           <Link href="/nicotine-vapes-jane-street">Nicotine vapes</Link>
           <Link className="backLink" href="/#weed-tiers">← Home</Link>
         </div>

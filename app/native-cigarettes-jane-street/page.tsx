@@ -1,6 +1,7 @@
 import CigaretteSeasonalNotice from "../components/CigaretteSeasonalNotice";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import CigsDealCreative from "../components/CigsDealCreative";
 import Footer from "../components/Footer";
 import ItemGrid from "../components/ItemGrid";
@@ -9,6 +10,7 @@ import MenuPreviewNote from "../components/MenuPreviewNote";
 import Nav from "../components/Nav";
 import { collectionSchema } from "../lib/collectionSchema";
 import { cigaretteItems, getMenu } from "../lib/inventory";
+import { SHOW_CIGARETTES, VAPE_PAGE_PATH } from "../lib/siteConfig";
 import { STORE } from "../lib/store";
 import BannerSlots from "../components/BannerSlots";
 
@@ -37,6 +39,7 @@ const faqs = [
 ];
 
 export default async function NativeCigarettesPage() {
+  if (!SHOW_CIGARETTES) redirect(VAPE_PAGE_PATH);
   const menu = await getMenu();
   const items = cigaretteItems(menu.items);
   const schema = {

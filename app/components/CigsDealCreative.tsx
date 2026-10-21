@@ -1,6 +1,8 @@
+import { SHOW_CIGARETTES } from "../lib/siteConfig";
 import CreativePhoto from "./CreativePhoto";
 
 export default function CigsDealCreative() {
+  if (!SHOW_CIGARETTES) return null;
   return (
     <section className="cigsDeal" aria-label="Cigarette catalogue photography">
       <CreativePhoto

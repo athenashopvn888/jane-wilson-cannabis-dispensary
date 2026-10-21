@@ -7,6 +7,7 @@ import MenuPreviewNote from "../components/MenuPreviewNote";
 import Nav from "../components/Nav";
 import { collectionSchema } from "../lib/collectionSchema";
 import { getMenu, nicotineVapeItems } from "../lib/inventory";
+import { SHOW_CIGARETTES } from "../lib/siteConfig";
 import { STORE } from "../lib/store";
 import BannerSlots from "../components/BannerSlots";
 
@@ -74,7 +75,7 @@ export default async function NicotineVapesPage() {
           <MenuPreviewNote />
           <div className="heroActions">
             <a href="#listings">View nicotine vapes</a>
-            <Link className="ghost" href="/native-cigarettes-jane-street">Native cigarettes</Link>
+            {SHOW_CIGARETTES ? <Link className="ghost" href="/native-cigarettes-jane-street">Native cigarettes</Link> : null}
           </div>
         </div>
         <aside className="hoursCard">
