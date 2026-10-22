@@ -9,7 +9,7 @@
     "postbuild": "node scripts/check-public-phones.mjs",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test tests/site.test.mjs"
+    "test": "node --test tests/site.test.mjs && node --experimental-strip-types --test tests/fleet-content.test.ts tests/fleet-articles.test.ts tests/kit-k-matrix.test.ts"
   },
   "dependencies": {
     "next": "16.2.6",

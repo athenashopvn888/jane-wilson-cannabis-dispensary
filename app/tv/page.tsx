@@ -7,6 +7,8 @@ import { TOP_TIER_BUNDLE_LABELS } from "./bundleLabels";
 import HiringRibbon from "../components/HiringRibbon";
 import TvStoreHeader from "../components/TvStoreHeader";
 import CigaretteNightTicker from "../components/CigaretteNightTicker";
+import FleetTvTakeover from "../components/fleet/FleetTvTakeover";
+import { useFleetTvManifest } from "../components/fleet/useFleetTvManifest";
 import { tvHiring } from "../lib/tvHiring";
 import { formatBoardTime, readStockUpdatedAt } from "../lib/tvStockTime";
 
@@ -714,6 +716,7 @@ export default function TVMenuPage() {
     });
   });
   const wrapRef = useRef<HTMLDivElement>(null);
+  const fleetTv = useFleetTvManifest();
 
   const TIERS = ["EXOTIC","PREMIUM","AAA+","AA","BUDGET"];
 
@@ -856,6 +859,7 @@ export default function TVMenuPage() {
       </div>
       <CigaretteNightTicker />
       {lastUpdate ? <div className={styles.lastUpdated}>Refreshed {lastUpdate}</div> : null}
+      <FleetTvTakeover promos={fleetTv.fullscreenPromos} />
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { SHOW_CIGARETTES } from "../lib/siteConfig";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Jane Wilson Cannabis In-Store Items Display",
   description: SHOW_CIGARETTES
