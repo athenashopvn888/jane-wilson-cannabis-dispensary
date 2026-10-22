@@ -1,9 +1,12 @@
 import FullNameNap from "./components/FullNameNap";
 import PinnedNavClearance from "./components/PinnedNavClearance";
+import CigaretteStateProvider from "./components/CigaretteStateProvider";
+import FleetContentProvider from "./components/fleet/FleetContentProvider";
 import type { Metadata } from "next";
 import { DM_Serif_Display, Manrope } from "next/font/google";
 import "./globals.css";
 import JsonLd from "./components/JsonLd";
+import { getFleetContent } from "./lib/fleetContent";
 import { SHOW_CIGARETTES } from "./lib/siteConfig";
 import { STORE, storeSchema } from "./lib/store";
 
@@ -20,7 +23,7 @@ const displayFont = DM_Serif_Display({
   display: "swap"
 });
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   metadataBase: new URL(STORE.origin),
   title: { default: "Jane Wilson Cannabis Dispensary Weed Delivery | Jane St North York", template: "%s | Jane Wilson Cannabis" },
   description: SHOW_CIGARETTES
@@ -48,11 +51,43 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export async function generateMetadata(): Promise<Metadata> {
+  const fleet = await getFleetContent();
+  if (!fleet.active) return metadata;
+  const description = fleet.pages.Home?.metaDescription || "";
+  if (!description || description === metadata.description) return metadata;
+  return {
+    ...metadata,
+    description,
+    openGraph: { ...metadata.openGraph, description },
+  };
+}
+
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const fleet = await getFleetContent();
+  const codedStore = storeSchema();
+  const store = fleet.active
+    ? {
+        ...codedStore,
+        name: fleet.nap.schemaName,
+        alternateName: fleet.nap.name,
+        url: fleet.nap.website,
+        telephone: fleet.nap.phoneTel,
+        hasMap: fleet.nap.mapsSearchUrl,
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: fleet.nap.street,
+          addressLocality: fleet.nap.city,
+          addressRegion: fleet.nap.province,
+          postalCode: fleet.nap.postalCode,
+          addressCountry: "CA"
+        }
+      }
+    : codedStore;
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
-      storeSchema(),
+      store,
       {
         "@type": "WebSite",
         "@id": `${STORE.origin}/#website`,
@@ -65,11 +100,18 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   };
   return (
     <html lang="en-CA" className={`${bodyFont.variable} ${displayFont.variable}`}>
+      <head>
+        <meta name="fleet-content-version" content={fleet.version} />
+      </head>
       <body>
-        {children}
-        <FullNameNap />
-        <PinnedNavClearance />
-        <JsonLd data={schema} />
+        <FleetContentProvider value={{ active: fleet.active, version: fleet.version, nap: fleet.nap }}>
+          <CigaretteStateProvider>
+            {children}
+            <FullNameNap />
+            <PinnedNavClearance />
+            <JsonLd data={schema} />
+          </CigaretteStateProvider>
+        </FleetContentProvider>
       </body>
     </html>
   );

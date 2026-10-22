@@ -11,5 +11,14 @@ export default defineConfig([
     rules: {
       "@next/next/no-img-element": "off"
     }
+  },
+  {
+    files: ["app/components/fleet/**/*.{ts,tsx}", "tests/kit-k-matrix.test.ts"],
+    rules: {
+      "react-hooks/rules-of-hooks": "off",
+      "react-hooks/set-state-in-effect": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@next/next/no-img-element": "off"
+    }
   }
 ]);

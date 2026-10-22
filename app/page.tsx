@@ -11,6 +11,9 @@ import RouteHubs from "./components/RouteHubs";
 import { SHOW_CIGARETTES } from "./lib/siteConfig";
 import { STORE, TIERS } from "./lib/store";
 import BannerSlots from "./components/BannerSlots";
+import FleetAnnouncementBanner from "./components/fleet/FleetAnnouncementBanner";
+import { CODED_BANNERS } from "./lib/fleet/config";
+import { getFleetContent } from "./lib/fleetContent";
 
 const faqs = [
   {
@@ -46,7 +49,9 @@ const faqs = [
   }
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const fleet = await getFleetContent();
+  const sheetBanners = fleet.active && fleet.banners.some((banner, index) => banner !== CODED_BANNERS[index]) ? fleet.banners : undefined;
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -107,7 +112,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <BannerSlots page="home" />
+      {sheetBanners ? <FleetAnnouncementBanner banners={sheetBanners} /> : <BannerSlots page="home" />}
 
       <section className="brandStatement" aria-labelledby="brand-statement-title">
         <div>

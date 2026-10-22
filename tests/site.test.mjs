@@ -246,6 +246,17 @@ test("mobile header collapses into one menu control instead of dumping every lin
   assert.doesNotMatch(css, /\.navTiers\{display:flex;flex-wrap:wrap\}/);
 });
 
+test("cigarette redirects stay in next config and the proxy", () => {
+  const nextConfig = read("next.config.ts");
+  const proxy = read("proxy.ts");
+  const redirects = read("app/lib/cigaretteRedirects.ts");
+  assert.match(nextConfig, /cigaretteRedirects\(\)/);
+  assert.match(proxy, /cigaretteRedirects\(\)/);
+  assert.match(proxy, /NextResponse\.redirect\(url, 302\)/);
+  assert.match(redirects, /statusCode: 302 as const/);
+  assert.match(redirects, /destination: VAPE_PAGE_PATH/);
+});
+
 test("sitemap lists live routes and omits the demoted North York path", () => {
   const sitemap = read("app/sitemap.ts");
   for (const route of [
