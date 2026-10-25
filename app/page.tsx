@@ -178,6 +178,8 @@ export default async function HomePage() {
           <div className="storyLinks">
             <Link href="/weed-dispensary-jane-street">Explore the Jane Street store guide →</Link>
             <Link href="/visit">How to reach Unit 12 →</Link>
+            <Link href="/resources">Jane Street resources →</Link>
+            <Link href="/menu">In-store menu →</Link>
             <Link href="/nicotine-vapes-jane-street">Nicotine vapes on Jane Street →</Link>
           </div>
         </div>

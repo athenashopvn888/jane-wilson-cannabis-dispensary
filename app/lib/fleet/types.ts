@@ -91,6 +91,9 @@ export type ContentBundle = {
   slots?: ContentSlot[];
 };
 
+export type ManifestStatus = "ok" | "err" | "absent";
+export type ContentMode = "coded" | "bundle";
+
 export type RejectReason =
   | "http"
   | "invalid-json"
@@ -172,6 +175,9 @@ export type FleetState = {
   /** Blob manifest URL. Empty when the site is on coded content. */
   bundleUrl: string;
   renderedAt: string;
+  /** Diagnostic only. Never an env value or a secret. */
+  manifest: ManifestStatus;
+  mode: ContentMode;
   nap: Nap;
   banners: ResolvedBanner[];
   pages: Record<string, ResolvedPage>;

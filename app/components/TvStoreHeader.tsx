@@ -12,7 +12,7 @@ export default function TvStoreHeader({
     <div className={styles.stack}>
       <header className={styles.header}>
         <div className={styles.brand}>
-          {tvStore.logo ? <img src={tvStore.logo} alt="" /> : null}
+          {tvStore.logo ? <img src={tvStore.logo} alt={`${tvStore.name} logo`} /> : null}
           <div>
             <span className={styles.eyebrow}>{eyebrow}</span>
             <h1>{tvStore.name}</h1>

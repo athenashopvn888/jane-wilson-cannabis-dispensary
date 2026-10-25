@@ -7,6 +7,7 @@ import { TOP_TIER_BUNDLE_LABELS } from "./bundleLabels";
 import HiringRibbon from "../components/HiringRibbon";
 import TvStoreHeader from "../components/TvStoreHeader";
 import CigaretteNightTicker from "../components/CigaretteNightTicker";
+import { useTvCigaretteFlag } from "../components/useTvCigaretteFlag";
 import FleetTvTakeover from "../components/fleet/FleetTvTakeover";
 import { useFleetTvManifest } from "../components/fleet/useFleetTvManifest";
 import { tvHiring } from "../lib/tvHiring";
@@ -682,6 +683,7 @@ function AddOnsCard({ items, hiIdx }: { items: Item[]; hiIdx: number }) {
    MAIN TV PAGE
    ============================================================ */
 export default function TVMenuPage() {
+  const tvCig = useTvCigaretteFlag();
   const [bgUrl, setBgUrl] = useState("");
   useEffect(() => {
     fetch("https://athena-cannabis-images.vercel.app/backgrounds/list.json")
@@ -837,7 +839,7 @@ export default function TVMenuPage() {
 
         {/* GRID */}
         <div className={styles.stage}>
-          <HiringRibbon hiring={tvHiring} />
+          <HiringRibbon hiring={tvHiring} showCigarettes={tvCig} />
           <div className={styles.grid}>
             {/* Row 1: EXOTIC, PREMIUM, AAA+ */}
             {TIERS.slice(0,3).map(tier => (

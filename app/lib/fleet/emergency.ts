@@ -1,7 +1,13 @@
 export const EDGE_CONFIG_ENV = "EDGE_CONFIG";
+export const CONTENT_MODE_ENV = "contentMode";
 
-/** Edge Config contentMode="coded" turns every sheet feature off, articles included. */
+export function contentModeForcesCoded(raw = process.env[CONTENT_MODE_ENV]): boolean {
+  return (raw || "").trim().toLowerCase() === "coded";
+}
+
+/** Edge Config contentMode="coded", or the same env value, turns every sheet feature off, articles included. */
 export async function readEmergencyCoded(fetchImpl: typeof fetch = fetch): Promise<boolean> {
+  if (contentModeForcesCoded()) return true;
   const connection = process.env[EDGE_CONFIG_ENV];
   if (!connection) return false;
   try {

@@ -14,6 +14,9 @@ export const STORE = {
   canonicalTarget: "https://janewilsoncannabisdispensary.com",
   preview: "https://jane-wilson-cannabis-dispensary.vercel.app",
   maps: "https://maps.app.goo.gl/vxXQtLG52Fw6UeZy6",
+  /** Google Maps place pin for 2111 Jane St #12 (the maps link above). */
+  latitude: 43.7190908,
+  longitude: -79.5080771,
   corridor: "Jane Street at Wilson Avenue",
   neighbourhoods: ["Jane and Wilson", "Downsview", "North York"],
   hoursLabel: "10:00 AM – 12:00 AM (midnight) daily",
@@ -88,7 +91,10 @@ export const LOCAL_ROUTES = [
   { href: "/visit", label: "Visit Jane Wilson", detail: "Map, TTC arrival, Unit 12, parking notes, and daily hours" },
   { href: "/weed-dispensary-jane-street", label: "Jane Street Weed Dispensary", detail: "The Jane–Wilson and Downsview corridor guide" },
   { href: "/native-cigarettes-jane-street", label: "Native Cigarettes", detail: "Cigarette listings for the Jane Street counter. Adults 19+." },
-  { href: "/nicotine-vapes-jane-street", label: "Nicotine Vapes", detail: "Nicotine vape listings, kept separate from flower. Adults 19+." }
+  { href: "/nicotine-vapes-jane-street", label: "Nicotine Vapes", detail: "Nicotine vape listings, kept separate from flower. Adults 19+." },
+  { href: "/menu", label: "Menu", detail: "In-store flower and nicotine vape preview. Confirm at the counter." },
+  { href: "/resources", label: "Resources", detail: "Local Jane Street guides for flower tiers, strain labels, and visiting Unit 12" },
+  { href: "/dispensary-near-me", label: "Dispensary near me", detail: "Jane Street and North York landing page for this Unit 12 counter" }
 ] as const;
 
 export function tierBySlug(slug: string) {
@@ -122,6 +128,11 @@ export function storeSchema() {
       addressCountry: "CA"
     },
     hasMap: STORE.maps,
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: STORE.latitude,
+      longitude: STORE.longitude
+    },
     areaServed: STORE.neighbourhoods
   };
 }

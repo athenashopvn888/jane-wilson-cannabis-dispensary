@@ -8,6 +8,8 @@ export function contentStatusPayload(fleet: FleetState, cig: CigaretteFlags) {
     contentVersion: fleet.contentVersion,
     version: fleet.version,
     renderedAt: fleet.renderedAt,
+    manifest: fleet.manifest,
+    mode: fleet.mode,
     cig: { web: cig.web, tv: cig.tv, guides: cig.guides },
   };
 }

@@ -84,8 +84,8 @@ export const CODED_NAP: Nap = {
   hours: "10:00 AM – 12:00 AM (midnight) daily",
   mapsSearchUrl: "https://maps.app.goo.gl/vxXQtLG52Fw6UeZy6",
   mapsEmbedUrl: "https://maps.app.goo.gl/vxXQtLG52Fw6UeZy6",
-  lat: "",
-  lng: "",
+  lat: "43.7190908",
+  lng: "-79.5080771",
   schemaName: "Jane Wilson Cannabis Dispensary Weed Delivery",
   website: "https://janewilsoncannabisdispensary.com",
 };

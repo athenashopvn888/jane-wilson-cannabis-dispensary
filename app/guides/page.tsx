@@ -31,7 +31,7 @@ export default function GuidesPage() {
           <div className={styles.heroCard}>
             <span className={styles.kicker}>Learn</span>
             <h1>Cannabis Strain Guides</h1>
-            <p>Short guides to well-known strains: where they come from, what they smell like and what to look for. Want to know what&apos;s in today? Open our <Link href="/#weed-tiers" style={{ color: "#a7f3b6" }}>menu</Link> or call us on {STORE.phone}.</p>
+            <p>Short guides to well-known strains: where they come from, what they smell like and what to look for. Want to know what&apos;s in today? Open our <Link href="/menu" style={{ color: "#a7f3b6" }}>in-store menu</Link> or call us on {STORE.phone}. Local visit notes live on <Link href="/resources" style={{ color: "#a7f3b6" }}>resources</Link>.</p>
           </div>
           <aside className={styles.sideCard}>
             <strong>Browse by type</strong>
@@ -44,6 +44,25 @@ export default function GuidesPage() {
           <h2>Popular strain guides</h2>
           <StrainList />
           <p className={styles.prose}><Link href="/guides/strains-a-to-z">Browse every published strain guide A–Z</Link></p>
+        </section>
+        <section className={styles.section}>
+          <h2>All strain guides</h2>
+          <ul className={styles.chips}>
+            {[...GUIDES].toSorted((a, b) => a.name.localeCompare(b.name)).map((guide) => (
+              <li key={guide.slug}><Link href={`/guides/${guide.slug}`}>{guide.name}</Link></li>
+            ))}
+          </ul>
+          <p className={styles.prose}>
+            <Link href="/exotic-weed">Exotic Weed</Link>
+            {" · "}
+            <Link href="/premium-weed">Premium Weed</Link>
+            {" · "}
+            <Link href="/aaa-weed">AAA+ Weed</Link>
+            {" · "}
+            <Link href="/weed-dispensary-jane-street">Jane Street weed dispensary</Link>
+            {" · "}
+            <Link href="/resources">Resources</Link>
+          </p>
         </section>
       </div>
       <Footer />

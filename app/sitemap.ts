@@ -3,6 +3,7 @@ import { flowerPath, staticFlowers, staticItems } from "./lib/inventory";
 import { SHOW_CIGARETTES, isHiddenCigaretteItem } from "./lib/siteConfig";
 import { STORE, TIERS } from "./lib/store";
 import { GUIDES } from "./lib/content/guides";
+import { RESOURCE_ARTICLES } from "./lib/content/resources";
 import { loadFleetArticles } from "./lib/fleet/articles";
 
 const CODED_ARTICLE_SLUGS = new Set<string>([
@@ -25,6 +26,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/delivery", changeFrequency: "daily" as const, priority: 0.9 },
     { path: "/faq", changeFrequency: "monthly" as const, priority: 0.7 },
     { path: "/guides", changeFrequency: "weekly" as const, priority: 0.7 },
+    { path: "/resources", changeFrequency: "weekly" as const, priority: 0.7 },
+    ...RESOURCE_ARTICLES.map((article) => ({ path: `/resources/${article.slug}`, changeFrequency: "monthly" as const, priority: 0.6 })),
+    { path: "/menu", changeFrequency: "daily" as const, priority: 0.85 },
+    { path: "/dispensary-near-me", changeFrequency: "weekly" as const, priority: 0.9 },
     { path: "/guides/indica", changeFrequency: "weekly" as const, priority: 0.6 },
     { path: "/guides/sativa", changeFrequency: "weekly" as const, priority: 0.6 },
     { path: "/guides/hybrid", changeFrequency: "weekly" as const, priority: 0.6 },

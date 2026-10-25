@@ -114,7 +114,7 @@ export default async function TierPage({ params }: { params: Promise<{ tier: str
         </div>
       </section>
 
-      {tier.slug === "premium-weed" ? <BannerSlots page="premium-weed" /> : null}
+      {tier.slug === "premium-weed" || tier.slug === "exotic-weed" || tier.slug === "aaa-weed" ? <BannerSlots page="premium-weed" /> : null}
 
       <section className="menuShell" id="listings">
         <div className="menuIntro">

@@ -25,8 +25,10 @@ export const FLEET_AFFECTED_PATHS = [
   "/delivery",
   "/guides",
   "/resources",
+  "/menu",
+  "/dispensary-near-me",
   FLEET_ARTICLES_PATH,
 ] as const;
 
 /** Dynamic article pages. Passed to revalidatePath with type "page". */
-export const FLEET_DYNAMIC_PATHS = ["/articles/[slug]"] as const;
+export const FLEET_DYNAMIC_PATHS = ["/articles/[slug]", "/resources/[slug]"] as const;

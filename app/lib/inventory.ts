@@ -8,6 +8,7 @@
  */
 import flowersJson from "./flowers.json";
 import itemsJson from "./items.json";
+import { fetchMenuPayload, LIVE_MENU_STORE } from "./menuFeed";
 import { STORE, TIERS, WEIGHTS, type FlowerWeight, tierByKey, tierBySlug } from "./store";
 
 export interface PricePoint {
@@ -53,6 +54,7 @@ export const FLOWER_PRICE_FIELDS: Record<FlowerWeight, "price3g" | "price5g" | "
 
 const TEMP_STOCK_SOURCE = "JFC01";
 const APPS_SCRIPT_URL = process.env.APPS_SCRIPT_URL || "";
+const MENU_CACHE_MS = 300_000;
 
 export const staticFlowers = flowersJson as FlowerProduct[];
 export const staticItems = itemsJson as ItemProduct[];
@@ -86,23 +88,53 @@ function asItems(value: unknown): ItemProduct[] {
   });
 }
 
-export async function getMenu(): Promise<MenuSnapshot> {
-  if (!APPS_SCRIPT_URL) return snapshot(staticFlowers, staticItems, false, null);
-  try {
-    const response = await fetch(`${APPS_SCRIPT_URL}?store=${TEMP_STOCK_SOURCE}`, {
-      next: { revalidate: 300 },
-      signal: AbortSignal.timeout(8000)
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = (await response.json()) as { flowers?: unknown; items?: unknown; stockDate?: string };
-    const flowers = asFlowers(data.flowers);
-    const items = asItems(data.items);
-    if (flowers.length === 0 || items.length === 0) throw new Error("Empty temporary menu");
-    return snapshot(flowers, items, true, data.stockDate || null);
-  } catch (error) {
-    console.warn("[inventory] Temporary live fetch failed, using JSON snapshot:", error);
-    return snapshot(staticFlowers, staticItems, false, null);
+function snapshotFromPayload(data: Record<string, unknown> | null, requireItems: boolean): MenuSnapshot | null {
+  if (!data) return null;
+  const flowers = asFlowers(data.flowers);
+  const items = asItems(data.items);
+  if (flowers.length === 0) return null;
+  if (requireItems && items.length === 0) return null;
+  const stockDate = typeof data.stockDate === "string" ? data.stockDate : null;
+  return snapshot(flowers, items, true, stockDate);
+}
+
+async function loadMenu(): Promise<MenuSnapshot> {
+  const live = snapshotFromPayload(await fetchMenuPayload(LIVE_MENU_STORE), false);
+  if (live) return live;
+  if (APPS_SCRIPT_URL) {
+    try {
+      const response = await fetch(`${APPS_SCRIPT_URL}?store=${TEMP_STOCK_SOURCE}`, {
+        next: { revalidate: 300 },
+        signal: AbortSignal.timeout(8000)
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = (await response.json()) as Record<string, unknown>;
+      const mirror = snapshotFromPayload(data, true);
+      if (mirror) return mirror;
+      throw new Error("Empty temporary menu");
+    } catch (error) {
+      console.warn("[inventory] Temporary live fetch failed, using JSON snapshot:", error);
+    }
   }
+  return snapshot(staticFlowers, staticItems, false, null);
+}
+
+let menuCache: { at: number; value: MenuSnapshot } | null = null;
+let menuInflight: Promise<MenuSnapshot> | null = null;
+
+export function getMenu(): Promise<MenuSnapshot> {
+  if (menuCache && Date.now() - menuCache.at < MENU_CACHE_MS) return Promise.resolve(menuCache.value);
+  if (!menuInflight) {
+    menuInflight = loadMenu()
+      .then((value) => {
+        menuCache = { at: Date.now(), value };
+        return value;
+      })
+      .finally(() => {
+        menuInflight = null;
+      });
+  }
+  return menuInflight;
 }
 
 export function flowersForTier(flowers: FlowerProduct[], slug: string) {
