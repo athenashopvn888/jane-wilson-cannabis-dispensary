@@ -1,8 +1,13 @@
 import assert from "node:assert/strict";
+import { createRequire } from "node:module";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
+
+const require = createRequire(import.meta.url);
+const { PNG } = require("pngjs");
+const jsQR = require("jsqr");
 
 const root = new URL("../", import.meta.url);
 const read = (file) => readFileSync(new URL(file, root), "utf8");
@@ -297,12 +302,23 @@ test("directions links use the single Google Business Profile URL", () => {
 });
 
 test("TV board shows the Google review QR and TV2 does not", () => {
+  const reviewUrl = "https://g.page/r/Ce0u9eTmYclKEAI/review";
   const tv = read("app/tv/page.tsx");
   const tv2 = read("app/tv2/page.tsx");
+  const qr = read("app/TvReviewQr.tsx");
+  assert.match(read("app/lib/store.ts"), /GOOGLE_REVIEW_URL = "https:\/\/g\.page\/r\/Ce0u9eTmYclKEAI\/review"/);
+  const sources = walk("app").filter((file) => file.endsWith(".ts") || file.endsWith(".tsx")).map((file) => read(file));
+  assert.equal(sources.filter((source) => source.includes(reviewUrl)).length, 1);
   assert.match(tv, /<TvReviewQr storeName="Jane Wilson Cannabis" \/>/);
-  assert.match(read("app/TvReviewQr.tsx"), /SCAN FOR REVIEW/);
-  assert.match(read("app/TvReviewQr.tsx"), /store-review-qr\.png/);
+  assert.match(qr, /SCAN FOR REVIEW/);
+  assert.match(qr, /store-review-qr\.png/);
+  assert.match(qr, /data-review-url=\{GOOGLE_REVIEW_URL\}/);
   assert.equal(existsSync(new URL("app/store-review-qr.png", root)), true);
+  const png = PNG.sync.read(readFileSync(new URL("app/store-review-qr.png", root)));
+  const decoded = jsQR(Uint8ClampedArray.from(png.data), png.width, png.height);
+  assert.ok(decoded, "store-review-qr.png did not decode");
+  assert.equal(decoded.data, reviewUrl);
+  assert.notEqual(decoded.data, "https://maps.app.goo.gl/xcYB9eL7g9SF8UtMA");
   assert.doesNotMatch(tv2, /TvReviewQr|SCAN FOR REVIEW/);
 });
 

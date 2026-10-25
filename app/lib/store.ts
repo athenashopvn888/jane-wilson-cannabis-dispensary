@@ -1,6 +1,9 @@
 /** Jane Wilson Google Business Profile. The only directions / map URL on the site. */
 export const GOOGLE_BUSINESS_PROFILE_URL = "https://maps.app.goo.gl/xcYB9eL7g9SF8UtMA";
 
+/** Jane Wilson Google review form. The only leave-a-review URL on the site. */
+export const GOOGLE_REVIEW_URL = "https://g.page/r/Ce0u9eTmYclKEAI/review";
+
 export const STORE = {
   code: "JWS01",
   name: "Jane Wilson Cannabis Dispensary",
