@@ -21,7 +21,11 @@
 .section a, .prose a { color: #681ca8; font-weight: 800; }
 .band { padding: 22px; border-radius: 18px; background: #e9f8ec; border: 1px dashed #27a951; }
 .ranges { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; padding: 0; list-style: none; }
-.ranges li { padding: 14px; border-radius: 12px; background: #fff; }
+.ranges li { padding: 14px; border-radius: 12px; background: #fff; display: flex; flex-direction: column; gap: 4px; }
+.tierFact { color: #1d1530; font-weight: 700; line-height: 1.4; }
+.storeActions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.hoursBeside { font-weight: 800; line-height: 1.35; color: #3d0f66; }
+.callStore { font-size: .92rem; font-weight: 700; color: #681ca8; text-decoration: underline; text-underline-offset: 3px; }
 .loyalty ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; padding: 0; list-style: none; }
 .loyalty li { padding: 14px; border-radius: 12px; background: #fff; display: flex; flex-direction: column; gap: 4px; }
 .loyalty aside { margin-top: 12px; padding: 14px; border-radius: 12px; background: #f3e9fc; }
@@ -41,4 +45,10 @@
 .figure img { width: 100%; height: auto; display: block; }
 .more summary { cursor: pointer; margin: 14px 0; font-weight: 800; color: #681ca8; }
 @media (max-width: 860px) { .hero { grid-template-columns: 1fr; } .steps { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 480px) { .steps { grid-template-columns: 1fr; } .content { padding-top: 20px; } }
+@media (max-width: 480px) {
+  .steps { grid-template-columns: 1fr; }
+  .content { padding-top: 20px; }
+  .storeActions { flex-direction: column; align-items: stretch; }
+  .storeActions .callBtn { width: 100%; }
+  .callStore { align-self: flex-start; padding: 4px 0; }
+}

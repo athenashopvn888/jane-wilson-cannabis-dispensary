@@ -1,7 +1,7 @@
 /**
  * JWC01 delivery (SOD) wiring. Same shared fleet delivery catalog contract as AVC01/MJ01:
  * the site asks SOD for its own store id; SOD serves the shared fleet catalog under that id.
- * Until SOD registers JWC01, /api/catalog answers STORE_NOT_FOUND and /delivery shows "coming soon".
+ * storeId is JWC01. Catalog and Web Chat submit that id. A missing catalog is unavailable, not a hold screen.
  *
  * Phone lines live in ./phoneLines.ts (never imported by pages).
  *

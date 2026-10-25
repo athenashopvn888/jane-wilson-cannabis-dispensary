@@ -11,7 +11,6 @@ type Review = { id: string; status: string; receivedAt: number; expiresAt: numbe
 type CustomerIntent = "NEW_CUSTOMER" | "RETURNING_CUSTOMER";
 type Conversation = { id: string; messages: Message[]; idReviews?: Review[]; customerIntent?: CustomerIntent; customerNumberMasked?: string; phoneVersion?: number; intakeCycleId?: string | null };
 type UploadState = "idle" | "preparing" | "uploading" | "sent" | "error";
-type Availability = { state: "AVAILABLE" | "PAUSED"; message: string | null; resumeAt: number | null; updatedAt: number };
 
 async function payload(response: Response) {
   const data = await response.json().catch(() => ({ message: "Web Chat is temporarily unavailable." }));
@@ -112,8 +111,6 @@ export default function IdVerificationChat() {
   const [editingPhone, setEditingPhone] = useState(false);
   const [replacementPhone, setReplacementPhone] = useState("");
   const [replacementPhoneConfirmation, setReplacementPhoneConfirmation] = useState("");
-  const [availability, setAvailability] = useState<Availability | null>(null);
-  const [availabilityUnavailable, setAvailabilityUnavailable] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
   const previewRef = useRef("");
 
@@ -148,17 +145,6 @@ export default function IdVerificationChat() {
     setConversation(data.conversation);
   }, []);
 
-  const refreshAvailability = useCallback(async () => {
-    try {
-      const data = await payload(await fetch(`${API_BASE}/api/web-chat/status`, { cache: "no-store" }));
-      setAvailability(data.availability);
-      setAvailabilityUnavailable(false);
-    } catch {
-      setAvailability(null);
-      setAvailabilityUnavailable(true);
-    }
-  }, []);
-
   useEffect(() => {
     if (token) {
       void fetch(`${API_BASE}/api/web-chat/messages`, {
@@ -186,20 +172,10 @@ export default function IdVerificationChat() {
     return () => window.clearInterval(timer);
   }, [refresh, token]);
 
-  useEffect(() => {
-    const initial = window.setTimeout(() => void refreshAvailability(), 0);
-    const timer = window.setInterval(() => { if (!document.hidden) void refreshAvailability(); }, 20000);
-    return () => { window.clearTimeout(initial); window.clearInterval(timer); };
-  }, [refreshAvailability]);
-
   async function start(event: FormEvent) {
     event.preventDefault();
     if (!intent) {
       setNotice("Choose whether you are new or returning.");
-      return;
-    }
-    if (!availability || availability.state !== "AVAILABLE") {
-      setNotice(availability?.message || "Delivery status is temporarily unavailable. Please check back soon.");
       return;
     }
     if (!phoneConfirmationPending) {
@@ -320,27 +296,15 @@ export default function IdVerificationChat() {
   const retryNeeded = reviewStatus === "REJECTED" || reviewStatus === "EXPIRED";
   const activeIntent = conversation?.customerIntent || intent;
   const showUploadForm = activeIntent === "NEW_CUSTOMER" && (reviewStatus === "NOT_SUBMITTED" || retryExpanded || uploadState === "preparing" || uploadState === "uploading" || uploadState === "error");
-  const paused = availability?.state === "PAUSED";
-  const statusMessage = paused ? availability.message : availabilityUnavailable ? "Delivery status is temporarily unavailable. Please check back soon." : null;
-  const resumeLabel = paused && availability?.resumeAt
-    ? ` Expected back ${new Date(availability.resumeAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}.`
-    : "";
 
   return (
     <aside className={`sod-web-chat ${open ? "open" : ""}`} aria-label="Jane Wilson Web Chat" id="live-order">
-      <button className="sod-chat-launcher" type="button" onClick={() => { if (!open) void refreshAvailability(); setOpen((value) => !value); }} aria-expanded={open}>
+      <button className="sod-chat-launcher" type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open}>
         {open ? "Close chat" : "LIVE ORDER"}
       </button>
       {open && <section className="sod-chat-panel" role="dialog" aria-modal="true" aria-label="Jane Wilson Web Chat">
         <header><div><strong>Jane Wilson Web Chat</strong><small>Start your delivery order with a dispatcher</small></div><button type="button" onClick={() => setOpen(false)} aria-label="Minimize chat">×</button></header>
-        <div className={`sod-availability-banner ${paused ? "paused" : "unavailable"}`} role="status" hidden={!statusMessage}>
-          <strong>{paused ? "New delivery chats are paused" : "Delivery status unavailable"}</strong>
-          <span>{statusMessage}{resumeLabel}{token ? " Your existing chat remains open." : ""}</span>
-        </div>
-        {!token ? (!availability || availability.state !== "AVAILABLE" ? <div className="sod-chat-start sod-chat-paused">
-          <p>{statusMessage || "Checking delivery availability…"}</p>
-          <button type="button" onClick={() => void refreshAvailability()}>Check again</button>
-        </div> : <form className="sod-chat-start" onSubmit={start}>
+        {!token ? <form className="sod-chat-start" onSubmit={start}>
           <fieldset className="sod-intent-options"><legend>Tell us about your account</legend>
             <label className={intent === "NEW_CUSTOMER" ? "checked" : ""}><input required type="radio" name="customerIntent" value="NEW_CUSTOMER" checked={intent === "NEW_CUSTOMER"} onChange={() => { setIntent("NEW_CUSTOMER"); setPhoneConfirmationPending(false); }} /><span><strong>I&apos;m new</strong><small>Create my account and place my first order</small></span></label>
             <label className={intent === "RETURNING_CUSTOMER" ? "checked" : ""}><input required type="radio" name="customerIntent" value="RETURNING_CUSTOMER" checked={intent === "RETURNING_CUSTOMER"} onChange={() => { setIntent("RETURNING_CUSTOMER"); setPhoneConfirmationPending(false); }} /><span><strong>I&apos;m returning</strong><small>Use my existing mobile account and place an order</small></span></label>
@@ -351,7 +315,7 @@ export default function IdVerificationChat() {
           <label>Order details (optional)<textarea maxLength={1000} value={firstMessage} onChange={(event) => setFirstMessage(event.target.value)} placeholder="What would you like to order today?" /></label>
           <label className="sod-sms-consent"><input required type="checkbox" checked={smsConsent} onChange={(event) => setSmsConsent(event.target.checked)} /><span>I agree to receive one READY delivery-link text for this order.</span></label>
           {phoneConfirmationPending && <section className="sod-chat-welcome sod-phone-confirmation" role="alert"><strong>Confirm this number is correct:</strong><span>{phone}</span><p>A dispatcher will call you shortly to verify your telephone number and take your order.</p><button type="button" onClick={() => setPhoneConfirmationPending(false)}>Edit number</button></section>}<button type="submit" disabled={busy}>{busy ? "Starting…" : phoneConfirmationPending ? "Confirm number & submit" : "Start order chat"}</button></>}
-        </form>) : <>
+        </form> : <>
           <div className="sod-chat-scroll">
             <section className="sod-chat-account" aria-label="Order account">
               <div><span>Mobile number</span><strong>{conversation?.customerNumberMasked || "Not available"}</strong></div>

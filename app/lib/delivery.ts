@@ -5,8 +5,7 @@ import type { DeliveryProduct } from "./pricing";
 export type { DeliveryProduct };
 export type DeliveryState =
   | { state: "live"; products: DeliveryProduct[]; importedAt: string }
-  | { state: "soon" } // JWC01 is not registered in SOD yet (STORE_NOT_FOUND): no false claims
-  | { state: "unavailable" }; // registered but the catalog cannot be read right now
+  | { state: "unavailable" }; // JWC01 catalog cannot be read right now, including STORE_NOT_FOUND
 
 /**
  * Fleet delivery loader: the SOD catalog for THIS store id only, rendered on the server.
@@ -21,8 +20,7 @@ export async function getDeliveryCatalog(): Promise<DeliveryState> {
     const text = await res.text();
     let data: Record<string, unknown> = {};
     try { data = JSON.parse(text); } catch { return { state: "unavailable" }; }
-    if (data.code === "STORE_NOT_FOUND") return { state: "soon" };
-    if (!res.ok || data.ok === false) return { state: "unavailable" };
+    if (data.code === "STORE_NOT_FOUND" || !res.ok || data.ok === false) return { state: "unavailable" };
     if (data.storeId !== SOD.storeId) return { state: "unavailable" };
     // Fleet standard: every delivery store serves the same shared catalog under its own storeId, so the catalog
     // version/import date/label is NOT a store-specific signal. Fail closed only on a malformed or too-small payload.

@@ -23,6 +23,8 @@ export const FLEET_AFFECTED_PATHS = [
   "/items/cigarettes",
   "/cigarettes",
   "/delivery",
+  "/weed-delivery-north-york",
+  "/weed-delivery-toronto",
   "/guides",
   "/resources",
   "/menu",

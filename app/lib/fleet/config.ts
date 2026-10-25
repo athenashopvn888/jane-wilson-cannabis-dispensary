@@ -1,4 +1,5 @@
 import type { Nap, ResolvedBanner, ResolvedPage } from "./types.ts";
+import { GOOGLE_BUSINESS_PROFILE_URL } from "../store.ts";
 
 /**
  * The only store-specific fleet file. Other stores replace this module
@@ -82,8 +83,8 @@ export const CODED_NAP: Nap = {
   phoneDisplay: "437-465-7700",
   phoneTel: "+14374657700",
   hours: "10:00 AM – 12:00 AM (midnight) daily",
-  mapsSearchUrl: "https://maps.app.goo.gl/vxXQtLG52Fw6UeZy6",
-  mapsEmbedUrl: "https://maps.app.goo.gl/vxXQtLG52Fw6UeZy6",
+  mapsSearchUrl: GOOGLE_BUSINESS_PROFILE_URL,
+  mapsEmbedUrl: GOOGLE_BUSINESS_PROFILE_URL,
   lat: "43.7190908",
   lng: "-79.5080771",
   schemaName: "Jane Wilson Cannabis Dispensary Weed Delivery",

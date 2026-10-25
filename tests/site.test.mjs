@@ -1,8 +1,13 @@
 import assert from "node:assert/strict";
+import { createRequire } from "node:module";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
+
+const require = createRequire(import.meta.url);
+const { PNG } = require("pngjs");
+const jsQR = require("jsqr");
 
 const root = new URL("../", import.meta.url);
 const read = (file) => readFileSync(new URL(file, root), "utf8");
@@ -52,7 +57,8 @@ test("flower weights are the fleet 3g 5g 14g 28g set", () => {
   const storeUi = walk("app")
     .filter((file) => (file.endsWith(".tsx") || file.endsWith(".ts")) && !/^app[\\/](tv|tv2)[\\/]/.test(file) && !DELIVERY_PRICING_FILE.test(file))
     .map((file) => read(file))
-    .join("\n");
+    .join("\n")
+    .replace(/https:\/\/maps\.app\.goo\.gl\/\S+/g, "");
   assert.doesNotMatch(storeUi, /(?<![0-9])7g/);
   // 6g is allowed: the top-3 tiers (Exotic, Premium, AAA+) sell the second pack as 6g (feed field price5g). AA stays a true 5g.
 });
@@ -269,8 +275,49 @@ test("sitemap lists live routes and omits the demoted North York path", () => {
   assert.doesNotMatch(sitemap, /weed-dispensary-north-york|24-hour/);
   // JWC01 delivers (Tri 2026-10-13): /delivery is a live route and belongs in the sitemap.
   assert.ok(sitemap.includes('"/delivery"'));
+  assert.ok(sitemap.includes('"/weed-delivery-north-york"'));
+  assert.ok(sitemap.includes('"/weed-delivery-toronto"'));
+  assert.match(read("app/lib/fleet/routes.ts"), /\/weed-delivery-north-york/);
+  assert.match(read("app/lib/fleet/routes.ts"), /\/weed-delivery-toronto/);
   const northYork = read("app/weed-dispensary-north-york/page.tsx");
   assert.match(northYork, /permanentRedirect\("\/weed-dispensary-jane-street"\)/);
+});
+
+test("directions links use the single Google Business Profile URL", () => {
+  const store = read("app/lib/store.ts");
+  const gbp = "https://maps.app.goo.gl/xcYB9eL7g9SF8UtMA";
+  assert.match(store, /GOOGLE_BUSINESS_PROFILE_URL = "https:\/\/maps\.app\.goo\.gl\/xcYB9eL7g9SF8UtMA"/);
+  assert.match(store, /maps: GOOGLE_BUSINESS_PROFILE_URL/);
+  const sources = walk("app").filter((file) => file.endsWith(".ts") || file.endsWith(".tsx")).map((file) => read(file));
+  const literals = sources.filter((source) => source.includes(gbp));
+  assert.equal(literals.length, 1);
+  assert.equal(sources.some((source) => source.includes("vxXQtLG52Fw6UeZy6")), false);
+  assert.equal(sources.some((source) => source.includes("google.com/maps/search")), false);
+  assert.match(read("app/lib/fleet/config.ts"), /mapsSearchUrl: GOOGLE_BUSINESS_PROFILE_URL/);
+  assert.match(read("app/lib/fullNameNap.ts"), /"mapsUrl": GOOGLE_BUSINESS_PROFILE_URL/);
+  assert.match(read("app/hours/page.tsx"), /href=\{STORE\.maps\}/);
+  assert.match(read("app/lib/store.ts"), /hasMap: STORE\.maps/);
+});
+
+test("TV board shows the Google review QR and TV2 does not", () => {
+  const reviewUrl = "https://g.page/r/Ce0u9eTmYclKEAI/review";
+  const tv = read("app/tv/page.tsx");
+  const tv2 = read("app/tv2/page.tsx");
+  const qr = read("app/TvReviewQr.tsx");
+  assert.match(read("app/lib/store.ts"), /GOOGLE_REVIEW_URL = "https:\/\/g\.page\/r\/Ce0u9eTmYclKEAI\/review"/);
+  const sources = walk("app").filter((file) => file.endsWith(".ts") || file.endsWith(".tsx")).map((file) => read(file));
+  assert.equal(sources.filter((source) => source.includes(reviewUrl)).length, 1);
+  assert.match(tv, /<TvReviewQr storeName="Jane Wilson Cannabis" \/>/);
+  assert.match(qr, /SCAN FOR REVIEW/);
+  assert.match(qr, /store-review-qr\.png/);
+  assert.match(qr, /data-review-url=\{GOOGLE_REVIEW_URL\}/);
+  assert.equal(existsSync(new URL("app/store-review-qr.png", root)), true);
+  const png = PNG.sync.read(readFileSync(new URL("app/store-review-qr.png", root)));
+  const decoded = jsQR(Uint8ClampedArray.from(png.data), png.width, png.height);
+  assert.ok(decoded, "store-review-qr.png did not decode");
+  assert.equal(decoded.data, reviewUrl);
+  assert.notEqual(decoded.data, "https://maps.app.goo.gl/xcYB9eL7g9SF8UtMA");
+  assert.doesNotMatch(tv2, /TvReviewQr|SCAN FOR REVIEW/);
 });
 
 test("delivery orders use JWC01 LIVE ORDER Web Chat instead of a phone-order CTA", () => {
@@ -282,10 +329,18 @@ test("delivery orders use JWC01 LIVE ORDER Web Chat instead of a phone-order CTA
   assert.match(delivery, /LIVE ORDER/);
   assert.match(delivery, /Open Web Chat/);
   assert.match(delivery, /serviceUrl/);
+  assert.match(read("app/components/StoreActions.tsx"), /Directions/);
+  assert.match(read("app/components/StoreActions.tsx"), /Call Store/);
+  assert.match(delivery, /<StoreActions \/>/);
+  assert.match(delivery, /DELIVERY_HOURS_LABEL/);
+  assert.match(read("app/lib/deliveryHours.ts"), /10:00 a\.m\. to 10:00 p\.m\. daily/);
+  assert.doesNotMatch(`${delivery}\n${read("app/lib/deliveryHours.ts")}`, /coming soon|on hold|SOD dispatcher|437-523-7076|Farmers Link|3\.5/i);
   assert.doesNotMatch(delivery, /Order by phone|call us to order|servicePhone|contactType: "orders"/i);
 
+  assert.match(read("app/lib/sod.ts"), /storeId: "JWC01"/);
   assert.match(chat, /sod-web-chat:JWC01/);
   assert.match(chat, /storeId: "JWC01"/);
+  assert.doesNotMatch(chat, /437-523-7076|coming soon|on hold|New delivery chats are paused/);
   assert.match(chat, /READY_V1/);
   assert.match(chat, /\/api\/web-chat\/session/);
   assert.match(chat, /\/api\/web-chat\/messages/);
