@@ -5,7 +5,7 @@ export const GOOGLE_BUSINESS_PROFILE_URL = "https://maps.app.goo.gl/xcYB9eL7g9SF
 export const GOOGLE_REVIEW_URL = "https://g.page/r/Ce0u9eTmYclKEAI/review";
 
 export const STORE = {
-  code: "JWS01",
+  code: "JWC01",
   name: "Jane Wilson Cannabis Dispensary",
   shortName: "Jane Wilson Cannabis",
   address: "2111 Jane St, Unit 12, North York, ON M3M 1A2",

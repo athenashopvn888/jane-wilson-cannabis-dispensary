@@ -7,7 +7,7 @@ import StoreActions from "./StoreActions";
 import IdVerificationChat from "../delivery/IdVerificationChat";
 import { deliveryHoursSchema, DELIVERY_HOURS_LABEL } from "../lib/deliveryHours";
 import { STORE } from "../lib/store";
-import styles from "../jws-pages.module.css";
+import styles from "../jwc-pages.module.css";
 
 export type WeedDeliveryCopy = {
   path: string;

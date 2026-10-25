@@ -1,10 +1,9 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
-import { SOD } from "../lib/sod";
 
 const API_BASE = (process.env.NEXT_PUBLIC_SOD_WEB_CHAT_API_BASE || "https://milestone-1-demo.vercel.app").replace(/\/$/, "");
-const SESSION_KEY = `sod-web-chat:${SOD.storeId}`;
+const SESSION_KEY = "sod-web-chat:JWC01";
 const MAX_BYTES = 3 * 1024 * 1024;
 
 type Message = { id: string; direction: "inbound" | "outbound"; body: string; at: number };
@@ -190,7 +189,7 @@ export default function IdVerificationChat() {
       const data = await payload(await fetch(`${API_BASE}/api/web-chat/session`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ storeId: SOD.storeId, customerName: intent === "NEW_CUSTOMER" ? name : "", phone, phoneConfirmed: true, phoneConfirmation: phone, intent, message: firstMessage, workflowVersion: "READY_V1", smsConsent }),
+        body: JSON.stringify({ storeId: "JWC01", customerName: intent === "NEW_CUSTOMER" ? name : "", phone, phoneConfirmed: true, phoneConfirmation: phone, intent, message: firstMessage, workflowVersion: "READY_V1", smsConsent }),
       }));
       localStorage.setItem(SESSION_KEY, data.token);
       setToken(data.token);

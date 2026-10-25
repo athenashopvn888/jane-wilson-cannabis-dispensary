@@ -5,7 +5,7 @@ import JsonLd from "../components/JsonLd";
 import Nav from "../components/Nav";
 import { RESOURCE_ARTICLES } from "../lib/content/resources";
 import { STORE } from "../lib/store";
-import styles from "../jws-pages.module.css";
+import styles from "../jwc-pages.module.css";
 
 const URL_ = `${STORE.origin}/resources`;
 const TITLE = "Resources | Jane Wilson Cannabis Dispensary | Jane Street North York";

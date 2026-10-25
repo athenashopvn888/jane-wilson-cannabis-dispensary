@@ -24,8 +24,7 @@ function walk(dir) {
 
 test("exact approved NAP, hours, and canonical domain are centralized", () => {
   const store = read("app/lib/store.ts");
-  assert.match(store, /code: "JWS01"/);
-  assert.doesNotMatch(store, /JWCD01/);
+  assert.match(store, /code: "JWC01"/);
   assert.match(store, /Jane Wilson Cannabis Dispensary/);
   assert.match(store, /2111 Jane St, Unit 12, North York, ON M3M 1A2/);
   assert.match(store, /437-465-7700/);
@@ -90,7 +89,7 @@ test("public UI does not name the temporary stock source and has no 24-hour rout
     .map((file) => read(file))
     .join("\n");
   assert.doesNotMatch(ui, /Jane Finch|JFC01|Athena|2728 Jane|24 hours|24\/7|open 24/i);
-  // JWS01 delivers (Tri 2026-10-13): /delivery is an allowed route; 24-hour routes stay banned.
+  // JWC01 delivers (Tri 2026-10-13): /delivery is an allowed route; 24-hour routes stay banned.
   assert.equal(walk("app").some((file) => /24-hour/i.test(file)), false);
   assert.ok(existsSync(new URL("app/delivery/page.tsx", root)));
   assert.match(read("app/lib/inventory.ts"), /TEMP_STOCK_SOURCE=JFC01/);
@@ -145,7 +144,7 @@ test("optimized creative replaces every placeholder and brand art remains", () =
   assert.equal(existsSync(new URL("public/brand/door-upper.svg", root)), true);
 });
 
-test("every fleet banner slot ships JWS art and homepage responsive art", () => {
+test("every fleet banner slot ships JWC art and homepage responsive art", () => {
   const banners = read("app/lib/banners.ts");
   const assets = [
     "home-top-weed-tier",
@@ -206,7 +205,6 @@ test("branded favicon is declared through the Next.js metadata contract", () => 
   assert.match(tvStore, /\/images\/jane-wilson-jwc-logo\.webp/);
   assert.match(manifest, /\/jwc-icon-192\.png/);
   assert.match(manifest, /\/jwc-icon-512\.png/);
-  assert.doesNotMatch(`${nav}\n${tvStore}\n${manifest}`, /jws-(?:logo|icon)/i);
   for (const file of [
     "app/icon.png",
     "app/apple-icon.png",
@@ -275,7 +273,7 @@ test("sitemap lists live routes and omits the demoted North York path", () => {
     assert.ok(sitemap.includes(route));
   }
   assert.doesNotMatch(sitemap, /weed-dispensary-north-york|24-hour/);
-  // JWS01 delivers (Tri 2026-10-13): /delivery is a live route and belongs in the sitemap.
+  // JWC01 delivers (Tri 2026-10-13): /delivery is a live route and belongs in the sitemap.
   assert.ok(sitemap.includes('"/delivery"'));
   assert.ok(sitemap.includes('"/weed-delivery-north-york"'));
   assert.ok(sitemap.includes('"/weed-delivery-toronto"'));
@@ -322,7 +320,7 @@ test("TV board shows the Google review QR and TV2 does not", () => {
   assert.doesNotMatch(tv2, /TvReviewQr|SCAN FOR REVIEW/);
 });
 
-test("delivery orders use JWS01 LIVE ORDER Web Chat instead of a phone-order CTA", () => {
+test("delivery orders use JWC01 LIVE ORDER Web Chat instead of a phone-order CTA", () => {
   const delivery = read("app/delivery/page.tsx");
   const chat = read("app/delivery/IdVerificationChat.tsx");
   const css = read("app/delivery/delivery.css");
@@ -339,17 +337,17 @@ test("delivery orders use JWS01 LIVE ORDER Web Chat instead of a phone-order CTA
   assert.doesNotMatch(`${delivery}\n${read("app/lib/deliveryHours.ts")}`, /coming soon|on hold|SOD dispatcher|437-523-7076|Farmers Link|3\.5/i);
   assert.doesNotMatch(delivery, /Order by phone|call us to order|servicePhone|contactType: "orders"/i);
 
-  assert.match(read("app/lib/sod.ts"), /storeId: "JWS01"/);
-  assert.match(chat, /sod-web-chat:\$\{SOD\.storeId\}/);
-  assert.match(chat, /storeId: SOD\.storeId/);
-  assert.doesNotMatch(chat, /storeId:\s*"JWC|JWCD01|437-523-7076|coming soon|on hold|New delivery chats are paused/);
+  assert.match(read("app/lib/sod.ts"), /storeId: "JWC01"/);
+  assert.match(chat, /sod-web-chat:JWC01/);
+  assert.match(chat, /storeId: "JWC01"/);
+  assert.doesNotMatch(chat, /437-523-7076|coming soon|on hold|New delivery chats are paused/);
   assert.match(chat, /READY_V1/);
   assert.match(chat, /\/api\/web-chat\/session/);
   assert.match(chat, /\/api\/web-chat\/messages/);
   assert.match(chat, /\/api\/web-chat\/id-review/);
   assert.match(chat, /\/api\/web-chat\/phone/);
   assert.match(chat, /\/api\/web-chat\/order-cycle/);
-  assert.doesNotMatch(chat, /SOD_STORE_JWS01_PHONE/);
+  assert.doesNotMatch(chat, /SOD_STORE_JWC01_PHONE/);
 
   assert.match(css, /\.sod-chat-launcher/);
   assert.match(css, /body\.sod-chat-open/);

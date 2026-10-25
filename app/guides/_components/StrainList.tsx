@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { GUIDES, type Guide } from "../../lib/content/guides";
 import { STRAIN_COPY, firstSentence } from "../../lib/content/strainCopy";
-import styles from "../../jws-pages.module.css";
+import styles from "../../jwc-pages.module.css";
 
 /** Most-asked-for names first (same order as AVC01). Anything not in GUIDES is ignored. */
 export const POPULAR_STRAINS = ["gelato", "purple-punch", "pink-kush", "og-kush", "granddaddy-purple", "sour-diesel", "northern-lights", "jack-herer", "blue-dream", "wedding-cake", "girl-scout-cookies", "zkittlez", "runtz", "gorilla-glue-4", "pineapple-express"];

@@ -1,5 +1,5 @@
 import { STORE } from "../lib/store";
-import styles from "../jws-pages.module.css";
+import styles from "../jwc-pages.module.css";
 
 /** Store visit actions. Directions is the primary button, with hours beside it and Call Store as a smaller link. */
 export default function StoreActions() {

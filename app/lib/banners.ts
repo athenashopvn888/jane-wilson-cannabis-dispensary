@@ -1,6 +1,6 @@
 /**
- * JWS01 banner PLACEHOLDER slots (Tri 2026-10-13). One config drives every slot.
- * Each slot is a neutral JWS-coloured box until Codex supplies JWS-branded art.
+ * JWC01 banner PLACEHOLDER slots (Tri 2026-10-13). One config drives every slot.
+ * Each slot is a neutral JWC-coloured box until Codex supplies JWC-branded art.
  * When art lands: set `file` (and `file800`) to a /public/images path; BannerSlots then renders the image
  * with the alt/title/caption below. Never use art showing another store's name.
  * Public phone in any art: Master Lines 437-465-7700 only.

@@ -1,12 +1,12 @@
 import { GOOGLE_BUSINESS_PROFILE_URL } from "./store";
 
 /**
- * JWS01 exact full name + NAP. Name = original store name + "Dispensary Weed Delivery".
+ * JWC01 exact full name + NAP. Name = original store name + "Dispensary Weed Delivery".
  * Public Master Lines phone only (never the SOD line). Map link = the Google Business Profile constant.
  */
 
 export const FULL_NAME_NAP = {
-  "code": "JWS01",
+  "code": "JWC01",
   "fullName": "Jane Wilson Cannabis Dispensary Weed Delivery",
   "street": "2111 Jane St, Unit 12",
   "city": "North York",

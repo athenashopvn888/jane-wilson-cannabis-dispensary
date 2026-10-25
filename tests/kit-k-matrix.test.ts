@@ -5,12 +5,12 @@ import { resolveTvCards, resolveFullscreenPromos, pickTv2Sheet } from "../app/li
 import { CODED_BANNERS, CODED_NAP, CODED_PAGES } from "../app/lib/fleet/config.ts";
 
 const now = new Date("2026-10-22T12:00:00Z");
-const base = { schemaVersion: 1, storeCode: "JWS01", domain: "janewilsoncannabisdispensary.com", contentVersion: 9, publishedAt: "2026-10-22T10:00:00Z", sourceHash: "x", jobId: "j" };
+const base = { schemaVersion: 1, storeCode: "JWC01", domain: "janewilsoncannabisdispensary.com", contentVersion: 9, publishedAt: "2026-10-22T10:00:00Z", sourceHash: "x", jobId: "j" };
 function fake(map: Record<string, { status: number; body: string }>): typeof fetch {
   return (async (url: string) => { const r = map[String(url)]; if (!r) throw new Error("net"); return new Response(r.status === 304 ? null : r.body, { status: r.status }); }) as unknown as typeof fetch;
 }
-const M = "https://x/JWS01/manifest.json", B = "https://x/JWS01/content-v9.json";
-const man = (o = {}) => JSON.stringify({ storeCode: "JWS01", contentVersion: 9, bundleUrl: B, publishedAt: base.publishedAt, jobId: "j", ...o });
+const M = "https://x/JWC01/manifest.json", B = "https://x/JWC01/content-v9.json";
+const man = (o = {}) => JSON.stringify({ storeCode: "JWC01", contentVersion: 9, bundleUrl: B, publishedAt: base.publishedAt, jobId: "j", ...o });
 
 test("K1 empty bundle (no rows) == coded state", async () => {
   resetFleetContentCache();
@@ -54,7 +54,7 @@ const bad: [string, string, string][] = [
   ["wrong store bundle", man(), JSON.stringify({ ...base, storeCode: "STC01" })],
   ["wrong domain bundle", man(), JSON.stringify({ ...base, domain: "evil.com" })],
   ["bad schema bundle", man(), JSON.stringify({ ...base, schemaVersion: 99 })],
-  ["missing identity", man(), JSON.stringify({ storeCode: "JWS01" })],
+  ["missing identity", man(), JSON.stringify({ storeCode: "JWC01" })],
 ];
 for (const [name, m, b] of bad) {
   test(`K10 cold ${name} -> coded`, async () => {

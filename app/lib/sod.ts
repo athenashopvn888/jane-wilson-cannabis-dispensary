@@ -1,7 +1,7 @@
 /**
- * Jane Wilson delivery wiring. Same shared fleet delivery catalog contract as AVC01/MJ01:
- * the site asks for its own store id; the service serves the shared fleet catalog under that id.
- * storeId is the id the catalog and Web Chat must submit. It is JWS01. JWC, JWC01 and JWCD01 are rejected.
+ * JWC01 delivery (SOD) wiring. Same shared fleet delivery catalog contract as AVC01/MJ01:
+ * the site asks SOD for its own store id; SOD serves the shared fleet catalog under that id.
+ * storeId is JWC01. Catalog and Web Chat submit that id. A missing catalog is unavailable, not a hold screen.
  *
  * Phone lines live in ./phoneLines.ts (never imported by pages).
  *
@@ -10,7 +10,7 @@
  * scripts/check-public-phones.mjs fails the build if it reaches public output.
  */
 export const SOD = {
-  storeId: "JWS01",
+  storeId: "JWC01",
   apiBase: "https://milestone-1-demo.vercel.app",
   allowedOrigins: ["https://janewilsoncannabisdispensary.com", "https://www.janewilsoncannabisdispensary.com"]
 } as const;

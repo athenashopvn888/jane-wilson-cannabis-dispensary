@@ -1,4 +1,4 @@
-/* JWS01 page system: Jane Wilson purple/green on cream, distinct from AVC01. */
+/* JWC01 page system: Jane Wilson purple/green on cream, distinct from AVC01. */
 .main { min-height: 100vh; background: #f7f3ec; color: #1d1530; }
 .content { width: min(1080px, calc(100% - 2rem)); margin: 0 auto; padding: 28px 0 72px; }
 .crumbs { display: flex; gap: 8px; margin: 0 0 16px; color: #6b5d80; font-size: .85rem; }

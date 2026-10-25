@@ -1,6 +1,6 @@
 /**
  * Refresh menu JSON before `next build`.
- * MENU_FEED_URL fetches the Jane Wilson live feed (store JWS01) and writes
+ * MENU_FEED_URL fetches the Jane Wilson live feed (store JWC01) and writes
  * only when every flower tier is still present. Otherwise the mirrored JSON stays.
  * APPS_SCRIPT_URL remains the temporary mirror refresh.
  * TEMP_STOCK_SOURCE=JFC01
@@ -10,7 +10,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const TEMP_STOCK_SOURCE = "JFC01";
-const LIVE_MENU_STORE = "JWS01";
+const LIVE_MENU_STORE = "JWC01";
 const APPS_SCRIPT_URL = process.env.APPS_SCRIPT_URL || "";
 const MENU_FEED_URL = (process.env.MENU_FEED_URL || "").trim();
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -46,7 +46,7 @@ if (MENU_FEED_URL) {
     writeFileSync(FLOWERS_PATH, JSON.stringify(data.flowers, null, 2));
     writeFileSync(ITEMS_PATH, JSON.stringify(data.items, null, 2));
     wrote = true;
-    console.log(`[prebuild] JWS01 flowers ${data.flowers.length}, items ${data.items.length}`);
+    console.log(`[prebuild] JWC01 flowers ${data.flowers.length}, items ${data.items.length}`);
   } catch (error) {
     console.warn(`[prebuild] Jane Wilson live menu not written (${error.message}).`);
   }
