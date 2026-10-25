@@ -1,4 +1,4 @@
-export const TV2_DAYTIME_START_HOUR = 8;
+export const TV2_DAYTIME_START_HOUR = 9;
 export const TV2_DAYTIME_END_HOUR = 17;
 
 export const CIGARETTE_OFFER_CYCLE_MS = 30_000;

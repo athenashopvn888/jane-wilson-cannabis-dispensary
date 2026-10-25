@@ -7,10 +7,10 @@ export function isCigaretteFlashWindow(now: Date = new Date()): boolean {
     hourCycle: "h23",
   }).formatToParts(now);
   const hour = Number(parts.find((part) => part.type === "hour")?.value ?? "0");
-  return hour >= 17 || hour < 8;
+  return hour >= 17 || hour < 9;
 }
 
-/** 08:00-17:00 America/Toronto: no cigarette or nicotine vape content on TV/TV2. */
+/** 09:00-17:00 America/Toronto: no cigarette or nicotine vape content on TV/TV2. */
 export function isNicotineQuietWindow(now: Date = new Date()): boolean {
   return !isCigaretteFlashWindow(now);
 }
