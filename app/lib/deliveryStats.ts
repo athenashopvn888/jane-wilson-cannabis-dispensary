@@ -25,6 +25,21 @@ export function deliveryTierStats(products: DeliveryProduct[]): { tier: string; 
 const money = (n: number) => `$${(Math.round(n * 100) / 100).toFixed(2).replace(/\.00$/, "").replace(/(\.\d)0$/, "$1")}`;
 const pct = (n: number) => String(Math.round(n * 10) / 10).replace(/\.0$/, "");
 
+/** Price and THC lines for a delivery tier card. Both come from the live catalog only. */
+export function tierCardFacts(s: TierStats): { price: string | null; thc: string | null } {
+  let price: string | null = null;
+  let thc: string | null = null;
+  if (s.perGram) {
+    const [lo, hi] = s.perGram;
+    price = money(lo) === money(hi) ? `${money(lo)} a gram` : `${money(lo)} to ${money(hi)} a gram`;
+  }
+  if (s.thc) {
+    const [lo, hi] = s.thc;
+    thc = pct(lo) === pct(hi) ? `THC about ${pct(lo)}%` : `THC about ${pct(lo)}% to ${pct(hi)}%`;
+  }
+  return { price, thc };
+}
+
 export function tierRangeText(s: TierStats): string | null {
   const parts: string[] = [];
   if (s.perGram) { const [lo, hi] = s.perGram; parts.push(money(lo) === money(hi) ? `${money(lo)} a gram` : `from ${money(lo)} to ${money(hi)} a gram`); }

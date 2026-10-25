@@ -1,7 +1,7 @@
 /**
- * JWS01 delivery (SOD) wiring. Same shared fleet delivery catalog contract as AVC01/MJ01:
- * the site asks SOD for its own store id; SOD serves the shared fleet catalog under that id.
- * Until SOD registers JWS01, /api/catalog answers STORE_NOT_FOUND and /delivery shows "coming soon".
+ * Jane Wilson delivery wiring. Same shared fleet delivery catalog contract as AVC01/MJ01:
+ * the site asks for its own store id; the service serves the shared fleet catalog under that id.
+ * storeId is the id the catalog and Web Chat must submit. It is JWS01. JWC, JWC01 and JWCD01 are rejected.
  *
  * Phone lines live in ./phoneLines.ts (never imported by pages).
  *

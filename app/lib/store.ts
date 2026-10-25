@@ -1,3 +1,6 @@
+/** Jane Wilson Google Business Profile. The only directions / map URL on the site. */
+export const GOOGLE_BUSINESS_PROFILE_URL = "https://maps.app.goo.gl/xcYB9eL7g9SF8UtMA";
+
 export const STORE = {
   code: "JWS01",
   name: "Jane Wilson Cannabis Dispensary",
@@ -13,7 +16,8 @@ export const STORE = {
   origin: "https://janewilsoncannabisdispensary.com",
   canonicalTarget: "https://janewilsoncannabisdispensary.com",
   preview: "https://jane-wilson-cannabis-dispensary.vercel.app",
-  maps: "https://maps.app.goo.gl/vxXQtLG52Fw6UeZy6",
+  /** Google Business Profile. Every directions and map link uses this one URL. */
+  maps: GOOGLE_BUSINESS_PROFILE_URL,
   /** Google Maps place pin for 2111 Jane St #12 (the maps link above). */
   latitude: 43.7190908,
   longitude: -79.5080771,

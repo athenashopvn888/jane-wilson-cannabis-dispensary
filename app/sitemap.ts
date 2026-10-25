@@ -24,6 +24,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...(SHOW_CIGARETTES ? [{ path: "/native-cigarettes-jane-street", changeFrequency: "daily" as const, priority: 0.8 }] : []),
     { path: "/nicotine-vapes-jane-street", changeFrequency: "daily" as const, priority: 0.8 },
     { path: "/delivery", changeFrequency: "daily" as const, priority: 0.9 },
+    { path: "/weed-delivery-north-york", changeFrequency: "weekly" as const, priority: 0.8 },
+    { path: "/weed-delivery-toronto", changeFrequency: "weekly" as const, priority: 0.8 },
     { path: "/faq", changeFrequency: "monthly" as const, priority: 0.7 },
     { path: "/guides", changeFrequency: "weekly" as const, priority: 0.7 },
     { path: "/resources", changeFrequency: "weekly" as const, priority: 0.7 },

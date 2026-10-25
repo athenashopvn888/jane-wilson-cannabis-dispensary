@@ -12,6 +12,7 @@ import FleetTvTakeover from "../components/fleet/FleetTvTakeover";
 import { useFleetTvManifest } from "../components/fleet/useFleetTvManifest";
 import { tvHiring } from "../lib/tvHiring";
 import { formatBoardTime, readStockUpdatedAt } from "../lib/tvStockTime";
+import TvReviewQr from "../TvReviewQr";
 
 /* -- Types -- */
 interface PricePoint { regular: number; sale: number | null; }
@@ -674,6 +675,7 @@ function AddOnsCard({ items, hiIdx }: { items: Item[]; hiIdx: number }) {
             </div>
           ))}
         </div>
+        <TvReviewQr storeName="Jane Wilson Cannabis" />
       </div>
     </div>
   );

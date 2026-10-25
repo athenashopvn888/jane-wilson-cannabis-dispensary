@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import { STORE } from "../lib/store";
 import styles from "./seo.module.css";
 
 const ORIGIN = "https://janewilsoncannabisdispensary.com";
@@ -59,9 +60,9 @@ export default function HoursPage() {
         <div className={styles.card}>
           <p><strong>Jane Wilson Cannabis Dispensary</strong></p>
           <p>2111 Jane St, Unit 12, North York, ON M3M 1A2</p>
-          <p>Phone: <a href="tel:+14374657700">+1 (437) 465-7700</a></p>
+          <p>Phone: <a href={`tel:${STORE.phoneHref}`}>{STORE.phone}</a></p>
           <p>Daily 10:00 AM – 12:00 AM</p>
-          <p><a href="https://www.google.com/maps/search/?api=1&query=2111+Jane+St%2C+Unit+12%2C+North+York%2C+ON+M3M+1A2" target="_blank" rel="noreferrer">Open in Google Maps</a></p>
+          <p><a href={STORE.maps} target="_blank" rel="noreferrer">Directions</a></p>
         </div>
         <section className={styles.section}>
           <h2>Weekly hours</h2>
@@ -76,9 +77,10 @@ export default function HoursPage() {
         <section className={styles.section}>
           <h2>Plan your visit</h2>
           <div className={styles.ctaRow}>
-            <a href="tel:+14374657700" className={`${styles.cta} ${styles.ctaPrimary}`}>Call +1 (437) 465-7700</a>
+            <a href={STORE.maps} className={`${styles.cta} ${styles.ctaPrimary}`} target="_blank" rel="noreferrer">Directions</a>
+            <span className={styles.hoursBeside}>Hours: {STORE.hoursLabel}</span>
+            <a className={styles.callStore} href={`tel:${STORE.phoneHref}`}>Call Store</a>
             <Link href="/" className={styles.cta}>Store menu</Link>
-            <Link href="/visit" className={styles.cta}>Visit &amp; directions</Link>
           </div>
           <p className={styles.note}>Adults 19+. Government-issued photo ID required.</p>
         </section>
