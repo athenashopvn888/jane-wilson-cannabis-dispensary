@@ -6,7 +6,7 @@ import JsonLd from "../components/JsonLd";
 import FaqBlock, { faqSchema } from "../components/FaqBlock";
 import { HOME_FAQS, PRICE_RULE_FAQ, STORE_PRICE_ON_DELIVERY_FAQ } from "../lib/content/faqs";
 import { STORE } from "../lib/store";
-import styles from "../jws-pages.module.css";
+import styles from "../jwc-pages.module.css";
 
 const URL_ = `${STORE.origin}/faq`;
 const TITLE = "FAQ | Jane Wilson Cannabis Dispensary | Jane St North York";

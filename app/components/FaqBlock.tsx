@@ -1,5 +1,5 @@
 import type { Faq } from "../lib/content/faqs";
-import styles from "../jws-pages.module.css";
+import styles from "../jwc-pages.module.css";
 
 export default function FaqBlock({ faqs, title }: { faqs: Faq[]; title?: string }) {
   return (

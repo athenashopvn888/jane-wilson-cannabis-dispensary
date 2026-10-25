@@ -4,7 +4,7 @@ import type { Nap, ResolvedBanner, ResolvedPage } from "./types.ts";
  * The only store-specific fleet file. Other stores replace this module
  * and leave the rest of app/lib/fleet and app/components/fleet as-is.
  */
-export const FLEET_STORE_CODE = "JWS01";
+export const FLEET_STORE_CODE = "JWC01";
 export const FLEET_STORE_NAME = "Jane Wilson Cannabis Dispensary";
 export const FLEET_AREA = "North York";
 export const FLEET_DOMAIN = "janewilsoncannabisdispensary.com";
@@ -25,7 +25,7 @@ export const FLEET_COLORS = {
  * Client bundles do not receive that value.
  */
 function blockedPhones(): readonly string[] {
-  const digits = (process.env.SOD_STORE_JWS01_PHONE || "").replace(/\D/g, "");
+  const digits = (process.env.SOD_STORE_JWC01_PHONE || "").replace(/\D/g, "");
   return digits ? [digits, "telnyx"] : ["telnyx"];
 }
 

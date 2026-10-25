@@ -1,12 +1,12 @@
 /**
- * Shared fleet menu feed. Pages call this for store JWS01.
+ * Shared fleet menu feed. Pages call this for store JWC01.
  * MENU_FEED_URL overrides the shared Apps Script. An empty or failed
  * response stays on the mirrored JSON in inventory.ts.
  */
 export const DEFAULT_MENU_FEED_URL =
   "https://script.google.com/macros/s/AKfycbx09_sDal1eMVF1r-hUck4e7oq_XBHEWhGvA79JuhZNQ6P4CdhCas0xE3FfexWQ3hq4/exec";
 
-export const LIVE_MENU_STORE = "JWS01";
+export const LIVE_MENU_STORE = "JWC01";
 
 export function menuFeedUrl(): string {
   return (process.env.MENU_FEED_URL || "").trim() || DEFAULT_MENU_FEED_URL;

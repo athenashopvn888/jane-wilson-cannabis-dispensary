@@ -7,7 +7,7 @@
 @media(max-width:1150px){.navTiers{display:none}.hubGrid{grid-template-columns:repeat(2,1fr)}.quickFacts{grid-template-columns:repeat(2,1fr)}.corridorStory,.visitHero,.corridorHero,.corridorBand{grid-template-columns:1fr}.corridorHero>img{max-width:680px;margin:auto}.weightBoard{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:700px){.statusBar{gap:8px;justify-content:space-between;font-size:.55rem}.statusBar span:nth-child(2){display:none}.quickFacts,.hubGrid,.arrivalGrid,.truthGrid{grid-template-columns:1fr}.quickFacts{padding:0}.routeHubs{padding:75px 20px}.corridorStory{padding:75px 20px}.visitPanel{margin:0 20px 75px;padding:35px 24px;align-items:flex-start;flex-direction:column}.visitPanel .visitActions{flex-direction:column;width:100%}.visitPanel .visitActions a{text-align:center}.weightBoard{grid-template-columns:1fr 1fr}.weightBoard>div{min-height:150px;padding:18px 10px}.inventoryTruth{grid-template-columns:1fr;text-align:center}.inventoryTruth .feedIcon{margin:auto}.tierEditorial{padding:10px 20px 75px}.visitHero,.corridorHero{padding:65px 20px}.visitHero h1,.corridorHero h1{font-size:3.7rem}.visitDoor{max-height:430px}.arrivalGrid{padding:70px 20px}.parkingNote{margin:0 20px 75px;padding:35px 24px;grid-template-columns:1fr}.corridorBand{padding:70px 20px}.geoNarrative{padding:75px 20px;grid-template-columns:1fr;gap:20px}.corridorTiers{margin:0 20px 75px;padding:60px 20px}.truthGrid{padding:0 20px}.menuIntro h2{font-size:2.7rem}}
 
-/* JWS supplied monogram */
+/* JWC supplied monogram */
 .brandMark{background:transparent;border-radius:0;box-shadow:none;overflow:visible}
 .brandMark img{display:block;width:100%;height:100%;object-fit:contain}
 
@@ -121,7 +121,7 @@ html.navLocked,html.navLocked body{overflow:hidden}
   .navActions .callButton{width:44px;height:44px;position:static}
 }
 
-/* JWS01 premium marketing system — 2026-09-24 */
+/* JWC01 premium marketing system — 2026-09-24 */
 :root{
   --purple:#6120a8;
   --purple2:#8f45d8;
@@ -263,7 +263,7 @@ h1,h2{font-family:var(--font-display),Georgia,serif;font-weight:400}
 .fg-header .fg-deal-price strong{font-size:20px}
 .fg-header .fg-deal-meta{margin-top:4px;font-size:12px;font-weight:700;color:#5d705d}
 
-/* JWS01 2026-10-13: Weed dropdown groups the 5 tier links so the desktop nav fits on one row. */
+/* JWC01 2026-10-13: Weed dropdown groups the 5 tier links so the desktop nav fits on one row. */
 .desktopNav a{white-space:nowrap}
 .navWeed{position:relative;display:flex;align-items:center}
 .navWeedToggle{display:inline-flex;align-items:center;gap:5px;padding:8px 2px;border:0;background:none;color:inherit;font:inherit;font-size:.75rem;font-weight:850;letter-spacing:.015em;cursor:pointer;white-space:nowrap}

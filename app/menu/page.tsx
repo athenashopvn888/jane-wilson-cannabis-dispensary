@@ -9,7 +9,7 @@ import Nav from "../components/Nav";
 import { cigaretteItems, flowersForTier, getMenu, nicotineVapeItems } from "../lib/inventory";
 import { SHOW_CIGARETTES } from "../lib/siteConfig";
 import { STORE, TIERS } from "../lib/store";
-import styles from "../jws-pages.module.css";
+import styles from "../jwc-pages.module.css";
 
 export const revalidate = 300;
 

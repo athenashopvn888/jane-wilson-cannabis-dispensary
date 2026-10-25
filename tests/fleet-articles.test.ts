@@ -111,7 +111,7 @@ test("the live kit-test-article JSON keeps a relative hero, the HTML body, and a
       if (href.endsWith("/articles/kit-test-article.json")) return new Response(KIT_BODY, { status: 200 });
       return new Response("missing", { status: 404 });
     }) as typeof fetch,
-    indexUrl: "https://dhaah0upvlpukv56.public.blob.vercel-storage.com/JWS01/articles/index.json",
+    indexUrl: "https://dhaah0upvlpukv56.public.blob.vercel-storage.com/JWC01/articles/index.json",
     blockedPhones: [],
   });
   assert.equal(loaded.ok, true);
