@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
 import Nav from "../components/Nav";
 import { STORE, TIERS, storeSchema } from "../lib/store";
-import styles from "../jws-pages.module.css";
+import styles from "../jwc-pages.module.css";
 
 const URL_ = `${STORE.origin}/dispensary-near-me`;
 const TITLE = "Dispensary Near Me on Jane Street | North York | Jane Wilson Cannabis";

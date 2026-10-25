@@ -8,7 +8,7 @@ import StrainList from "./StrainList";
 import { GUIDES } from "../../lib/content/guides";
 import { guideFamily, type GuideHub } from "../../lib/content/guideHubs";
 import { STORE } from "../../lib/store";
-import styles from "../../jws-pages.module.css";
+import styles from "../../jwc-pages.module.css";
 
 export default function GuideHubPage({ hub }: { hub: GuideHub }) {
   const path = `/guides/${hub.slug}`;

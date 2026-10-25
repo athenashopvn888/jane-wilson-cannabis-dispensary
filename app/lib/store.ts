@@ -1,5 +1,5 @@
 export const STORE = {
-  code: "JWS01",
+  code: "JWC01",
   name: "Jane Wilson Cannabis Dispensary",
   shortName: "Jane Wilson Cannabis",
   address: "2111 Jane St, Unit 12, North York, ON M3M 1A2",

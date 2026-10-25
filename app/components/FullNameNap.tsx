@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { FULL_NAME_NAP, FULL_NAME_NAP_ADDRESS } from "../lib/fullNameNap";
 
 /**
- * JWS01 exact full-name NAP (name, address, phone) line, shown at the foot of every page.
+ * JWC01 exact full-name NAP (name, address, phone) line, shown at the foot of every page.
  * Name = the store's full name exactly as used on its Google Business Profile.
  * Address and phone = the public GBP primary phone and storefront address. No delivery-line numbers.
  * Additive only: sits below each page's existing footer. Hidden on in-store TV screens.

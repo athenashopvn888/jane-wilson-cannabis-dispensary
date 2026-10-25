@@ -6,7 +6,7 @@ import JsonLd from "../../components/JsonLd";
 import Nav from "../../components/Nav";
 import { RESOURCE_ARTICLES, resourceBySlug, type TextPart } from "../../lib/content/resources";
 import { STORE } from "../../lib/store";
-import styles from "../../jws-pages.module.css";
+import styles from "../../jwc-pages.module.css";
 
 export function generateStaticParams() {
   return RESOURCE_ARTICLES.map((article) => ({ slug: article.slug }));

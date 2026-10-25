@@ -6,7 +6,7 @@ import JsonLd from "../components/JsonLd";
 import StrainList from "./_components/StrainList";
 import { GUIDES } from "../lib/content/guides";
 import { STORE } from "../lib/store";
-import styles from "../jws-pages.module.css";
+import styles from "../jwc-pages.module.css";
 
 const URL_ = `${STORE.origin}/guides`;
 const TITLE = "Cannabis Strain Guides | Jane Wilson Cannabis Dispensary";

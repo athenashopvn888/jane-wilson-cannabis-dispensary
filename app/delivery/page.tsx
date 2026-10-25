@@ -12,7 +12,7 @@ import { deliveryTierStats, tierRangeText } from "../lib/deliveryStats";
 import { sortProducts, type DeliveryProduct } from "../lib/pricing";
 import { PRICE_RULE_FAQ, STORE_PRICE_ON_DELIVERY_FAQ } from "../lib/content/faqs";
 import { STORE } from "../lib/store";
-import styles from "../jws-pages.module.css";
+import styles from "../jwc-pages.module.css";
 import "./delivery.css";
 import BannerSlots from "../components/BannerSlots";
 

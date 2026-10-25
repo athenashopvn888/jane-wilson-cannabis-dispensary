@@ -5,12 +5,12 @@ import type { DeliveryProduct } from "./pricing";
 export type { DeliveryProduct };
 export type DeliveryState =
   | { state: "live"; products: DeliveryProduct[]; importedAt: string }
-  | { state: "soon" } // JWS01 is not registered in SOD yet (STORE_NOT_FOUND): no false claims
+  | { state: "soon" } // JWC01 is not registered in SOD yet (STORE_NOT_FOUND): no false claims
   | { state: "unavailable" }; // registered but the catalog cannot be read right now
 
 /**
  * Fleet delivery loader: the SOD catalog for THIS store id only, rendered on the server.
- * Fail-closed: the payload must declare storeId === JWS01 and carry products; never another store's catalog.
+ * Fail-closed: the payload must declare storeId === JWC01 and carry products; never another store's catalog.
  */
 /** A healthy fleet catalog has about 60 products; fewer than this is treated as a broken payload, not a menu. */
 export const MIN_PRODUCTS = 50;

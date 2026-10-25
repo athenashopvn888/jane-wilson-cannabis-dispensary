@@ -16,8 +16,8 @@ import { FLEET_AFFECTED_PATHS } from "../app/lib/fleet/routes.ts";
 import { FLEET_MAX_BUNDLE_BYTES, type ContentBundle } from "../app/lib/fleet/types.ts";
 import { parseBundle, parseManifest, rejectHttp } from "../app/lib/fleet/validate.ts";
 
-const MANIFEST_URL = "https://fixture.test/JWS01/manifest.json";
-const BUNDLE_URL = "https://fixture.test/JWS01/content-v1.json";
+const MANIFEST_URL = "https://fixture.test/JWC01/manifest.json";
+const BUNDLE_URL = "https://fixture.test/JWC01/content-v1.json";
 const manifest = JSON.parse(readFileSync(new URL("../fixtures/fleet/manifest.json", import.meta.url), "utf8"));
 const bundle = JSON.parse(readFileSync(new URL("../fixtures/fleet/content-v1.json", import.meta.url), "utf8")) as ContentBundle;
 
@@ -40,7 +40,7 @@ function fetchServing(bodies: Record<string, { body: string; status?: number; he
 async function acceptFixture() {
   resetFleetContentCache();
   const { fetchImpl, calls } = fetchServing({
-    [MANIFEST_URL]: { body: JSON.stringify(manifest), headers: { etag: '"JWS01-1"' } },
+    [MANIFEST_URL]: { body: JSON.stringify(manifest), headers: { etag: '"JWC01-1"' } },
     [BUNDLE_URL]: { body: JSON.stringify(bundle) },
   });
   const state = await readFleetContent({
@@ -55,7 +55,7 @@ async function acceptFixture() {
 test("a valid bundle is accepted and a missing manifest stays on coded content", async () => {
   const coded = await readFleetContent({ manifestUrl: "", emergencyCoded: false, renderedAt: "2026-10-22T00:00:00.000Z" });
   assert.equal(coded.active, false);
-  assert.equal(coded.version, "JWS01:coded");
+  assert.equal(coded.version, "JWC01:coded");
   assert.equal(coded.nap.street, CODED_NAP.street);
   assert.equal(coded.pages.Home.description, CODED_PAGES.Home.description);
 
@@ -105,7 +105,7 @@ test("invalid-200 responses are rejected before they replace the last good bundl
     });
     assert.equal(kept.contentVersion, 1, item.name);
     assert.equal(kept.banners[0].textBar, "Sheet weed text bar", item.name);
-    assert.equal(kept.version, "JWS01:1", item.name);
+    assert.equal(kept.version, "JWC01:1", item.name);
   }
 });
 
@@ -200,8 +200,8 @@ test("Follow ALL, Custom, Coded and Hidden each resolve on their own", () => {
 });
 
 test("the version marker, tv manifest 304, emergency coded flag, and revalidate secret stay in their lanes", async () => {
-  assert.equal(fleetVersion(null), "JWS01:coded");
-  assert.equal(fleetVersion(4), "JWS01:4");
+  assert.equal(fleetVersion(null), "JWC01:coded");
+  assert.equal(fleetVersion(4), "JWC01:4");
   const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
   assert.match(layout, /<meta name="fleet-content-version" content=\{fleet\.version\} \/>/);
   assert.match(readFileSync(new URL("../app/api/revalidate/route.ts", import.meta.url), "utf8"), /revalidateTag\(FLEET_CONTENT_TAG, "max"\)/);
@@ -219,15 +219,15 @@ test("the version marker, tv manifest 304, emergency coded flag, and revalidate 
   const coded = await readFleetContent({ manifestUrl: "", emergencyCoded: false, renderedAt: "2026-10-22T00:00:00.000Z" });
   const miss = tvManifestDecision(coded, '"other"');
   assert.equal(miss.status, 200);
-  assert.equal(miss.etag, '"JWS01-coded"');
+  assert.equal(miss.etag, '"JWC01-coded"');
   assert.equal(tvManifestDecision(coded, miss.etag).status, 304);
 
   const { state: live } = await acceptFixture();
-  assert.equal(tvManifestDecision(live, '"JWS01-1"').status, 304);
+  assert.equal(tvManifestDecision(live, '"JWC01-1"').status, 304);
   const manifestBody = tvManifestDecision(live, null).body;
   assert.equal(manifestBody?.bundleUrl, BUNDLE_URL);
   assert.equal(manifestBody?.contentVersion, 1);
-  assert.equal((await readFleetContent({ manifestUrl: MANIFEST_URL, emergencyCoded: true, renderedAt: "2026-10-22T00:00:00.000Z" })).version, "JWS01:coded");
+  assert.equal((await readFleetContent({ manifestUrl: MANIFEST_URL, emergencyCoded: true, renderedAt: "2026-10-22T00:00:00.000Z" })).version, "JWC01:coded");
 
   assert.equal(revalidateAuthorized("right-secret", "right-secret"), true);
   assert.equal(revalidateAuthorized("wrong-secret", "right-secret"), false);
@@ -313,13 +313,13 @@ test("the page meta version equals the manifest version, and the env URL still w
   assert.match(readFileSync(new URL("../app/articles/[slug]/page.tsx", import.meta.url), "utf8"), /export const dynamic = "force-dynamic"/);
   assert.match(readFileSync(new URL("../app/tv/layout.tsx", import.meta.url), "utf8"), /export const dynamic = "force-dynamic"/);
   assert.match(readFileSync(new URL("../app/tv2/layout.tsx", import.meta.url), "utf8"), /export const dynamic = "force-dynamic"/);
-  assert.equal(defaultManifestUrl(), "https://dhaah0upvlpukv56.public.blob.vercel-storage.com/JWS01/manifest.json");
+  assert.equal(defaultManifestUrl(), "https://dhaah0upvlpukv56.public.blob.vercel-storage.com/JWC01/manifest.json");
 
   delete process.env.FLEET_CONTENT_MANIFEST_URL;
   resetFleetContentCache();
   const blobUrl = defaultManifestUrl();
   const served = fetchServing({
-    [blobUrl]: { body: JSON.stringify(manifest), headers: { etag: '"JWS01-1"' } },
+    [blobUrl]: { body: JSON.stringify(manifest), headers: { etag: '"JWC01-1"' } },
     [BUNDLE_URL]: { body: JSON.stringify(bundle) },
   });
   try {
@@ -331,7 +331,7 @@ test("the page meta version equals the manifest version, and the env URL still w
     assert.deepEqual(served.calls, [blobUrl, BUNDLE_URL]);
     assert.equal(state.active, true);
     assert.equal(state.contentVersion, manifest.contentVersion);
-    assert.equal(state.version, `JWS01:${manifest.contentVersion}`);
+    assert.equal(state.version, `JWC01:${manifest.contentVersion}`);
 
     const missing = fetchServing({});
     resetFleetContentCache();
@@ -341,12 +341,12 @@ test("the page meta version equals the manifest version, and the env URL still w
       renderedAt: "2026-10-22T00:00:00.000Z",
     });
     assert.deepEqual(missing.calls, [blobUrl]);
-    assert.equal(coded.version, "JWS01:coded");
+    assert.equal(coded.version, "JWC01:coded");
 
     resetFleetContentCache();
     process.env.FLEET_CONTENT_MANIFEST_URL = MANIFEST_URL;
     const fromEnv = fetchServing({
-      [MANIFEST_URL]: { body: JSON.stringify(manifest), headers: { etag: '"JWS01-1"' } },
+      [MANIFEST_URL]: { body: JSON.stringify(manifest), headers: { etag: '"JWC01-1"' } },
       [BUNDLE_URL]: { body: JSON.stringify(bundle) },
     });
     const envState = await readFleetContent({
@@ -355,7 +355,7 @@ test("the page meta version equals the manifest version, and the env URL still w
       renderedAt: "2026-10-22T12:00:01.000Z",
     });
     assert.deepEqual(fromEnv.calls, [MANIFEST_URL, BUNDLE_URL]);
-    assert.equal(envState.version, `JWS01:${manifest.contentVersion}`);
+    assert.equal(envState.version, `JWC01:${manifest.contentVersion}`);
   } finally {
     if (previous == null) delete process.env.FLEET_CONTENT_MANIFEST_URL;
     else process.env.FLEET_CONTENT_MANIFEST_URL = previous;

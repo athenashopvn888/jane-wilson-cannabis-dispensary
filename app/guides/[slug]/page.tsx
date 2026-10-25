@@ -8,7 +8,7 @@ import FaqBlock, { faqSchema } from "../../components/FaqBlock";
 import { GUIDES } from "../../lib/content/guides";
 import { STRAIN_COPY, firstSentence } from "../../lib/content/strainCopy";
 import { STORE } from "../../lib/store";
-import styles from "../../jws-pages.module.css";
+import styles from "../../jwc-pages.module.css";
 
 export const dynamicParams = false;
 export const generateStaticParams = () => GUIDES.map((g) => ({ slug: g.slug }));
