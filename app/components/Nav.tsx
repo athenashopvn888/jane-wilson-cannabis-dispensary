@@ -15,7 +15,9 @@ const STORE_LINKS = [
   { href: "/nicotine-vapes-jane-street", label: "Nicotine Vapes" },
   { href: "/delivery", label: "Delivery" },
   { href: "/faq", label: "FAQ" },
-  { href: "/guides", label: "Guides" }
+  { href: "/guides", label: "Guides" },
+  { href: "/resources", label: "Resources" },
+  { href: "/menu", label: "Menu" }
 ] as const;
 
 const VISIBLE_STORE_LINKS = SHOW_CIGARETTES
@@ -104,7 +106,7 @@ export default function Nav() {
         <div className="navWrap">
         <Link className="brand" href="/" aria-label={`${STORE.name} home`}>
           <span className="brandMark" aria-hidden="true">
-            <Image src="/images/jane-wilson-jwc-logo.webp" alt="" width={64} height={64} priority />
+            <Image src="/images/jane-wilson-jwc-logo.webp" alt="Jane Wilson Cannabis Dispensary logo" width={64} height={64} priority />
           </span>
           <span className="brandWords">
             <b>JANE WILSON</b>

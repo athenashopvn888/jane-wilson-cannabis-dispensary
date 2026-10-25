@@ -2,7 +2,18 @@ export const TV2_DAYTIME_START_HOUR = 8;
 export const TV2_DAYTIME_END_HOUR = 17;
 
 export const CIGARETTE_OFFER_CYCLE_MS = 30_000;
-export const CIGARETTE_OFFER_VISIBLE_FROM_MS = 20_000;
+export const CIGARETTE_OFFER_VISIBLE_MS = 5_000;
+
+export const CIGARETTE_PROMOS = [
+  {
+    src: "/images/jane-wilson-home-cigarettes-2-packs.webp",
+    alt: "Mix and match, 2 packs for $5 or $25 a carton, at Jane Wilson Cannabis Dispensary",
+  },
+  {
+    src: "/images/jane-wilson-home-bb-marlboro-belmont.webp",
+    alt: "BB, Marlboro and Belmont cigarettes at Jane Wilson Cannabis Dispensary",
+  },
+] as const;
 
 export type Tv2DaytimePromo = {
   src: string;
@@ -45,9 +56,12 @@ export function isCigaretteOfferVisible(
   elapsedMs: number,
 ): boolean {
   if (daytime || !Number.isFinite(elapsedMs) || elapsedMs < 0) return false;
-  return (
-    elapsedMs % CIGARETTE_OFFER_CYCLE_MS >=
-    CIGARETTE_OFFER_VISIBLE_FROM_MS
-  );
+  return elapsedMs % CIGARETTE_OFFER_CYCLE_MS < CIGARETTE_OFFER_VISIBLE_MS;
+}
+
+export function getCigaretteOfferPromo(daytime: boolean, elapsedMs: number) {
+  if (!isCigaretteOfferVisible(daytime, elapsedMs)) return undefined;
+  const cycle = Math.floor(elapsedMs / CIGARETTE_OFFER_CYCLE_MS);
+  return CIGARETTE_PROMOS[cycle % CIGARETTE_PROMOS.length];
 }
 

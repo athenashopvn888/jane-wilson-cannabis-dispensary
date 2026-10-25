@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SHOW_CIGARETTES } from "../lib/siteConfig";
+import { useTvCigaretteFlag } from "./useTvCigaretteFlag";
 import { CIGARETTE_FLASH_MESSAGE, isCigaretteFlashWindow } from "../tv/flashMessages";
 
 /** Night cigarette ticker line: shows 17:00-07:59 America/Toronto only, hidden 08:00-16:59. */
 export default function CigaretteNightTicker() {
+  const tvCig = useTvCigaretteFlag();
   const [show, setShow] = useState(false);
   useEffect(() => {
     const sync = () => setShow(isCigaretteFlashWindow());
@@ -13,7 +14,7 @@ export default function CigaretteNightTicker() {
     const t = window.setInterval(sync, 30_000);
     return () => window.clearInterval(t);
   }, []);
-  if (!SHOW_CIGARETTES || !show) return null;
+  if (!tvCig || !show) return null;
   return (
     <div
       data-cigarette-ticker=""

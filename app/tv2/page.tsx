@@ -10,10 +10,10 @@ import { useFleetTvManifest } from "../components/fleet/useFleetTvManifest";
 import { pickTv2Sheet } from "../lib/fleet/tv";
 import { tvHiring } from "../lib/tvHiring";
 import { formatBoardTime, readStockUpdatedAt } from "../lib/tvStockTime";
-import { SHOW_CIGARETTES } from "../lib/siteConfig";
+import { useTvCigaretteFlag } from "../components/useTvCigaretteFlag";
 import {
+  getCigaretteOfferPromo,
   getTv2DaytimePromo,
-  isCigaretteOfferVisible,
   isTv2Daytime,
 } from "./tv2Promos";
 
@@ -33,7 +33,9 @@ const CARD_CONFIG = [
   { id:"MAGIC",           title:"🍄 MAGIC & OTHERS",     accent:"#43c95b", filter:(it:Item)=>it.category==="MAGIC & OTHERS", preset:"🍫 START SMALL · WAIT 45 MIN · THEN MORE" },
 ];
 
-const VISIBLE_CARDS = SHOW_CIGARETTES ? CARD_CONFIG : CARD_CONFIG.filter((card) => card.id !== "CIGARETTES");
+function visibleCards(showCigarettes: boolean) {
+  return showCigarettes ? CARD_CONFIG : CARD_CONFIG.filter((card) => card.id !== "CIGARETTES");
+}
 
 /* -- HELPERS -- */
 const fmtPrice = (v?:string) => { const s=String(v||"").trim(); if(!s)return""; return /^\$/.test(s)?s:"$"+s; };
@@ -41,8 +43,9 @@ const fmtTHC = (v?:string) => { const s=String(v||"").trim(); if(!s)return""; if
 const fmtMG = (v?:string) => { const s=String(v||"").trim(); if(!s)return""; if(/^\d+(\.\d+)?$/.test(s))return s+"mg"; return s; };
 
 /* -- ITEM CARD -- */
-function ItemCard({ title, accent, items, hiIdx, preset, offerOverlay = false }: {
-  title:string; accent:string; items:Item[]; hiIdx:number; preset:string; offerOverlay?:boolean;
+function ItemCard({ title, accent, items, hiIdx, preset, offer }: {
+  title:string; accent:string; items:Item[]; hiIdx:number; preset:string;
+  offer?: { src: string; alt: string };
 }) {
   const MAX = 10;
   const hiW = Math.min(hiIdx % Math.max(1, items.length), items.length - 1);
@@ -143,14 +146,11 @@ function ItemCard({ title, accent, items, hiIdx, preset, offerOverlay = false }:
           </div>
         </div>
       </div>
-      {SHOW_CIGARETTES && offerOverlay && (
-        <div className={styles.timedPromoOverlay} aria-label="Mix and Match 2 Pack $5 Cigarette Offer">
-          <img
-            src="/banners/2pack5cig.webp"
-            alt="Mix and Match 2 Pack $5 Cigarette Offer"
-          />
+      {offer ? (
+        <div className={styles.timedPromoOverlay} aria-label={offer.alt}>
+          <img src={offer.src} alt={offer.alt} />
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
@@ -174,7 +174,8 @@ export default function TV2Page() {
   const [lastUpdate, setLastUpdate] = useState("");
   const [stockUpdated, setStockUpdated] = useState<string | null>(null);
   const [daytime, setDaytime] = useState(false);
-  const [cigaretteOfferVisible, setCigaretteOfferVisible] = useState(false);
+  const [cigaretteOffer, setCigaretteOffer] = useState<{ src: string; alt: string } | undefined>(undefined);
+  const tvCig = useTvCigaretteFlag();
   const [sheetBroken, setSheetBroken] = useState<Record<string, { promo?: boolean; off?: boolean }>>({});
   const fleetTv = useFleetTvManifest();
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -189,13 +190,12 @@ export default function TV2Page() {
   useEffect(() => {
     const startedAt = performance.now();
     const updateOffer = () => {
-      setCigaretteOfferVisible(
-        SHOW_CIGARETTES && isCigaretteOfferVisible(isTv2Daytime(), performance.now() - startedAt),
-      );
+      setCigaretteOffer(tvCig ? getCigaretteOfferPromo(isTv2Daytime(), performance.now() - startedAt) : undefined);
     };
+    updateOffer();
     const iv = setInterval(updateOffer, 250);
     return () => clearInterval(iv);
-  }, []);
+  }, [tvCig]);
 
   const loadData = useCallback(async () => {
     try {
@@ -204,11 +204,11 @@ export default function TV2Page() {
       setItems(data);
       setStockUpdated(readStockUpdatedAt(res, data));
       const hi: Record<string,number> = {};
-      VISIBLE_CARDS.forEach(c => { hi[c.id] = 0; });
+      visibleCards(tvCig).forEach(c => { hi[c.id] = 0; });
       setHighlights(hi);
       setLastUpdate(formatBoardTime(new Date()) || "");
     } catch (err) { console.warn("[TV2] Load failed:", err); }
-  }, []);
+  }, [tvCig]);
 
   const fitToScreen = useCallback(() => {
     if (!wrapRef.current) return;
@@ -234,15 +234,15 @@ export default function TV2Page() {
     const interval = setInterval(() => {
       setHighlights(prev => {
         const next = {...prev};
-        VISIBLE_CARDS.forEach(c => {
-          const filtered = items.filter(c.filter).filter((it) => SHOW_CIGARETTES || it.category !== "CIGARETTES");
+        visibleCards(tvCig).forEach(c => {
+          const filtered = items.filter(c.filter).filter((it) => tvCig || it.category !== "CIGARETTES");
           next[c.id] = ((prev[c.id]||0) + 1) % Math.max(1, filtered.length);
         });
         return next;
       });
     }, 5000);
     return () => clearInterval(interval);
-  }, [items]);
+  }, [items, tvCig]);
 
   return (
     <div className={styles.tvPage} style={bgUrl ? { backgroundImage: `url(${bgUrl})`, backgroundSize: "cover" } : undefined}>
@@ -251,13 +251,13 @@ export default function TV2Page() {
 
         {/* GRID */}
         <div className={styles.stage}>
-          <HiringRibbon hiring={tvHiring} />
+          <HiringRibbon hiring={tvHiring} showCigarettes={tvCig} />
           <div className={styles.grid}>
-            {VISIBLE_CARDS.map(card => {
-              const filtered = items.filter(card.filter).filter(it => !(daytime && isNicotineItem(it))).filter((it) => SHOW_CIGARETTES || it.category !== "CIGARETTES");
+            {visibleCards(tvCig).map(card => {
+              const filtered = items.filter(card.filter).filter(it => !(daytime && isNicotineItem(it) && it.category !== "CIGARETTES")).filter((it) => tvCig || it.category !== "CIGARETTES");
               const broken = sheetBroken[card.id] || {};
               const sheet = pickTv2Sheet(fleetTv.cards[card.id], {
-                categoryOff: card.id === "CIGARETTES" && !SHOW_CIGARETTES,
+                categoryOff: card.id === "CIGARETTES" && !tvCig,
                 noItems: filtered.length === 0,
                 promoBroken: Boolean(broken.promo),
                 offBroken: Boolean(broken.off),
@@ -320,7 +320,7 @@ export default function TV2Page() {
               return (
                 <ItemCard key={card.id} title={card.title} accent={card.accent}
                   items={filtered} hiIdx={highlights[card.id]||0} preset={card.preset}
-                  offerOverlay={SHOW_CIGARETTES && card.id === "CIGARETTES" && cigaretteOfferVisible} />
+                  offer={card.id === "CIGARETTES" ? cigaretteOffer : undefined} />
               );
             })}
           </div>

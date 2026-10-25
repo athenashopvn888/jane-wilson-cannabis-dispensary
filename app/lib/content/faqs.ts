@@ -10,7 +10,7 @@ export const HOME_FAQS: Faq[] = [
   { q: "What is the phone number?", a: "(437) 465-7700." },
   { q: "What are your hours?", a: "Open daily from 10:00 AM to 12:00 AM (midnight)." },
   { q: "Do I need ID?", a: "Yes. Adults 19+ must show valid government-issued photo ID, in store and at delivery." },
-  { q: "How does delivery work?", a: "Browse the delivery menu and call us on (437) 465-7700 to place your order. Delivery starts at 7 grams and has a minimum order. Open the delivery page to get started." },
+  { q: "How does delivery work?", a: "Browse the delivery menu, open LIVE ORDER, and send your choices in Web Chat. Delivery uses bulk pricing, starting at 7 grams, with a minimum order. The dispatcher confirms stock, address coverage and the total. Adults 19+, photo ID at the door." },
   { q: "What flower weights do you sell?", a: "In store: 3g, 6g, 14g and 28g on Exotic, Premium and AAA+, and 3g, 5g, 14g and 28g on AA and Budget, depending on the strain." },
   { q: "Where can I see what you have today?", a: "Open our menu page, or call us on (437) 465-7700." }
 ];

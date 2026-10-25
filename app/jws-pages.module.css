@@ -18,6 +18,7 @@
 .section { margin: 32px 0; }
 .section h2, .faqs h2 { margin: 0 0 14px; font-family: var(--font-display), serif; font-weight: 400; font-size: 1.7rem; color: #3d0f66; }
 .section p, .prose { line-height: 1.7; color: #3a2d4f; }
+.section a, .prose a { color: #681ca8; font-weight: 800; }
 .band { padding: 22px; border-radius: 18px; background: #e9f8ec; border: 1px dashed #27a951; }
 .ranges { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; padding: 0; list-style: none; }
 .ranges li { padding: 14px; border-radius: 12px; background: #fff; }

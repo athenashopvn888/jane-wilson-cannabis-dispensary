@@ -66,6 +66,11 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const fleet = await getFleetContent();
   const codedStore = storeSchema();
+  const sheetLat = Number(fleet.nap.lat);
+  const sheetLng = Number(fleet.nap.lng);
+  const sheetGeo = fleet.nap.lat.trim() && fleet.nap.lng.trim() && Number.isFinite(sheetLat) && Number.isFinite(sheetLng)
+    ? { "@type": "GeoCoordinates", latitude: sheetLat, longitude: sheetLng }
+    : codedStore.geo;
   const store = fleet.active
     ? {
         ...codedStore,
@@ -74,6 +79,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         url: fleet.nap.website,
         telephone: fleet.nap.phoneTel,
         hasMap: fleet.nap.mapsSearchUrl,
+        geo: sheetGeo,
         address: {
           "@type": "PostalAddress",
           streetAddress: fleet.nap.street,

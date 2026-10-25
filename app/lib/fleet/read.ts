@@ -1,6 +1,7 @@
 import { resetFleetArticleCache } from "./articles.ts";
 import { CODED_NAP, CODED_PAGES, fleetVersion } from "./coded.ts";
 import { defaultManifestUrl } from "./config.ts";
+import { CONTENT_MODE_ENV, EDGE_CONFIG_ENV, readEmergencyCoded } from "./emergency.ts";
 import { resolveBanners, resolveNap, resolvePages } from "./resolve.ts";
 import { resolveFullscreenPromos, resolveTvCards } from "./tv.ts";
 import { FLEET_STORE_CODE, type ContentBundle, type ContentManifest, type FleetState, type TvFullscreenPromo, type TvCardSlot } from "./types.ts";
@@ -8,8 +9,7 @@ import { parseBundle, parseManifest, rejectHttp } from "./validate.ts";
 
 export const FLEET_MANIFEST_ENV = "FLEET_CONTENT_MANIFEST_URL";
 export const FLEET_REVALIDATE_ENV = "FLEET_REVALIDATE_SECRET";
-export { EDGE_CONFIG_ENV, readEmergencyCoded } from "./emergency.ts";
-import { readEmergencyCoded } from "./emergency.ts";
+export { CONTENT_MODE_ENV, EDGE_CONFIG_ENV, readEmergencyCoded };
 
 type Accepted = {
   manifest: ContentManifest;
@@ -24,13 +24,15 @@ export function resetFleetContentCache(): void {
   resetFleetArticleCache();
 }
 
-export function codedFleetState(renderedAt = new Date().toISOString()): FleetState {
+export function codedFleetState(renderedAt = new Date().toISOString(), manifest: FleetState["manifest"] = "absent"): FleetState {
   return {
     active: false,
     version: fleetVersion(null),
     contentVersion: null,
     bundleUrl: "",
     renderedAt,
+    manifest,
+    mode: "coded",
     nap: CODED_NAP,
     banners: [],
     pages: CODED_PAGES,
@@ -39,19 +41,28 @@ export function codedFleetState(renderedAt = new Date().toISOString()): FleetSta
   };
 }
 
-function stateFrom(bundle: ContentBundle, manifest: ContentManifest, renderedAt: string): FleetState {
+function stateFrom(bundle: ContentBundle, manifest: ContentManifest, renderedAt: string, manifestStatus: FleetState["manifest"]): FleetState {
+  const now = new Date(renderedAt);
   return {
     active: true,
     version: fleetVersion(manifest.contentVersion),
     contentVersion: manifest.contentVersion,
     bundleUrl: manifest.bundleUrl,
     renderedAt,
+    manifest: manifestStatus,
+    mode: "bundle",
     nap: resolveNap(bundle),
     banners: resolveBanners(bundle),
     pages: resolvePages(bundle),
-    tvCards: resolveTvCards(bundle, new Date(renderedAt)),
-    fullscreenPromos: resolveFullscreenPromos(bundle, new Date(renderedAt)),
+    tvCards: resolveTvCards(bundle, now),
+    fullscreenPromos: resolveFullscreenPromos(bundle, now),
   };
+}
+
+function fallbackState(renderedAt: string): FleetState {
+  return accepted
+    ? stateFrom(accepted.bundle, accepted.manifest, renderedAt, "err")
+    : codedFleetState(renderedAt, "err");
 }
 
 function manifestUrlFrom(explicit: string | null | undefined): string {
@@ -80,32 +91,30 @@ export async function readFleetContent(options: {
   try {
     manifestResponse = await fetchImpl(manifestUrl, { cache: "no-store", headers: manifestHeaders });
   } catch {
-    return accepted ? stateFrom(accepted.bundle, accepted.manifest, renderedAt) : codedFleetState(renderedAt);
+    return fallbackState(renderedAt);
   }
   const httpProblem = rejectHttp(manifestResponse.status);
-  if (manifestResponse.status === 304 && accepted) return stateFrom(accepted.bundle, accepted.manifest, renderedAt);
-  if (httpProblem || manifestResponse.status === 304) {
-    return accepted ? stateFrom(accepted.bundle, accepted.manifest, renderedAt) : codedFleetState(renderedAt);
-  }
+  if (manifestResponse.status === 304 && accepted) return stateFrom(accepted.bundle, accepted.manifest, renderedAt, "ok");
+  if (httpProblem || manifestResponse.status === 304) return fallbackState(renderedAt);
   const manifestRaw = await manifestResponse.text();
   const manifest = parseManifest(manifestRaw);
-  if (!manifest.ok) return accepted ? stateFrom(accepted.bundle, accepted.manifest, renderedAt) : codedFleetState(renderedAt);
+  if (!manifest.ok) return fallbackState(renderedAt);
 
   let bundleResponse: Response;
   try {
     bundleResponse = await fetchImpl(manifest.value.bundleUrl, { cache: "no-store" });
   } catch {
-    return accepted ? stateFrom(accepted.bundle, accepted.manifest, renderedAt) : codedFleetState(renderedAt);
+    return fallbackState(renderedAt);
   }
   const bundleHttp = rejectHttp(bundleResponse.status);
-  if (bundleHttp) return accepted ? stateFrom(accepted.bundle, accepted.manifest, renderedAt) : codedFleetState(renderedAt);
+  if (bundleHttp) return fallbackState(renderedAt);
   const bundleRaw = await bundleResponse.text();
   const bundle = parseBundle(bundleRaw, accepted?.bundle ?? null);
-  if (!bundle.ok) return accepted ? stateFrom(accepted.bundle, accepted.manifest, renderedAt) : codedFleetState(renderedAt);
+  if (!bundle.ok) return fallbackState(renderedAt);
 
   const etag = manifestResponse.headers.get("etag") || `"${FLEET_STORE_CODE}-${manifest.value.contentVersion}"`;
   accepted = { manifest: manifest.value, bundle: bundle.value, etag };
-  return stateFrom(bundle.value, manifest.value, renderedAt);
+  return stateFrom(bundle.value, manifest.value, renderedAt, "ok");
 }
 
 export function tvManifestDecision(state: FleetState, ifNoneMatch: string | null) {
