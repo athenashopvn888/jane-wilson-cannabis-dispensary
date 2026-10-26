@@ -1,0 +1,56 @@
+.lead {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+.figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-decoration: none;
+  background: #fff;
+}
+
+.link:focus-visible {
+  outline: 3px solid #6b2fa0;
+  outline-offset: 3px;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  background: #1e082d;
+}
+
+.textBar {
+  display: block;
+  padding: 10px 14px;
+  background: linear-gradient(90deg, #4a1673, #6b2fa0 60%, #1f7a3a);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.caption {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #4b4453;
+  padding: 0 14px 12px;
+}
+
+@media (min-width: 768px) {
+  .lead {
+    display: none;
+  }
+}
