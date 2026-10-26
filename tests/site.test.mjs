@@ -165,14 +165,14 @@ test("every fleet banner slot ships JWC art and homepage responsive art", () => 
     const file = `public/images/jane-wilson-${id}.webp`;
     assert.equal(existsSync(new URL(file, root)), true, file);
     assert.ok(statSync(new URL(file, root)).size < 350_000, `${file} must stay under 350 KB`);
-    assert.match(banners, new RegExp(`file: "/images/jane-wilson-${id}\\.webp"`));
+    assert.match(banners, new RegExp(`file: "/images/jane-wilson-${id}\\.webp(?:\\?v=[^"]*)?"`));
   }
 
   for (const id of assets.slice(0, 4)) {
     const file800 = `public/images/jane-wilson-${id}-800w.webp`;
     assert.equal(existsSync(new URL(file800, root)), true, file800);
     assert.ok(statSync(new URL(file800, root)).size < 120_000, `${file800} must stay under 120 KB`);
-    assert.match(banners, new RegExp(`file800: "/images/jane-wilson-${id}-800w\\.webp"`));
+    assert.match(banners, new RegExp(`file800: "/images/jane-wilson-${id}-800w\\.webp(?:\\?v=[^"]*)?"`));
   }
 });
 

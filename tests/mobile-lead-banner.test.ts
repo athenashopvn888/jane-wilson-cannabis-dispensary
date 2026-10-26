@@ -15,8 +15,8 @@ test("coded homepage leads with the Top Weed Tier banner", () => {
   assert.equal(lead.slotId, "home-top-weed-tier");
   assert.equal(lead.coreId, "weed");
   assert.equal(lead.href, "/premium-weed");
-  assert.equal(lead.src, "/images/jane-wilson-home-top-weed-tier.webp");
-  assert.equal(lead.src800, "/images/jane-wilson-home-top-weed-tier-800w.webp");
+  assert.equal(lead.src, "/images/jane-wilson-home-top-weed-tier.webp?v=20261026");
+  assert.equal(lead.src800, "/images/jane-wilson-home-top-weed-tier-800w.webp?v=20261026");
   assert.equal(lead.width, 1600);
   assert.equal(lead.height, 900);
   assert.equal(lead.textBar, slot.textBar);
