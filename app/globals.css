@@ -61,6 +61,7 @@
 
 /* Mobile storefront chrome: one-row header, menu sheet, readable heroes */
 .navActions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.navActions .callButton{width:44px;height:44px;padding:0;display:grid;place-items:center}
 .menuToggle{display:none;place-items:center;width:44px;height:44px;padding:0;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);cursor:pointer}
 .menuBars,.menuBars:before,.menuBars:after{display:block;width:18px;height:2px;border-radius:2px;background:currentColor;position:relative}
 .menuBars:before,.menuBars:after{content:"";position:absolute;left:0}
@@ -69,7 +70,7 @@
 .menuToggle[aria-expanded="true"] .menuBars{background:transparent}
 .menuToggle[aria-expanded="true"] .menuBars:before{top:0;transform:rotate(45deg)}
 .menuToggle[aria-expanded="true"] .menuBars:after{top:0;transform:rotate(-45deg)}
-.callIcon{display:none}
+.callIcon{display:block}
 .mobileMenuLayer{position:fixed;z-index:1000;top:var(--mobile-nav-top,64px);right:0;bottom:0;left:0;display:flex;justify-content:flex-end}
 .menuScrim{position:absolute;inset:0;border:0;background:#17082099;cursor:pointer}
 .menuDrawer{position:relative;z-index:1;width:min(100%,430px);display:flex;flex-direction:column;padding:20px 20px 28px;background:var(--cream);overflow:auto;overscroll-behavior:contain;box-shadow:-24px 0 60px #1708203d}
