@@ -20,6 +20,22 @@ function perGram(price: number, grams: number): string {
   const body = `${dollars(Math.round((price / grams) * 100) / 100)}/g`;
   return Math.round(price * 100) % grams === 0 ? body : `~${body}`;
 }
+
+/** Paid pack price from the feed. Sale replaces regular only when it is a real, different price. */
+export function packPaid(point: { regular: number; sale: number | null } | null | undefined): number | null {
+  if (!point || typeof point.regular !== "number" || point.regular <= 0) return null;
+  if (typeof point.sale === "number" && point.sale > 0 && point.sale !== point.regular) return point.sale;
+  return point.regular;
+}
+
+export function formatPackDollars(amount: number): string {
+  return dollars(amount);
+}
+
+export function formatPackPerGram(price: number, grams: number): string {
+  if (!(grams > 0) || !(price > 0)) return "";
+  return perGram(price, grams);
+}
 function mode(values: number[]): number | null {
   const counts = new Map<number, number>();
   for (const v of values) if (Number.isFinite(v) && v > 0) counts.set(v, (counts.get(v) ?? 0) + 1);
