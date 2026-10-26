@@ -24,13 +24,42 @@
 .cigsDealBand h2{font-size:clamp(2rem,4vw,3.4rem);line-height:1;letter-spacing:-.04em}
 .cigsDealBand a{font-weight:900;color:var(--purple)}
 .flowerGrid,.itemGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.flowerCard,.itemCard{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 14px 36px #31103b10;display:flex;flex-direction:column}
-.flowerImageLink{display:block;background:#f6effa}
+.flowerCard,.itemCard{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 14px 36px #31103b10;display:flex;flex-direction:column;min-width:0}
+.flowerImageLink{position:relative;display:block;background:#f6effa}
 .productPhoto,.productImageFallback{position:relative;width:100%;aspect-ratio:1;display:block;background:#f3e9fa}
 .productPhoto img{object-fit:cover}
-.flowerBody{padding:16px 16px 18px;display:flex;flex-direction:column;gap:8px}
-.flowerBody h3{margin:0;font-size:1.05rem;letter-spacing:-.02em}
+.flowerThc,.flowerSale{position:absolute;top:8px;z-index:2;border-radius:999px;padding:3px 7px;color:#fff;font-size:10px;font-weight:800;letter-spacing:.03em;line-height:1.2}
+.flowerThc{left:8px;background:#166534}
+.flowerSale{right:8px;background:#dc2626}
+.flowerBody{padding:14px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}
+.flowerBody h3{margin:0;font-size:.95rem;font-weight:800;letter-spacing:-.02em;line-height:1.25;text-transform:uppercase}
 .flowerBody h3 a{text-decoration:none}
+.flowerType{display:inline-flex;width:fit-content;max-width:100%;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;line-height:1.3}
+.flowerTypeIndica{background:#efe7fb;color:#6120a8;border:1px solid #e0d0f2}
+.flowerTypeSativa{background:#fff6dd;color:#a16207;border:1px solid #f3e2a8}
+.flowerTypeHybrid{background:#eefbf0;color:#0e7831;border:1px solid #beecc3}
+.flowerTypeOther{background:#f6f1f8;color:#655b68;border:1px solid var(--line)}
+.flowerPriceLabel{margin:0;color:#6d6371;font-size:10px;font-weight:800;letter-spacing:.08em;line-height:1.3}
+.flowerQuote{display:flex;flex-direction:column;gap:3px;min-width:0}
+.flowerPriceRow{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:4px 8px;min-width:0}
+.flowerPriceGroup,.flowerPerGrams{margin:0;min-width:0}
+.flowerPriceGroup{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.flowerPriceMain{font-size:1.45rem;font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--ink)}
+.flowerPriceOld{color:#8a7b90;font-size:.78rem;font-weight:600}
+.flowerPerGrams{display:flex;flex-direction:column;align-items:flex-end;gap:1px;margin-left:auto;text-align:right}
+.flowerPerGrams s{color:#8a7b90;font-size:11px;font-weight:600;white-space:nowrap}
+.flowerPerGram{color:#14863f;font-size:13px;font-weight:800;white-space:nowrap}
+.flowerPromo{margin:0;color:#1b4332;font-size:12px;font-weight:800;line-height:1.35}
+.flowerHint{margin:0;color:#5d705d;font-size:11px;font-weight:700;line-height:1.3}
+.flowerActions{display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:4px}
+.flowerSizes{display:flex;flex-wrap:wrap;gap:6px}
+.flowerSize{flex:1 1 calc(50% - 6px);min-width:0;min-height:44px;padding:6px 4px;border:1px solid #eadff2;border-radius:12px;background:#fbf8fd;color:inherit;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.flowerSize b{font-size:12px;font-weight:800;line-height:1.1}
+.flowerSize span{color:var(--purple);font-size:13px;font-weight:900;line-height:1.1}
+.flowerSize.isSelected,.flowerSize[aria-pressed="true"]{border-color:var(--purple);background:#f3e9fc;box-shadow:0 0 0 1px var(--purple)}
+.flowerView{display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;padding:10px 8px;border-radius:12px;background:var(--purple);color:#fff;text-align:center;text-decoration:none;font-size:13px;font-weight:800;line-height:1.2}
+.flowerView:hover{background:#4d1788}
+.flowerSize:focus-visible,.flowerView:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
 .flowerMeta{display:flex;flex-wrap:wrap;gap:8px;margin:0;color:var(--muted);font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
 .salePill{color:#9d1230}
 .weightPrices{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0 0}
@@ -56,8 +85,19 @@
   .cigsDeal,.cigsDealBand,.productLayout,.bannerPair{grid-template-columns:1fr}
   .flowerGrid,.itemGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .cigsDealBand{padding:24px 16px}
-  .flowerCard,.itemCard{min-width:0}
-  .flowerBody{padding:10px 8px 12px}
+  .flowerCard,.itemCard{min-width:0;border-radius:16px}
+  .flowerBody{padding:8px 8px 10px;gap:5px}
+  .flowerBody h3{font-size:.78rem}
+  .flowerThc,.flowerSale{top:6px;padding:2px 6px;font-size:9px}
+  .flowerThc{left:6px}
+  .flowerSale{right:6px}
+  .flowerPriceMain{font-size:1.2rem}
+  .flowerPerGram{font-size:12px}
+  .flowerPromo{font-size:11px}
+  .flowerSize{min-height:44px;padding:7px 2px}
+  .flowerSize b{font-size:11px}
+  .flowerSize span{font-size:12px}
+  .flowerView{min-height:44px;font-size:12px;padding:8px 4px}
   .weightPrices{grid-template-columns:repeat(4,minmax(0,1fr));gap:3px}
   .weightPrices div{padding:5px 1px;min-width:0}
   .weightPrices dt{font-size:.62rem}

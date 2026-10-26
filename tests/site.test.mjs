@@ -83,6 +83,28 @@ test("temporary menu snapshot has every flower tier plus cigarettes and nicotine
   assert.deepEqual([...priceKeys].sort(), ["price14g", "price28g", "price3g", "price5g"]);
 });
 
+test("flower and item cards keep the two-up mobile grid and the in-store price layout", () => {
+  const grid = read("app/components/FlowerGrid.tsx");
+  const card = read("app/components/FlowerMenuCard.tsx");
+  const items = read("app/components/ItemGrid.tsx");
+  const css = read("app/globals.css");
+  const promo = read("app/components/FreeGramPromo.tsx");
+  assert.match(grid, /availableFlowerPrices\(flower\)\.map/);
+  assert.match(grid, /label === "5g" \? "6g"/);
+  assert.match(card, /IN-STORE PRICE/);
+  assert.match(card, /View Details →/);
+  assert.match(card, /flowerSizes/);
+  assert.match(card, /BOGO_BUY_2_GET_1/);
+  assert.match(card, /BOGO_BUY_3_GET_3/);
+  assert.match(card, /6g →/);
+  assert.match(items, /View Details →/);
+  assert.match(items, /IN-STORE PRICE/);
+  assert.match(promo, /Buy 2g Get 1g FREE/);
+  assert.match(promo, /Buy 3g Get 3g FREE/);
+  assert.match(css, /\.flowerGrid,\.itemGrid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);gap:10px\}/);
+  assert.doesNotMatch(`${grid}\n${card}\n${items}`, /3\.5/);
+});
+
 test("public UI does not name the temporary stock source and has no 24-hour route", () => {
   const ui = walk("app")
     .filter((file) => file.endsWith(".tsx") && !/^app[\\/](tv|tv2)[\\/]/.test(file) && !/[\\/]TvStoreHeader\.tsx$/.test(file))
