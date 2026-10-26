@@ -14,7 +14,7 @@
 1. Mirrored snapshot of flowers and items in `app/lib/flowers.json` and `app/lib/items.json`.
 2. Live refresh when `APPS_SCRIPT_URL` is set: `scripts/prebuild-stock.js` and `getMenu()` call `${APPS_SCRIPT_URL}?store=JFC01`.
 3. If the live call is missing or fails, the mirrored JSON stays so tiers, cigarettes, and nicotine vapes stay non-empty.
-4. Public UI does not name the source store. It shows: “Menu preview — confirm availability and prices at the Jane Wilson counter until the Jane Wilson live feed is connected.”
+4. Public UI does not name the source store. It shows: “The menu changes through the day. Call or drop in to check a strain before you make the trip.”
 
 Flower weights: 3g, 5g, 14g, 28g (`price3g`, `price5g`, `price14g`, `price28g`).
 

@@ -34,9 +34,9 @@ export const metadata: Metadata = {
 
 const FAQS = [
   { q: "Where does delivery start?", a: "Delivery uses bulk pricing, starting at 7 grams, with a minimum order. We confirm the total when you order." },
-  { q: "What are delivery hours?", a: `Delivery runs ${DELIVERY_HOURS_LABEL}. The Jane Street counter is open ${STORE.hoursLabel}. The walk-in counter and the delivery window are not the same.` },
+  { q: "What are delivery hours?", a: `Delivery runs ${DELIVERY_HOURS_LABEL}. The shop on Jane Street stays open later, ${STORE.hoursLabel}.` },
   { q: "How do I order?", a: "Browse the delivery menu, open LIVE ORDER, and send your choices in Web Chat. The dispatcher confirms stock, address coverage and the total." },
-  { q: "Do I need ID?", a: "Yes. Photo ID showing you are 19+ is checked at the door." },
+  { q: "Do I need ID?", a: "Yes. You must be 19+, and the driver checks photo ID at the door." },
   { q: "Does Buy 2g Get 1g FREE apply to delivery?", a: "No. That in-store offer is only for Exotic, Premium, and AAA+ at the Jane Street counter. Delivery orders use delivery prices." },
   { q: PRICE_RULE_FAQ.q, a: PRICE_RULE_FAQ.a },
   { q: STORE_PRICE_ON_DELIVERY_FAQ.q, a: STORE_PRICE_ON_DELIVERY_FAQ.a }

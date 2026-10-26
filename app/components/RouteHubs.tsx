@@ -6,7 +6,7 @@ export default function RouteHubs() {
   return (
     <section className="routeHubs" aria-labelledby="route-hubs-title">
       <p className="eyebrow">PLAN YOUR VISIT · EXPLORE THE MENU</p>
-      <h2 id="route-hubs-title">Everything for the Jane–Wilson location</h2>
+      <h2 id="route-hubs-title">Find your way around Jane Wilson</h2>
       <div className="hubGrid">
         {(SHOW_CIGARETTES ? LOCAL_ROUTES : LOCAL_ROUTES.filter((route) => route.href !== "/native-cigarettes-jane-street")).map((route) => (
           <Link className="hubCard hubCardLocal" href={route.href} key={route.href}>

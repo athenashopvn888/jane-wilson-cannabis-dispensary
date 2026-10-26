@@ -15,7 +15,7 @@ const COPY: WeedDeliveryCopy = {
   description: DESC,
   h1: "Weed delivery in North York from Jane Wilson",
   paragraphs: [
-    `Jane Wilson Cannabis Dispensary delivers from the Unit 12 counter at ${STORE.street}, ${STORE.locality}. This page is for North York customers along Jane Street at Wilson Avenue and nearby Downsview. It is the same storefront, not a second North York location.`,
+    `Jane Wilson Cannabis Dispensary delivers weed across North York from our shop at ${STORE.street}, ${STORE.locality}: Jane and Wilson, Downsview and the neighbourhoods around them.`,
     `Delivery hours are ${DELIVERY_HOURS_LABEL}. The walk-in counter is open ${STORE.hoursLabel}. Open the delivery menu, then use LIVE ORDER in Web Chat. The dispatcher confirms whether your address is covered, what is in stock, and the total. Adults 19+, photo ID at the door.`
   ],
   sections: [
@@ -29,14 +29,13 @@ const COPY: WeedDeliveryCopy = {
     {
       heading: "If you would rather walk in",
       paragraphs: [
-        `The counter is ${STORE.address}. The 35 Jane and 935 Jane Express serve Jane Street, including stops at Wilson Avenue. Check live TTC service before you leave. The site does not promise a dedicated parking space; follow the signs you find at the storefront.`,
-        "Use Directions for the map pin. Store hours are posted beside that button. Call Store reaches the public store line."
+        `The shop is at ${STORE.address}, a short walk from the TTC stop at Jane and Wilson. There's no dedicated lot, so check the posted signs. We're open ${STORE.hoursLabel}.`
       ]
     }
   ],
   faqs: [
     { q: "Do you deliver in North York?", a: `Jane Wilson Cannabis Dispensary takes delivery orders from ${STORE.street} in North York. Delivery hours are ${DELIVERY_HOURS_LABEL}. The dispatcher confirms your address before the order is accepted.` },
-    { q: "Is this a different store from the Jane Street counter?", a: `No. Delivery is dispatched from the Unit 12 counter at ${STORE.address}. There is not a second Jane Wilson storefront.` },
+    { q: "Is this a different store from the Jane Street counter?", a: `No. Delivery orders go out from our shop at ${STORE.address}.` },
     { q: "What are the walk-in hours?", a: `The counter is open ${STORE.hoursLabel}. Delivery hours are shorter: ${DELIVERY_HOURS_LABEL}.` },
     { q: "Does the free-gram offer apply?", a: "Only in the store, and only on Exotic, Premium, and AAA+. Delivery orders use delivery prices." }
   ],

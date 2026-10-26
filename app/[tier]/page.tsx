@@ -51,7 +51,7 @@ export default async function TierPage({ params }: { params: Promise<{ tier: str
     },
     {
       question: `Which weights are listed for ${tier.name}?`,
-      answer: `Listings use 3g, ${isFreeGramTier(tier.key) ? "6g" : "5g"}, 14g, and 28g. A dash means that weight is not posted for that flower.`
+      answer: `Listings use 3g, ${isFreeGramTier(tier.key) ? "6g" : "5g"}, 14g, and 28g. A dash means that size isn't available for that strain right now.`
     },
     {
       question: `Where can I confirm today’s ${tier.name} selection?`,
@@ -59,7 +59,7 @@ export default async function TierPage({ params }: { params: Promise<{ tier: str
     },
     {
       question: "Is this the final Jane Wilson menu?",
-      answer: "This page is a menu preview. Confirm availability and prices at the Jane Wilson counter until the Jane Wilson live feed is connected."
+      answer: "The menu changes through the day. Call or drop in to check a strain before you make the trip."
     }
   ];
   const schema = {
@@ -133,7 +133,7 @@ export default async function TierPage({ params }: { params: Promise<{ tier: str
         <p>{tier.guide} Hours at {STORE.street} are {STORE.hoursLabel}.</p>
         <div className="editorialLinks">
           <Link href="/weed-dispensary-jane-street">Jane Street weed dispensary guide →</Link>
-          <Link href="/visit">TTC, map, and Unit 12 arrival →</Link>
+          <Link href="/visit">Directions &amp; TTC →</Link>
         </div>
       </section>
 

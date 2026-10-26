@@ -93,7 +93,7 @@ test("public UI does not name the temporary stock source and has no 24-hour rout
   assert.equal(walk("app").some((file) => /24-hour/i.test(file)), false);
   assert.ok(existsSync(new URL("app/delivery/page.tsx", root)));
   assert.match(read("app/lib/inventory.ts"), /TEMP_STOCK_SOURCE=JFC01/);
-  assert.match(read("app/lib/store.ts"), /Menu preview — confirm availability and prices at the Jane Wilson counter/);
+  assert.match(read("app/lib/store.ts"), /The menu changes through the day\. Call or drop in to check a strain before you make the trip\./);
   assert.match(read("app/page.tsx"), /MenuPreviewNote/);
 });
 
@@ -182,7 +182,7 @@ test("premium marketing layout replaces the blank visit artwork", () => {
   const css = read("app/globals.css");
   assert.match(home, /homeHeroArt/);
   assert.match(home, /brandStatement/);
-  assert.match(home, /Jane Wilson Cannabis Dispensary<\/span>Find your tier/);
+  assert.match(home, /Jane Wilson Cannabis Dispensary<\/span>Your weed dispensary at Jane and Wilson/);
   assert.match(visit, /visitVisual/);
   assert.match(visit, /side-window-combined\.png/);
   assert.doesNotMatch(visit, /door-upper|door-lower|visitDoor/);

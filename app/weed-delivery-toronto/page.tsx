@@ -5,7 +5,7 @@ import { STORE } from "../lib/store";
 
 const PATH = "/weed-delivery-toronto";
 const TITLE = "Weed Delivery in Toronto | Jane Wilson Cannabis on Jane Street";
-const DESC = "Toronto weed delivery from Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12 in North York. One counter. Delivery hours 10:00 a.m. to 10:00 p.m. daily. Adults 19+.";
+const DESC = "Toronto weed delivery from Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12 in North York. Delivery 10 AM to 10 PM daily. Adults 19+.";
 
 const COPY: WeedDeliveryCopy = {
   path: PATH,
@@ -15,14 +15,14 @@ const COPY: WeedDeliveryCopy = {
   description: DESC,
   h1: "Toronto weed delivery from the Jane Street counter",
   paragraphs: [
-    `Jane Wilson Cannabis Dispensary is one store at ${STORE.address}. North York is inside Toronto, and this page is for Toronto customers asking about weed delivery from that counter. It is not a city-wide directory and it does not add another Jane Wilson location.`,
+    `Jane Wilson Cannabis Dispensary delivers weed from our shop at ${STORE.address} in North York. Send us your Toronto address and the dispatcher will tell you right away if you're in range.`,
     `Delivery hours are ${DELIVERY_HOURS_LABEL}. Open the delivery menu and start LIVE ORDER in Web Chat. The dispatcher confirms whether your Toronto address is in range, then confirms stock and the total. Adults 19+, photo ID at the door.`
   ],
   sections: [
     {
       heading: "What this page covers",
       paragraphs: [
-        "Searchers looking for weed delivery in Toronto still order from the Jane and Wilson counter. Coverage is confirmed one address at a time. If the dispatcher cannot take the address, the walk-in counter is the other option.",
+        "Every Toronto order goes out from our Jane and Wilson shop, and we confirm coverage one address at a time. If you're out of range, you're always welcome to come by the shop.",
         "Delivery prices start at 7 grams and follow the delivery menu, not the in-store shelf. Buy 2g Get 1g FREE is an in-store offer for Exotic, Premium, and AAA+ only. AA, Budget, and delivery orders do not get that offer."
       ]
     },
@@ -30,7 +30,7 @@ const COPY: WeedDeliveryCopy = {
       heading: "The counter, if delivery is not the right fit",
       paragraphs: [
         `Walk in at ${STORE.street}, ${STORE.locality}. Store hours are ${STORE.hoursLabel}. The 35 Jane and 935 Jane Express stop along Jane Street at Wilson Avenue. Use Directions for the map pin, and check posted parking signs when you arrive.`,
-        "For the Jane–Wilson and Downsview corridor specifically, use the North York delivery page. This Toronto page stays on the city question: one counter, delivery hours, and a live order chat."
+        "Closer to Jane and Wilson or Downsview? See our North York delivery page."
       ]
     }
   ],
