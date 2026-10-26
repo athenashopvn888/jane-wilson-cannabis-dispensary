@@ -107,7 +107,7 @@ export const CODED_BANNERS: ResolvedBanner[] = [
     alt: "Top weed tier: Exotic, Premium and AAA+ weed at Jane Wilson Cannabis Dispensary, Jane Street, North York",
     title: "Shop Exotic, Premium and AAA+ weed on Jane Street",
     textBar: "Top weed tier: Exotic, Premium and AAA+",
-    caption: "Exotic, Premium and AAA+ flower, in 3g, 6g, 14g and 28g.",
+    caption: "Exotic, Premium and AAA+ flower, in 3g, 6g and 14g.",
   },
   {
     id: "vapes",
