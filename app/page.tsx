@@ -22,11 +22,11 @@ const faqs = [
   },
   {
     question: "What are the store hours?",
-    answer: `${STORE.name} is open ${STORE.hoursLabel}. The counter is at ${STORE.street}. Call ${STORE.phone} if you are checking a specific product before you travel.`
+    answer: `${STORE.name} is open ${STORE.hoursLabel}, every day of the week. Looking for one strain? Give us a call at ${STORE.phone} before you head over.`
   },
   {
     question: "Which flower tiers can I compare?",
-    answer: "Flower is organized as Exotic Weed, Premium Weed, AAA+ Weed, AA Weed, and Budget Weed. Each tier lists 3g, 5g, 14g, and 28g prices."
+    answer: "We carry five flower tiers: Exotic, Premium, AAA+, AA and Budget. Exotic, Premium and AAA+ come in 3g, 6g, 14g and 28g. AA and Budget come in 3g, 5g, 14g and 28g."
   },
   ...(SHOW_CIGARETTES
     ? [{
@@ -40,12 +40,12 @@ const faqs = [
   {
     question: "What ID do I need?",
     answer: SHOW_CIGARETTES
-      ? "Cannabis, tobacco, and nicotine retail is for adults 19+. Bring valid government-issued photo identification when you visit."
-      : "Cannabis and nicotine retail is for adults 19+. Bring valid government-issued photo identification when you visit."
+      ? "Cannabis, tobacco, and nicotine retail is for adults 19+. You must be 19 or older. Bring government-issued photo ID, because we ID anyone who looks under 25."
+      : "Cannabis and nicotine retail is for adults 19+. You must be 19 or older. Bring government-issued photo ID, because we ID anyone who looks under 25."
   },
   {
-    question: "How do I reach Unit 12 by TTC?",
-    answer: "The 35 Jane and 935 Jane Express serve the Jane Street corridor, including stops at Wilson Avenue. Check the TTC trip planner for current service before leaving."
+    question: "Can I take the TTC?",
+    answer: "Yes. There's a TTC stop at Jane and Wilson, about a two-minute walk from the store. Check the TTC trip planner before you leave."
   }
 ];
 
@@ -86,17 +86,18 @@ export default async function HomePage() {
       <section className="hero homeHero">
         <div className="heroCopy homeHeroCopy">
           <div className="heroBadge">JANE STREET · NORTH YORK · ADULTS 19+</div>
-          <p className="eyebrow">ONE LOCAL STOREFRONT · FIVE CLEAR WEED TIERS</p>
-          <h1><span>Jane Wilson Cannabis Dispensary</span>Find your tier. Know your stop.</h1>
+          <p className="eyebrow">JANE ST &amp; WILSON AVE · NORTH YORK</p>
+          <h1><span>Jane Wilson Cannabis Dispensary</span>Your weed dispensary at Jane and Wilson</h1>
           <p data-fullname-subline="" style={{ margin: "4px 0 0", fontSize: "13px", fontWeight: 600, lineHeight: 1.35, opacity: 0.85, color: "inherit", overflowWrap: "anywhere" }}>{FULL_NAME_NAP.fullName}</p>
           <p className="heroText">
             {SHOW_CIGARETTES
-              ? "Browse five clearly labelled Weed collections, current menu previews, native cigarettes and nicotine vapes before heading to Unit 12 near Jane Street and Wilson Avenue."
-              : "Browse five clearly labelled Weed collections, current menu previews, and nicotine vapes before heading to Unit 12 near Jane Street and Wilson Avenue."}
+              ? "We're a neighbourhood weed shop on Jane Street, just by Wilson Avenue. Look through the flower menu from Exotic down to Budget, check the nicotine vapes and cigarettes, then come see us at Unit 12. Open every day, 10 AM to midnight."
+              : "We're a neighbourhood weed shop on Jane Street, just by Wilson Avenue. Look through the flower menu from Exotic down to Budget, check the nicotine vapes, then come see us at Unit 12. Open every day, 10 AM to midnight."}
           </p>
           <div className="heroActions">
-            <Link href="#weed-tiers">Browse the weed menu</Link>
-            <Link className="ghost" href="/visit">Plan your visit</Link>
+            <Link href="#weed-tiers">See the weed menu</Link>
+            <a className="ghost" href={STORE.maps}>Get directions</a>
+            <Link className="ghost" href="/hours">Store hours</Link>
           </div>
           <div className="heroTrust" aria-label="Store highlights">
             <div><strong>5</strong><span>Weed tiers</span></div>
@@ -116,12 +117,12 @@ export default async function HomePage() {
 
       <section className="brandStatement" aria-labelledby="brand-statement-title">
         <div>
-          <p className="eyebrow">A BETTER WAY TO BROWSE</p>
-          <h2 id="brand-statement-title">Five weed tiers.<br /><em>No guessing where to start.</em></h2>
+          <p className="eyebrow">HOW OUR FLOWER MENU WORKS</p>
+          <h2 id="brand-statement-title">Five flower tiers,<br /><em>from top shelf to everyday.</em></h2>
         </div>
         <div>
-          <p>From Exotic Weed through Budget Weed, every collection has its own page, clear product details, and all supplied weight-and-price options.</p>
-          <div className="brandStatementLinks"><Link href="/exotic-weed">Start with Exotic Weed →</Link><Link href="/visit">Get directions →</Link></div>
+          <p>Exotic, Premium and AAA+ come in 3g, 6g, 14g and 28g. AA and Budget come in 3g, 5g, 14g and 28g. Every tier has its own page, so you can see what&apos;s on the menu before you head over.</p>
+          <div className="brandStatementLinks"><Link href="/exotic-weed">See Exotic Weed →</Link><Link href="/visit">Get directions →</Link></div>
         </div>
       </section>
 
@@ -131,15 +132,15 @@ export default async function HomePage() {
 
       <section className="quickFacts" aria-label="Jane Wilson Cannabis store information">
         <div><span>LOCATION</span><strong>{STORE.street}</strong><small>{STORE.locality}</small></div>
-        <div><span>HOURS</span><strong>{STORE.hoursLabel}</strong><a href={`tel:${STORE.phoneHref}`}>{STORE.phone}</a></div>
-        <div><span>DIRECTIONS</span><strong>Jane St near Wilson Ave</strong><Link href="/visit">TTC &amp; arrival guide</Link></div>
-        <div><span>AGE</span><strong>Adults 19+</strong><small>Government photo ID required</small></div>
+        <div><span>HOURS</span><strong>{STORE.hoursLabel}</strong><Link href="/hours">Full hours</Link></div>
+        <div><span>DIRECTIONS</span><strong>Jane St near Wilson Ave</strong><Link href="/visit">Directions &amp; TTC</Link></div>
+        <div><span>AGE</span><strong>Adults 19+</strong><small>Bring photo ID. We ID anyone who looks under 25.</small></div>
       </section>
 
       <section className="tiers" id="weed-tiers">
-        <p className="eyebrow">FIVE WEED COLLECTIONS</p>
+        <p className="eyebrow">OUR FLOWER TIERS</p>
         <h2>Compare the Jane Wilson flower tiers</h2>
-        <p className="sectionLead">Each tier lists flower names with 3g, 5g, 14g, and 28g prices. Confirm the jar you want at the Jane Wilson counter before you travel.</p>
+        <p className="sectionLead">Tap a tier to see what&apos;s on its menu. Exotic, Premium and AAA+ come in 6g packs, and AA has a true 5g. The menu changes, so call or drop in if you&apos;re after one strain.</p>
         <MenuPreviewNote />
         <div className="tierGrid">
           {TIERS.map((tier, index) => (
@@ -162,8 +163,8 @@ export default async function HomePage() {
       <section className="cigsDealBand">
         <div>
           <p className="eyebrow">NATIVE CIGARETTES</p>
-          <h2>Cigarette listings for the Jane Street counter</h2>
-          <p>Adults 19+. Browse the native cigarette list, then confirm the carton at Unit 12 during store hours.</p>
+          <h2>Native cigarettes on Jane Street</h2>
+          <p>For adults 19+. See the cigarette list, then pick up at Unit 12 any day from 10 AM to midnight.</p>
           <Link href="/native-cigarettes-jane-street">Open native cigarettes →</Link>
         </div>
         <CigsDealCreative />
@@ -173,11 +174,11 @@ export default async function HomePage() {
       <section className="corridorStory">
         <div>
           <p className="eyebrow">JANE–WILSON · DOWNSVIEW</p>
-          <h2>Built around one Jane Street storefront</h2>
-          <p>{STORE.name} is the Unit 12 counter at {STORE.street}. The site is for people travelling along Jane Street, arriving near Wilson Avenue, or coming from Downsview. Hours are {STORE.hoursLabel}.</p>
+          <h2>Your local shop at Jane and Wilson</h2>
+          <p>{STORE.name} is at {STORE.street}, right on Jane Street by Wilson Avenue. It&apos;s a quick stop if you live in Downsview, work along Jane, or are passing through North York. We&apos;re open {STORE.hoursLabel}.</p>
           <div className="storyLinks">
             <Link href="/weed-dispensary-jane-street">Explore the Jane Street store guide →</Link>
-            <Link href="/visit">How to reach Unit 12 →</Link>
+            <Link href="/visit">Directions to Unit 12 →</Link>
             <Link href="/resources">Jane Street resources →</Link>
             <Link href="/menu">In-store menu →</Link>
             <Link href="/nicotine-vapes-jane-street">Nicotine vapes on Jane Street →</Link>
@@ -194,8 +195,8 @@ export default async function HomePage() {
           <p className="hoursNotice">Hours: {STORE.hoursLabel}</p>
         </div>
         <div className="visitActions">
-          <Link href="/visit">Transit &amp; arrival guide</Link>
           <a href={STORE.maps}>Open Google Maps</a>
+          <Link href="/visit">Directions &amp; TTC</Link>
           <a className="ghost" href={`tel:${STORE.phoneHref}`}>Call {STORE.phone}</a>
         </div>
       </section>

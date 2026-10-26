@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 const FAQS = [
   { q: "What are Jane Wilson Cannabis Dispensary's hours?", a: "Daily 10:00 AM – 12:00 AM. Day-by-day hours are listed on this page." },
   { q: "Where is Jane Wilson Cannabis Dispensary?", a: "2111 Jane St, Unit 12, North York, ON M3M 1A2. Call +1 (437) 465-7700." },
-  { q: "Who can shop here?", a: "Adults 19+ with valid government-issued photo ID." },
+  { q: "Who can shop here?", a: "Adults 19+. Bring photo ID, because we ID anyone who looks under 25." },
 ] as const;
 
 const jsonLd = {
@@ -56,7 +56,7 @@ export default function HoursPage() {
         <nav className={styles.crumbs} aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><span>Store Hours</span></nav>
         <p className={styles.kicker}>Store hours · Adults 19+</p>
         <h1 className={styles.title}>Jane Wilson Cannabis Dispensary Hours</h1>
-        <p className={styles.lead}>Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12 in North York is daily 10:00 AM – 12:00 AM. These are the same hours published in this site&apos;s store details. Adults 19+ with government-issued photo ID.</p>
+        <p className={styles.lead}>Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12 in North York is open every day from 10 AM to midnight, including weekends. You must be 19+, and we ID anyone who looks under 25.</p>
         <div className={styles.card}>
           <p><strong>Jane Wilson Cannabis Dispensary</strong></p>
           <p>2111 Jane St, Unit 12, North York, ON M3M 1A2</p>
@@ -82,7 +82,7 @@ export default function HoursPage() {
             <a className={styles.callStore} href={`tel:${STORE.phoneHref}`}>Call Store</a>
             <Link href="/" className={styles.cta}>Store menu</Link>
           </div>
-          <p className={styles.note}>Adults 19+. Government-issued photo ID required.</p>
+          <p className={styles.note}>Adults 19+. Bring photo ID, because we ID anyone who looks under 25.</p>
         </section>
         <section className={styles.section}>
           <h2>Hours FAQs</h2>

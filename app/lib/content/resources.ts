@@ -37,7 +37,7 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
       "How Jane Wilson Cannabis Dispensary organizes Exotic Weed, Premium Weed, AAA+ Weed, AA Weed, and Budget Weed at 2111 Jane St, Unit 12 in North York. Adults 19+.",
     eyebrow: "Jane Street · Flower",
     intro:
-      "Jane Wilson keeps flower in five named tiers so a Jane Street visit starts with a lane, not a guess. This guide explains what each lane is for. It does not list what is on the shelf today.",
+      "Walk into Jane Wilson and you'll see five flower tiers, from Exotic at the top to Budget for everyday. Here's what sets each one apart, so you know where to look before you get to the counter.",
     sections: [
       {
         heading: "Start with the lane, then the name",
@@ -45,17 +45,17 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
           [
             { kind: "text", text: "The counter at 2111 Jane St, Unit 12 uses five flower lanes: " },
             ...tierLinks,
-            { kind: "text", text: ". Exotic Weed is the top shelf for shoppers comparing aroma and cultivar character. Premium Weed sits just under it. AAA+ Weed is the middle lane for straightforward comparison. AA Weed and Budget Weed are the value lanes, and they stay separate from each other." },
+            { kind: "text", text: ". Exotic is our top shelf: the loudest aromas, frostiest buds and rarer cultivars. Premium sits right under it. AAA+ is solid, well-grown flower in the middle. AA and Budget are the everyday tiers, and AA is the only one with a true 5g." },
           ],
           [
-            { kind: "text", text: "A tier is a shopping lane, not a promise that a particular jar is out. Names such as Pink Kush, Gelato, and Sour Diesel show up across cannabis menus in general. Whether a name is listed today is a counter question. Open the " },
-            { kind: "link", href: "/menu", label: "in-store menu" },
-            { kind: "text", text: " for the current preview, then confirm the jar at Unit 12." },
+            { kind: "text", text: "The tier tells you the grade, not what's in today. Names like Pink Kush, Gelato and Sour Diesel come and go, so check the " },
+            { kind: "link", href: "/menu", label: "menu" },
+            { kind: "text", text: " or ask us." },
           ],
         ],
       },
       {
-        heading: "What to read before you ride the 35 Jane",
+        heading: "What to read before you come by",
         paragraphs: [
           [
             { kind: "text", text: "Use the " },
@@ -65,7 +65,7 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
             { kind: "text", text: " when you want the family tree and the usual aroma of a name before you compare lanes. The guides are education. They are not a stock list." },
           ],
           [
-            { kind: "text", text: "Weights on the tier pages follow the lane. Exotic Weed, Premium Weed, and AAA+ Weed use one set of pack sizes. AA Weed and Budget Weed use their own. Read the columns on the tier page, then ask at the counter if a column is blank. Hours are 10:00 AM to midnight daily. Adults 19+ with government photo ID." },
+            { kind: "text", text: "Exotic, Premium and AAA+ come in 3g, 6g, 14g and 28g, and they're the tiers with the in-store free gram. AA and Budget come in 3g, 5g, 14g and 28g. We're open 10 AM to midnight daily. You must be 19+, and we ID anyone who looks under 25." },
           ],
         ],
       },
@@ -89,7 +89,7 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
       "How to use indica, sativa, and hybrid labels at Jane Wilson Cannabis Dispensary on Jane Street in North York, with links to the strain guides. Adults 19+.",
     eyebrow: "North York · Strain labels",
     intro:
-      "Indica, sativa, and hybrid are labels on a menu, not a guarantee of how a jar looks or smells. At Jane and Wilson, the useful move is to read the name, then the lane, then confirm the package at the counter.",
+      "Indica, sativa and hybrid are handy labels, but they're only the start. At Jane Wilson, look at the strain name first, then the tier, then ask us about the batch.",
     sections: [
       {
         heading: "Labels are a starting point",
@@ -159,7 +159,7 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
       "How to reach Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12, near Wilson Avenue in North York. TTC 35 Jane notes, hours, and what to open before you leave. Adults 19+.",
     eyebrow: "Jane and Wilson · Visit",
     intro:
-      "Jane Wilson Cannabis Dispensary is one storefront: Unit 12 at 2111 Jane Street, North York, ON M3M 1A2. This page is the neighbourhood visit note for the Jane–Wilson and Downsview corridor.",
+      "Jane Wilson Cannabis Dispensary is at Unit 12, 2111 Jane Street, North York, right by Wilson Avenue. Here's what to know before your first visit.",
     sections: [
       {
         heading: "The stop on Jane Street",
@@ -167,9 +167,9 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
           [
             { kind: "text", text: "The " },
             { kind: "link", href: "/weed-dispensary-jane-street", label: "Jane Street weed dispensary" },
-            { kind: "text", text: " sits on Jane Street near Wilson Avenue. Travelling by TTC, the 35 Jane and 935 Jane Express serve the Jane corridor, including stops at Wilson Avenue. Check the TTC trip planner before you leave, because service changes. Driving, use the map pin on the " },
+            { kind: "text", text: " sits on Jane Street near Wilson Avenue. A TTC stop at Jane and Wilson is about 200 metres away. Driving, use the map pin on the " },
             { kind: "link", href: "/visit", label: "visit page" },
-            { kind: "text", text: " and follow the parking signs you find on arrival. This site does not promise a dedicated lot." },
+            { kind: "text", text: ". There's no dedicated lot, so check the posted signs." },
           ],
           [
             { kind: "text", text: "Hours are 10:00 AM to midnight daily. The " },
@@ -196,12 +196,12 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
             { kind: "link", href: "/guides", label: "cannabis strain guides" },
             { kind: "text", text: ". The " },
             { kind: "link", href: "/menu", label: "in-store menu" },
-            { kind: "text", text: " is a preview. A blank list means confirm at the counter rather than assuming a jar is waiting." },
+            { kind: "text", text: " is a preview. If the list looks empty, give us a call." },
           ],
           [
-            { kind: "text", text: "People searching from Downsview, along Jane Street, or near Wilson Avenue are looking for this same Unit 12 counter. The " },
-            { kind: "link", href: "/dispensary-near-me", label: "dispensary near me" },
-            { kind: "text", text: " page keeps that North York location in one place." },
+            { kind: "text", text: "Coming from Downsview, along Jane, or from around Wilson? This is your shop. See our " },
+            { kind: "link", href: "/weed-dispensary-jane-street", label: "Jane Street dispensary page" },
+            { kind: "text", text: " for more." },
           ],
         ],
       },

@@ -18,7 +18,7 @@ const FAQS = [
   },
   {
     q: "Which neighbourhoods is this page for?",
-    a: "This page is for the Jane–Wilson corridor, nearby Downsview, and North York shoppers looking for this Unit 12 storefront.",
+    a: "Jane and Wilson, Downsview, and anywhere along Jane Street in North York.",
   },
   {
     q: "How do I get there on the TTC?",
@@ -96,16 +96,16 @@ export default function DispensaryNearMePage() {
           </aside>
         </section>
         <section className={styles.section}>
-          <h2>One Jane Street counter</h2>
+          <h2>Close to home on Jane Street</h2>
           <p className={styles.prose}>
-            This is not a city-wide directory. It is the local page for the <Link href="/weed-dispensary-jane-street">Jane Street weed dispensary</Link> at Unit 12. The 35 Jane and 935 Jane Express run along Jane Street and stop at Wilson Avenue. The <Link href="/hours">store hours</Link> are 10:00 AM to midnight every day.
+            If you&apos;re near Jane and Wilson, we&apos;re the closest stop: <Link href="/weed-dispensary-jane-street">Unit 12 at 2111 Jane St</Link>, with a TTC stop about 200 metres away. Our <Link href="/hours">store hours</Link> are 10 AM to midnight every day.
           </p>
           <p className={styles.prose}>
-            Before you leave, open the <Link href="/menu">in-store menu</Link> and the <Link href="/guides">cannabis strain guides</Link>. The menu is a preview. Confirm the jar at the counter. The <Link href="/resources">Jane Street resources</Link> explain the flower lanes and the visit.
+            Before you come by, look through the <Link href="/menu">in-store menu</Link> or read our <Link href="/guides">cannabis strain guides</Link>. Our <Link href="/resources">Jane Street resources</Link> cover the flower tiers and what to expect when you visit.
           </p>
         </section>
         <section className={styles.section}>
-          <h2>Flower lanes at this counter</h2>
+          <h2>Our flower tiers</h2>
           <div className={styles.tiles}>
             {TIERS.map((tier) => (
               <Link className={styles.tile} href={`/${tier.slug}`} key={tier.slug}>

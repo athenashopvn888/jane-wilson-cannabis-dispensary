@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 const faqs = [
   {
     question: "Where are native cigarettes sold?",
-    answer: `At ${STORE.name}, ${STORE.address}. Adults 19+ with government photo ID.`
+    answer: `At ${STORE.name}, ${STORE.address}. Adults 19+ only, and we ID anyone who looks under 25. Nicotine is addictive.`
   },
   {
     question: "What are the store hours?",
@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     question: "Should I confirm a carton before travelling?",
-    answer: "Yes. The page is a menu preview. Confirm the brand and price at the Jane Wilson counter until the Jane Wilson live feed is connected."
+    answer: "The menu changes through the day. Call or drop in to check a strain before you make the trip."
   }
 ];
 

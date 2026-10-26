@@ -9,7 +9,7 @@ import { STORE, TIERS } from "../lib/store";
 
 export const metadata: Metadata = {
   title: "Weed Dispensary Jane Street at Wilson | North York",
-  description: "Jane Wilson Cannabis Dispensary is the Jane Street storefront at 2111 Jane St, Unit 12 near Wilson Avenue and Downsview. Explore five Weed tiers and plan your visit.",
+  description: "Jane Wilson Cannabis Dispensary is the Jane Street storefront at 2111 Jane St, Unit 12 near Wilson Avenue and Downsview. Five flower tiers, nicotine vapes, open 10 AM to midnight daily.",
   alternates: { canonical: "/weed-dispensary-jane-street" },
   openGraph: { title: "Jane Street Weed Dispensary at Wilson Avenue", url: "/weed-dispensary-jane-street" }
 };
@@ -21,11 +21,11 @@ const faqs = [
   },
   {
     question: "Is this the Jane Street store for the Downsview area?",
-    answer: "This is the single Jane Wilson Cannabis storefront at 2111 Jane Street. The page is written for the Jane–Wilson and nearby Downsview corridor, not for every part of Toronto."
+    answer: "Yes. We're a few minutes from Downsview, at 2111 Jane Street by Wilson Avenue."
   },
   {
     question: "What Weed tiers does the store organize?",
-    answer: "The five tier names are Exotic Weed, Premium Weed, AAA+ Weed, AA Weed, and Budget Weed. Call the store for today’s exact products, weights, and prices."
+    answer: "Exotic, Premium, AAA+, AA and Budget. The menu changes, so call if you're after one strain."
   },
   {
     question: "How do I get to Unit 12?",
@@ -75,28 +75,28 @@ export default function JaneStreetPage() {
     <main>
       <Nav />
       <section className="corridorHero">
-        <div><p className="eyebrow">JANE STREET · WILSON AVENUE · DOWNSVIEW</p><h1>Weed Dispensary on Jane Street at Wilson</h1><p>{STORE.name} is the Unit 12 storefront at 2111 Jane Street in North York. This is the local owner page for the Jane–Wilson and nearby Downsview corridor.</p><div className="heroActions"><Link href="/visit">How to get here</Link><a className="ghost" href={STORE.maps}>Map the store</a></div></div>
+        <div><p className="eyebrow">JANE STREET · WILSON AVENUE · DOWNSVIEW</p><h1>Weed Dispensary on Jane Street at Wilson</h1><p>{STORE.name} is at Unit 12, 2111 Jane Street in North York, right by Wilson Avenue. We&apos;re the neighbourhood weed shop for Jane and Wilson, Downsview and the rest of the Jane corridor.</p><div className="heroActions"><Link href="/visit">How to get here</Link><a className="ghost" href={STORE.maps}>Map the store</a></div></div>
         <Image src="/brand/front-left-grinder.png" width={1200} height={1200} priority sizes="(max-width: 900px) 86vw, 43vw" alt="Jane Wilson purple grinder artwork on a green and purple storefront design" />
       </section>
 
       <section className="geoNarrative">
-        <div><p className="eyebrow">THE LOCAL STOREFRONT</p><h2>A focused Jane–Wilson cannabis guide</h2></div>
-        <div><p>The address sits on Jane Street near Wilson Avenue, with the Jane corridor connecting the storefront to nearby Downsview. The website keeps that geographic focus on this Unit 12 counter.</p><p>Travelling by TTC? The 35 Jane and 935 Jane Express stop along Jane Street at Wilson Avenue. Driving? Use the exact map pin and obey the parking signs you find on arrival. The <Link href="/visit">visit page</Link> keeps transit, map, Unit 12, and arrival details together.</p><p>Hours are {STORE.hoursLabel}. Call <a href={`tel:${STORE.phoneHref}`}>{STORE.phone}</a> {SHOW_CIGARETTES ? "when a specific flower, carton, or nicotine vape is the reason for the trip." : "when a specific flower or nicotine vape is the reason for the trip."}</p><p>More for this counter: the <Link href="/dispensary-near-me">dispensary near me</Link> page, the <Link href="/menu">in-store menu</Link>, and <Link href="/resources">Jane Street resources</Link>.</p></div>
+        <div><p className="eyebrow">THE LOCAL STOREFRONT</p><h2>On Jane Street, by Wilson</h2></div>
+        <div><p>We&apos;re on Jane Street near Wilson Avenue, a short trip from Downsview. A TTC stop at Jane and Wilson is about 200 metres away. If you&apos;re driving, check the posted signs near the storefront before you park.</p><p>Hours are {STORE.hoursLabel}. Call <a href={`tel:${STORE.phoneHref}`}>{STORE.phone}</a> {SHOW_CIGARETTES ? "when a specific flower, carton, or nicotine vape is the reason for the trip." : "when a specific flower or nicotine vape is the reason for the trip."}</p><p>More for this counter: the <Link href="/dispensary-near-me">dispensary near me</Link> page, the <Link href="/menu">in-store menu</Link>, and <Link href="/resources">Jane Street resources</Link>.</p></div>
       </section>
 
       <section className="localTierList corridorTiers">
-        <p className="eyebrow">FIVE CLEAR WEED TIERS</p><h2>Compare flower tiers before your visit</h2>
-        <p>Each tier page lists flower with 3g, 5g, 14g, and 28g prices. Confirm the jar at the Jane Wilson counter. {SHOW_CIGARETTES ? "Native cigarettes and nicotine vapes have their own Jane Street pages." : "Nicotine vapes have their own Jane Street page."}</p>
+        <p className="eyebrow">OUR FLOWER TIERS</p><h2>Compare flower tiers before your visit</h2>
+        <p>Exotic, Premium and AAA+ come in 3g, 6g, 14g and 28g. AA and Budget come in 3g, 5g, 14g and 28g. Nicotine vapes have their own page.</p>
         <div>{TIERS.map((tier) => <Link key={tier.slug} href={`/${tier.slug}`}><span className="localTierName">{tier.name}</span><small>{tier.summary}</small><b>Explore tier →</b></Link>)}</div>
       </section>
 
       <section className="truthGrid">
         <article><span>ADDRESS</span><h2>{STORE.street}</h2><p>{STORE.locality}</p><a href={STORE.maps}>Open map →</a></article>
         <article><span>HOURS</span><h2>{STORE.hoursLabel}</h2><p>{STORE.street}</p><a href={`tel:${STORE.phoneHref}`}>{STORE.phone} →</a></article>
-        <article><span>MENU</span><h2>{SHOW_CIGARETTES ? "Flower, cigarettes, vapes" : "Flower and vapes"}</h2><p>Menu preview — confirm availability and prices at the Jane Wilson counter until the Jane Wilson live feed is connected.</p><Link href="/#weed-tiers">Browse flower tiers →</Link></article>
+        <article><span>MENU</span><h2>{SHOW_CIGARETTES ? "Flower, cigarettes, vapes" : "Flower and vapes"}</h2><p>The menu changes through the day. Call or drop in to check a strain before you make the trip.</p><Link href="/#weed-tiers">Browse flower tiers →</Link></article>
       </section>
 
-      <section className="faq"><p className="eyebrow">JANE STREET FAQ</p><h2>Jane–Wilson store questions</h2>{faqs.map((faq) => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</section>
+      <section className="faq"><p className="eyebrow">JANE STREET FAQ</p><h2>Questions about the shop</h2>{faqs.map((faq) => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</section>
       <Footer />
       <JsonLd data={schema} />
     </main>

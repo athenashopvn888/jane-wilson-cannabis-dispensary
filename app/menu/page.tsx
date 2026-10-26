@@ -91,7 +91,7 @@ export default async function MenuPage() {
         <MenuPreviewNote />
         {empty ? (
           <div className={styles.notice} role="status">
-            <strong>Nothing is listed right now.</strong> The in-store menu feed has no public rows to show. Visit {STORE.street} or call {STORE.phone}. Hours are {STORE.hoursLabel}. You can still open each flower lane below.
+            <strong>The online menu is updating.</strong> Drop by {STORE.street} or call {STORE.phone}. We&apos;re open {STORE.hoursLabel}, and each flower tier is linked below.
           </div>
         ) : null}
         {groups.map(({ tier, flowers }) => (
@@ -123,7 +123,7 @@ export default async function MenuPage() {
             <h2>
               <Link href="/native-cigarettes-jane-street">Native cigarettes</Link>
             </h2>
-            {cigarettes.length > 0 ? <ItemGrid items={cigarettes} /> : <p className={styles.prose}>No cigarette rows are listed right now. Confirm at the counter. Adults 19+.</p>}
+            {cigarettes.length > 0 ? <ItemGrid items={cigarettes} /> : <p className={styles.prose}>No cigarettes are listed online right now. Ask at the shop. Adults 19+.</p>}
           </section>
         ) : null}
         <p className={styles.prose}>

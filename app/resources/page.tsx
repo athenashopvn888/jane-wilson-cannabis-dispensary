@@ -64,7 +64,7 @@ export default function ResourcesPage() {
         <section className={styles.hero}>
           <div className={styles.heroCard}>
             <span className={styles.kicker}>Jane Street · North York</span>
-            <h1>Resources for the Jane and Wilson counter</h1>
+            <h1>Jane Street guides from Jane Wilson</h1>
             <p>
               Short local reading before you visit Unit 12. These articles explain the flower lanes, the indica, sativa, and hybrid labels, and how to reach 2111 Jane Street. They do not claim what is on the shelf today.
             </p>

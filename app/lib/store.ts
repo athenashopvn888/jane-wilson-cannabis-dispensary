@@ -47,7 +47,7 @@ export const WEIGHTS = ["3g", "5g", "14g", "28g"] as const;
 export type FlowerWeight = (typeof WEIGHTS)[number];
 
 export const MENU_PREVIEW_NOTE =
-  "Menu preview — confirm availability and prices at the Jane Wilson counter until the Jane Wilson live feed is connected.";
+  "The menu changes through the day. Call or drop in to check a strain before you make the trip.";
 
 export const TIERS = [
   {
@@ -55,15 +55,15 @@ export const TIERS = [
     key: "EXOTIC",
     name: "Exotic Weed",
     tone: "#681ca8",
-    summary: "The top flower tier for shoppers comparing standout aroma, appearance, and cultivar character.",
-    guide: "Exotic Weed is the top shelf in the Jane Wilson five-tier flower ladder. Compare 3g, 6g, 14g, and 28g prices on this page, then confirm the jar at the Unit 12 counter."
+    summary: "Our top shelf: the standout looks, loud aromas and rarer cultivars.",
+    guide: "Exotic Weed is our top shelf. It comes in 3g, 6g, 14g and 28g, and gets the in-store free gram along with Premium and AAA+."
   },
   {
     slug: "premium-weed",
     key: "PREMIUM",
     name: "Premium Weed",
     tone: "#7d31bd",
-    summary: "An upper flower tier for people looking for a strong balance of quality, presentation, and value.",
+    summary: "Top-quality flower one step under Exotic.",
     guide: "Premium Weed sits below Exotic Weed and above AAA+ Weed. Weights on this page are 3g, 6g, 14g, and 28g."
   },
   {
@@ -71,15 +71,15 @@ export const TIERS = [
     key: "AAA+",
     name: "AAA+ Weed",
     tone: "#913fd0",
-    summary: "The middle tier in the Jane Wilson flower ladder, designed for straightforward comparison shopping.",
-    guide: "AAA+ Weed is the middle collection. Use the 3g, 6g, 14g, and 28g columns, then confirm today’s jar at Jane Wilson."
+    summary: "Solid, well-grown flower in the middle of the menu.",
+    guide: "AAA+ Weed sits in the middle of our menu and comes in 3g, 6g, 14g and 28g."
   },
   {
     slug: "aa-weed",
     key: "AA",
     name: "AA Weed",
     tone: "#27a951",
-    summary: "A value-focused flower tier positioned between AAA+ Weed and Budget Weed.",
+    summary: "Good everyday flower, and the only tier with a true 5g.",
     guide: "AA Weed is its own collection, separate from Budget Weed. Listed weights are 3g, 5g, 14g, and 28g."
   },
   {
@@ -87,21 +87,21 @@ export const TIERS = [
     key: "BUDGET",
     name: "Budget Weed",
     tone: "#43cc5c",
-    summary: "The entry-value tier in the five-level Jane Wilson flower menu.",
-    guide: "Budget Weed is the entry-value tier at 2111 Jane Street. Compare 3g, 5g, 14g, and 28g, then confirm at the counter."
+    summary: "The easy everyday tier at Jane and Wilson.",
+    guide: "Budget Weed is our everyday tier, in 3g, 5g, 14g and 28g."
   }
 ] as const;
 
 export type TierSlug = (typeof TIERS)[number]["slug"];
 
 export const LOCAL_ROUTES = [
-  { href: "/visit", label: "Visit Jane Wilson", detail: "Map, TTC arrival, Unit 12, parking notes, and daily hours" },
-  { href: "/weed-dispensary-jane-street", label: "Jane Street Weed Dispensary", detail: "The Jane–Wilson and Downsview corridor guide" },
+  { href: "/visit", label: "Visit Jane Wilson", detail: "Directions, TTC and daily hours" },
+  { href: "/weed-dispensary-jane-street", label: "Jane Street Weed Dispensary", detail: "All about our shop at Jane and Wilson" },
   { href: "/native-cigarettes-jane-street", label: "Native Cigarettes", detail: "Cigarette listings for the Jane Street counter. Adults 19+." },
   { href: "/nicotine-vapes-jane-street", label: "Nicotine Vapes", detail: "Nicotine vape listings, kept separate from flower. Adults 19+." },
   { href: "/menu", label: "Menu", detail: "In-store flower and nicotine vape preview. Confirm at the counter." },
-  { href: "/resources", label: "Resources", detail: "Local Jane Street guides for flower tiers, strain labels, and visiting Unit 12" },
-  { href: "/dispensary-near-me", label: "Dispensary near me", detail: "Jane Street and North York landing page for this Unit 12 counter" }
+  { href: "/resources", label: "Resources", detail: "Guides to our flower tiers, strain types and visiting the shop" },
+  { href: "/dispensary-near-me", label: "Dispensary near me", detail: "Looking for a dispensary near Jane and Wilson? Start here." }
 ] as const;
 
 export function tierBySlug(slug: string) {

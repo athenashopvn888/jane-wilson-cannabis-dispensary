@@ -8,7 +8,7 @@ import { STORE, storeSchema } from "../lib/store";
 
 export const metadata: Metadata = {
   title: "Visit Jane Wilson Cannabis | Jane St Unit 12",
-  description: "Plan a visit to Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12. Find the map, phone number, TTC Jane corridor notes, and arrival guidance.",
+  description: "Plan a visit to Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12. Directions, TTC, parking and daily hours (10 AM to midnight).",
   alternates: { canonical: "/visit" },
   openGraph: { title: "Visit Jane Wilson Cannabis Dispensary", url: "/visit" }
 };
@@ -24,15 +24,15 @@ const faqs = [
   },
   {
     question: "Is parking guaranteed at the store?",
-    answer: "This website does not claim a dedicated or guaranteed parking space. Check the immediate storefront area and obey all posted parking signs when you arrive."
+    answer: "There's no dedicated lot, so check the posted signs near the storefront before you park."
   },
   {
     question: "What are today’s opening hours?",
-    answer: `${STORE.name} is open ${STORE.hoursLabel}. Call ${STORE.phone} if you need to confirm a specific product before travelling.`
+    answer: `${STORE.name} is open ${STORE.hoursLabel}. Looking for one strain? Call ${STORE.phone} first.`
   },
   {
     question: "Do I need identification?",
-    answer: "Yes. Cannabis retail is for adults 19+. Bring valid government-issued photo identification."
+    answer: "Yes. You must be 19+, and we ID anyone who looks under 25, so bring government-issued photo ID."
   }
 ];
 
@@ -70,9 +70,9 @@ export default function VisitPage() {
       <Nav />
       <section className="visitHero">
         <div className="visitHeroCopy">
-          <p className="eyebrow">YOUR ROUTE TO UNIT 12</p>
-          <h1>Make Jane Wilson your next Jane Street stop.</h1>
-          <p>Use the exact address, Google Maps pin and Jane corridor transit notes below to reach the storefront near Wilson Avenue.</p>
+          <p className="eyebrow">DIRECTIONS · JANE &amp; WILSON</p>
+          <h1>How to find Jane Wilson Cannabis Dispensary</h1>
+          <p>We&apos;re at 2111 Jane St, Unit 12, on Jane Street just by Wilson Avenue in North York. Here&apos;s how to get here by TTC or car.</p>
           <div className="heroActions"><a href={STORE.maps}>Open Google Maps</a><a className="ghost" href={`tel:${STORE.phoneHref}`}>Call {STORE.phone}</a></div>
           <div className="visitHeroFacts"><span><b>{STORE.street}</b>{STORE.locality}</span><span><b>Open daily</b>10:00 AM–midnight</span></div>
         </div>
@@ -83,18 +83,18 @@ export default function VisitPage() {
       </section>
 
       <section className="arrivalGrid">
-        <article><span>01</span><h2>Pin the exact address</h2><p><strong>{STORE.street}</strong><br />{STORE.locality}<br />Canada</p><a href={STORE.maps}>Open the supplied Google Maps pin →</a></article>
-        <article><span>02</span><h2>Travel the Jane corridor</h2><p>The 35 Jane and 935 Jane Express serve Jane Street and include stops at Wilson Avenue. Check live TTC service and choose the direction that fits your trip.</p><a href="https://www.ttc.ca/routes-and-schedules/35/0/4738">Check the 35 Jane route on TTC →</a></article>
-        <article><span>03</span><h2>Find Unit 12</h2><p>Use the storefront number and Jane Wilson purple-and-green window graphics to identify the correct unit. This is one physical Jane Street storefront.</p><a href={`tel:${STORE.phoneHref}`}>Call if you need a landmark check →</a></article>
-        <article><span>04</span><h2>Hours</h2><p><strong>{STORE.hoursLabel}.</strong> Confirm a specific product at the Jane Wilson counter before you make a special trip.</p><a href={`tel:${STORE.phoneHref}`}>{STORE.phone} →</a></article>
+        <article><span>01</span><h2>Address</h2><p><strong>{STORE.street}</strong><br />{STORE.locality}<br />Canada</p><a href={STORE.maps}>Get directions on Google Maps →</a></article>
+        <article><span>02</span><h2>By TTC</h2><p>There&apos;s a TTC stop at Jane and Wilson, about 200 metres from the door. Check live service on the TTC site before you leave.</p></article>
+        <article><span>03</span><h2>Find the door</h2><p>Look for Unit 12 and our purple-and-green window art.</p><a href={`tel:${STORE.phoneHref}`}>Can&apos;t find us? Give us a call →</a></article>
+        <article><span>04</span><h2>Hours</h2><p><strong>{STORE.hoursLabel}.</strong> Coming for one strain? Call first and we&apos;ll check.</p><a href={`tel:${STORE.phoneHref}`}>{STORE.phone} →</a></article>
       </section>
 
       <section className="parkingNote">
-        <div><p className="eyebrow">ARRIVING BY CAR</p><h2>Check signs when you arrive</h2></div>
-        <p>The site does not promise a dedicated parking lot or a guaranteed space. Use the map pin, inspect the immediate storefront area, and follow all posted curb, private-lot, and time-limit signs.</p>
+        <div><p className="eyebrow">ARRIVING BY CAR</p><h2>Driving in</h2></div>
+        <p>We don&apos;t have a dedicated lot, so check the posted signs near the storefront before you park.</p>
       </section>
 
-      <section className="corridorBand"><div><p className="eyebrow">JANE–WILSON · DOWNSVIEW</p><h2>One storefront, one local owner page</h2><p>The Jane Street corridor page explains the physical location and its five Weed tiers without presenting a second North York location.</p><Link href="/weed-dispensary-jane-street">Open the Jane Street store guide →</Link></div><Image src="/brand/front-right-papers.png" width={1000} height={1000} alt="Jane Wilson purple rolling papers storefront artwork" /></section>
+      <section className="corridorBand"><div><p className="eyebrow">JANE–WILSON · DOWNSVIEW</p><h2>More about the shop</h2><p>Read about the neighbourhood, our five flower tiers and what to expect when you come in.</p><Link href="/weed-dispensary-jane-street">Open the Jane Street store guide →</Link></div><Image src="/brand/front-right-papers.png" width={1000} height={1000} alt="Jane Wilson purple rolling papers storefront artwork" /></section>
 
       <section className="faq"><p className="eyebrow">VISIT FAQ</p><h2>Before you head to Jane Street</h2>{faqs.map((faq) => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</section>
       <Footer />

@@ -23,11 +23,11 @@ export const metadata: Metadata = {
 const faqs = [
   {
     question: "Where are nicotine vapes listed?",
-    answer: `At ${STORE.name}, ${STORE.address}. This page is only the nicotine vape list. Flower tiers stay on their own pages.`
+    answer: `At ${STORE.address}. Flower is on its own tier pages.`
   },
   {
     question: "Who can buy nicotine vapes?",
-    answer: "Adults 19+ with government photo ID. Nicotine is addictive."
+    answer: "Adults 19+ only, and we ID anyone who looks under 25. Nicotine is addictive."
   },
   {
     question: "What are the store hours?",
@@ -35,7 +35,7 @@ const faqs = [
   },
   {
     question: "Are these prices final?",
-    answer: "Treat the list as a menu preview. Confirm the device and price at the Jane Wilson counter until the Jane Wilson live feed is connected."
+    answer: "The menu changes through the day. Call or drop in to check a strain before you make the trip."
   }
 ];
 
@@ -95,7 +95,7 @@ export default async function NicotineVapesPage() {
             <p className="eyebrow">{items.length} LISTINGS</p>
             <h2>Nicotine vape menu</h2>
           </div>
-          <p>Prices are the posted menu amounts. Confirm the device at the Jane Wilson counter. Flower is listed on the five weed tiers.</p>
+          <p>Ask at the shop to check a device before you come. Flower is on our five weed tier pages.</p>
         </div>
         <ItemGrid items={items} />
       </section>
