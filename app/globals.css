@@ -53,10 +53,16 @@
 }
 @media(max-width:700px){
   .bannerSlots{padding:0 16px}
-  .flowerGrid,.itemGrid,.cigsDeal,.cigsDealBand,.productLayout,.bannerPair{grid-template-columns:1fr}
+  .cigsDeal,.cigsDealBand,.productLayout,.bannerPair{grid-template-columns:1fr}
+  .flowerGrid,.itemGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .cigsDealBand{padding:24px 16px}
-  .weightPrices{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .weightPrices strong{font-size:.78rem}
+  .flowerCard,.itemCard{min-width:0}
+  .flowerBody{padding:10px 8px 12px}
+  .weightPrices{grid-template-columns:repeat(4,minmax(0,1fr));gap:3px}
+  .weightPrices div{padding:5px 1px;min-width:0}
+  .weightPrices dt{font-size:.62rem}
+  .weightPrices strong{font-size:.68rem}
+  .weightPrices s{font-size:.58rem}
 }
 
 /* Mobile storefront chrome: one-row header, menu sheet, readable heroes */
