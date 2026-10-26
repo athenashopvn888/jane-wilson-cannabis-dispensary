@@ -11,6 +11,7 @@ import RouteHubs from "./components/RouteHubs";
 import { SHOW_CIGARETTES } from "./lib/siteConfig";
 import { STORE, TIERS } from "./lib/store";
 import BannerSlots from "./components/BannerSlots";
+import MobileLeadBanner from "./components/MobileLeadBanner";
 import FleetAnnouncementBanner from "./components/fleet/FleetAnnouncementBanner";
 import { CODED_BANNERS } from "./lib/fleet/config";
 import { getFleetContent } from "./lib/fleetContent";
@@ -83,6 +84,7 @@ export default async function HomePage() {
         <span>Open daily 10:00 AM–midnight</span>
         <span>Adults 19+</span>
       </section>
+      <MobileLeadBanner sheetBanners={sheetBanners} />
       <section className="hero homeHero">
         <div className="heroCopy homeHeroCopy">
           <div className="heroBadge">JANE STREET · NORTH YORK · ADULTS 19+</div>
