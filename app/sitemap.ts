@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { flowerPath, staticFlowers, staticItems } from "./lib/inventory";
+import { flowerPath, getMenu, itemPath, itemPublicSlug, shelfItems, staticFlowers, staticItems } from "./lib/inventory";
+import { CATEGORY_LINKS, AREA_LINKS } from "./lib/shopLinks";
 import { SHOW_CIGARETTES, isHiddenCigaretteItem } from "./lib/siteConfig";
 import { STORE, TIERS } from "./lib/store";
 import { GUIDES } from "./lib/content/guides";
@@ -27,6 +28,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/weed-delivery-north-york", changeFrequency: "weekly" as const, priority: 0.8 },
     { path: "/weed-delivery-toronto", changeFrequency: "weekly" as const, priority: 0.8 },
     { path: "/faq", changeFrequency: "monthly" as const, priority: 0.7 },
+    { path: "/contact", changeFrequency: "monthly" as const, priority: 0.7 },
+    ...CATEGORY_LINKS.map((category) => ({ path: category.path, changeFrequency: "daily" as const, priority: 0.75 })),
+    ...AREA_LINKS.map((area) => ({ path: area.path, changeFrequency: "monthly" as const, priority: 0.6 })),
     { path: "/guides", changeFrequency: "weekly" as const, priority: 0.7 },
     { path: "/resources", changeFrequency: "weekly" as const, priority: 0.7 },
     ...RESOURCE_ARTICLES.map((article) => ({ path: `/resources/${article.slug}`, changeFrequency: "monthly" as const, priority: 0.6 })),
@@ -43,6 +47,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (item.category !== "CIGARETTES") return false;
     return !isHiddenCigaretteItem(item);
   });
+
+  let menuFlowers = staticFlowers;
+  let shelfPool = staticItems;
+  let menuShelf = [] as typeof staticItems;
+  try {
+    const menu = await getMenu();
+    const sourceItems = menu.isLive ? menu.items : staticItems;
+    shelfPool = sourceItems;
+    if (menu.isLive) {
+      const flowerKeys = new Set(staticFlowers.map((flower) => `${flower.tier}:${flower.sku}`));
+      menuFlowers = [
+        ...staticFlowers,
+        ...menu.flowers.filter((flower) => !flowerKeys.has(`${flower.tier}:${flower.sku}`))
+      ];
+    }
+    const knownSlugs = new Set(publicItems.map((item) => item.slug));
+    menuShelf = shelfItems(sourceItems).filter((item) => {
+      const slug = itemPublicSlug(item, sourceItems);
+      return !knownSlugs.has(slug) && !knownSlugs.has(item.slug);
+    });
+  } catch {
+    menuFlowers = staticFlowers;
+    menuShelf = [];
+    shelfPool = staticItems;
+  }
 
   let fleetArticlePages: MetadataRoute.Sitemap = [];
   try {
@@ -64,8 +93,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...pages.map((page) => ({ url: `${STORE.origin}${page.path}`, lastModified: now, changeFrequency: page.changeFrequency, priority: page.priority })),
     ...TIERS.map((tier) => ({ url: `${STORE.origin}/${tier.slug}`, lastModified: now, changeFrequency: "daily" as const, priority: 0.85 })),
-    ...staticFlowers.map((flower) => ({ url: `${STORE.origin}${flowerPath(flower)}`, lastModified: now, changeFrequency: "daily" as const, priority: 0.6 })),
+    ...menuFlowers.map((flower) => ({ url: `${STORE.origin}${flowerPath(flower)}`, lastModified: now, changeFrequency: "daily" as const, priority: 0.6 })),
     ...publicItems.map((item) => ({ url: `${STORE.origin}/item/${item.slug}`, lastModified: now, changeFrequency: "daily" as const, priority: 0.55 })),
+    ...menuShelf.map((item) => ({ url: `${STORE.origin}${itemPath(item, shelfPool)}`, lastModified: now, changeFrequency: "daily" as const, priority: 0.55 })),
     ...fleetArticlePages,
   ];
 }

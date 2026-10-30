@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { SHOW_CIGARETTES } from "../lib/siteConfig";
+import { CATEGORY_LINKS } from "../lib/shopLinks";
 import { STORE, TIERS } from "../lib/store";
 
 const STORE_LINKS = [
@@ -15,6 +16,7 @@ const STORE_LINKS = [
   { href: "/nicotine-vapes-jane-street", label: "Nicotine Vapes" },
   { href: "/delivery", label: "Delivery" },
   { href: "/faq", label: "FAQ" },
+  { href: "/contact", label: "Contact" },
   { href: "/guides", label: "Guides" },
   { href: "/resources", label: "Resources" },
   { href: "/menu", label: "Menu" }
@@ -165,6 +167,14 @@ export default function Nav() {
                         onClick={() => closeMenu(false)}
                       >
                         {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                  <p className="menuGroupLabel">Menu sections</p>
+                  <div className="menuLinkGrid">
+                    {CATEGORY_LINKS.map((link) => (
+                      <Link key={link.path} href={link.path} aria-current={isCurrent(pathname, link.path) ? "page" : undefined} onClick={() => closeMenu(false)}>
+                        {link.title}
                       </Link>
                     ))}
                   </div>

@@ -11,6 +11,7 @@ import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
 import MenuPreviewNote from "../components/MenuPreviewNote";
 import Nav from "../components/Nav";
+import { tierShelfLine } from "../lib/catalog";
 import { collectionSchema } from "../lib/collectionSchema";
 import { flowerHref, flowersForTier, getMenu } from "../lib/inventory";
 import { SHOW_CIGARETTES } from "../lib/siteConfig";
@@ -42,6 +43,7 @@ export default async function TierPage({ params }: { params: Promise<{ tier: str
 
   const menu = await getMenu();
   const flowers = flowersForTier(menu.flowers, tier.slug);
+  const shelfLine = tierShelfLine(flowers, tier.key);
   const tierIndex = TIERS.findIndex((item) => item.slug === tier.slug);
   const art = tierIndex % 2 === 0 ? "/brand/front-left-grinder.png" : "/brand/front-right-papers.png";
   const faqs = [
@@ -102,6 +104,7 @@ export default async function TierPage({ params }: { params: Promise<{ tier: str
           <p>{tier.summary}</p>
           <p>{tier.guide}</p>
           <p>{flowers.length} flowers listed · weights {weightsFor(tier.key).join(", ")}</p>
+          {shelfLine ? <p>{shelfLine}</p> : null}
           <FreeGramTierHeader tier={tier.key} prices3g={flowers.flatMap((f) => (f.price3g && f.price3g.regular > 0 ? [f.price3g.regular] : []))} prices6g={flowers.flatMap((f) => (f.price5g && f.price5g.regular > 0 ? [f.price5g.regular] : []))} show6g />
           <div className="tierHeroActions">
             <a href="#listings">View listings</a>

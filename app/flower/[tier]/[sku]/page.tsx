@@ -8,20 +8,37 @@ import Nav from "../../../components/Nav";
 import ProductPhoto from "../../../components/ProductPhoto";
 import { isFreeGramTier } from "../../../components/FreeGramPromo";
 import { availableFlowerPrices, flowerHref, flowerOffers, flowersForTier, formatFlowerPrice, getMenu, staticFlowers } from "../../../lib/inventory";
-import { STORE, TIERS, tierBySlug } from "../../../lib/store";
+import { STORE, TIERS, tierByKey, tierBySlug } from "../../../lib/store";
 
 export const revalidate = 300;
 
-export function generateStaticParams() {
-  return TIERS.flatMap((tier) =>
+export async function generateStaticParams() {
+  const params = TIERS.flatMap((tier) =>
     flowersForTier(staticFlowers, tier.slug).map((flower) => ({ tier: tier.slug, sku: flower.sku }))
   );
+  const seen = new Set(params.map((item) => `${item.tier}/${item.sku}`));
+  try {
+    const menu = await getMenu();
+    for (const flower of menu.flowers) {
+      const tier = tierByKey(flower.tier);
+      if (!tier) continue;
+      const key = `${tier.slug}/${flower.sku}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      params.push({ tier: tier.slug, sku: flower.sku });
+    }
+  } catch {
+    // Static flower paths above stay in the build.
+  }
+  return params;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ tier: string; sku: string }> }): Promise<Metadata> {
   const { tier: tierSlug, sku } = await params;
   const tier = tierBySlug(tierSlug);
-  const flower = flowersForTier(staticFlowers, tierSlug).find((item) => item.sku === sku);
+  const menu = await getMenu();
+  const flower = flowersForTier(menu.flowers, tierSlug).find((item) => item.sku === sku)
+    ?? flowersForTier(staticFlowers, tierSlug).find((item) => item.sku === sku);
   if (!tier || !flower) return {};
   return {
     title: `${flower.name} | ${tier.name}`,
