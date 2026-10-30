@@ -52,8 +52,11 @@ export default async function FlowerPage({ params }: { params: Promise<{ tier: s
   const tier = tierBySlug(tierSlug);
   if (!tier) notFound();
   const menu = await getMenu();
-  const flower = flowersForTier(menu.flowers, tier.slug).find((item) => item.sku === sku);
+  const liveFlower = flowersForTier(menu.flowers, tier.slug).find((item) => item.sku === sku);
+  const savedFlower = flowersForTier(staticFlowers, tier.slug).find((item) => item.sku === sku);
+  const flower = liveFlower ?? savedFlower;
   if (!flower) notFound();
+  const unavailable = menu.isLive && !liveFlower;
 
   const schema = {
     "@context": "https://schema.org",
@@ -64,7 +67,9 @@ export default async function FlowerPage({ params }: { params: Promise<{ tier: s
     url: flowerHref(flower),
     brand: { "@type": "Brand", name: STORE.name },
     category: tier.name,
-    offers: flowerOffers(flower)
+    offers: flowerOffers(flower).map((offer) => (
+      unavailable ? { ...offer, availability: "https://schema.org/OutOfStock" } : offer
+    ))
   };
 
   return (
@@ -81,7 +86,11 @@ export default async function FlowerPage({ params }: { params: Promise<{ tier: s
               {flower.thc ? <span>THC {flower.thc}</span> : null}
             </p>
             <p>{tier.guide}</p>
-            <MenuPreviewNote />
+            {unavailable ? (
+              <p>Currently unavailable. This strain is not on today&apos;s menu. The prices below are the last listed in-store prices.</p>
+            ) : (
+              <MenuPreviewNote />
+            )}
             <dl className="weightPrices productWeights">
               {availableFlowerPrices(flower).map(({ label, point }) => {
                 const price = formatFlowerPrice(point);
@@ -97,7 +106,8 @@ export default async function FlowerPage({ params }: { params: Promise<{ tier: s
               })}
             </dl>
             <div className="heroActions">
-              <Link href={`/${tier.slug}`}>Back to {tier.name}</Link>
+              <Link href={`/${tier.slug}`}>{unavailable ? `See ${tier.name}` : `Back to ${tier.name}`}</Link>
+              <Link className="ghost" href="/menu">Menu</Link>
               <Link className="ghost" href="/visit">Visit Unit 12</Link>
             </div>
             <p className="truthNote">Hours: {STORE.hoursLabel}. {STORE.street}. {STORE.phone}.</p>

@@ -7,15 +7,28 @@ import MenuPreviewNote from "../../components/MenuPreviewNote";
 import Nav from "../../components/Nav";
 import ProductPhoto from "../../components/ProductPhoto";
 import { categoryForItem } from "../../lib/catalog";
-import { cigaretteItems, findPublicItem, getMenu, itemOfferAmounts, itemPublicSlug, nicotineVapeItems, shelfItems, staticItems } from "../../lib/inventory";
+import { cigaretteItems, findPublicItem, getMenu, itemOfferAmounts, itemPublicSlug, nicotineVapeItems, shelfItems, staticItems, type ItemProduct } from "../../lib/inventory";
 import { isHiddenCigaretteItem, VAPE_PAGE_PATH } from "../../lib/siteConfig";
 import { STORE } from "../../lib/store";
 
 export const revalidate = 300;
 
+/** Previously listed vapes and kept cigarette rows, including a one-dollar row the live grid hides. */
+function savedPublicItem(slug: string): ItemProduct | undefined {
+  return staticItems.find((item) => {
+    if (item.slug !== slug) return false;
+    if (item.category.toUpperCase() === "VAPE PENS") return true;
+    if (item.category.toUpperCase() === "CIGARETTES") return !isHiddenCigaretteItem(item);
+    return false;
+  });
+}
+
 export async function generateStaticParams() {
   const staticPool = [...cigaretteItems(staticItems), ...nicotineVapeItems(staticItems)];
   const slugs = new Set(staticPool.map((item) => itemPublicSlug(item, staticPool)));
+  for (const item of staticItems) {
+    if (item.category.toUpperCase() === "VAPE PENS") slugs.add(item.slug);
+  }
   try {
     const menu = await getMenu();
     const source = menu.isLive ? menu.items : staticItems;
@@ -31,29 +44,32 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const menu = await getMenu();
   const pool = menu.items.length ? menu.items : staticItems;
-  const item = findPublicItem(pool, slug);
+  const item = findPublicItem(pool, slug) ?? savedPublicItem(slug);
   if (!item || isHiddenCigaretteItem(item)) return {};
   const section = categoryForItem(item);
   return {
     title: `${item.name} | ${section.title}`,
     description: `${item.name} listed at Jane Wilson Cannabis Dispensary on Jane Street. Adults 19+.`,
-    alternates: { canonical: `/item/${itemPublicSlug(item, pool)}` }
+    alternates: { canonical: `/item/${findPublicItem(pool, slug) ? itemPublicSlug(item, pool) : item.slug}` }
   };
 }
 
 export default async function ItemPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const menu = await getMenu();
-  const item = findPublicItem(menu.items, slug);
+  const liveItem = findPublicItem(menu.items, slug);
+  const item = liveItem ?? savedPublicItem(slug);
   if (!item) notFound();
   if (isHiddenCigaretteItem(item)) redirect(VAPE_PAGE_PATH);
+  const unavailable = menu.isLive && !liveItem;
+  const crediblePrice = item.price ? itemOfferAmounts(item.price).some((amount) => Number(amount) > 1) : false;
   const section = categoryForItem(item);
   const isCigarette = item.category.toUpperCase() === "CIGARETTES";
   const isNicotine = item.category.toUpperCase() === "VAPE PENS";
   const backHref = section.path;
   const backLabel = section.title;
-  const publicSlug = itemPublicSlug(item, menu.items);
-  const amounts = item.price ? itemOfferAmounts(item.price) : [];
+  const publicSlug = liveItem ? itemPublicSlug(item, menu.items) : item.slug;
+  const amounts = crediblePrice && item.price ? itemOfferAmounts(item.price) : [];
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -69,6 +85,7 @@ export default async function ItemPage({ params }: { params: Promise<{ slug: str
       price,
       priceCurrency: "CAD",
       url: `${STORE.origin}/item/${publicSlug}`,
+      availability: unavailable ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
       seller: { "@id": `${STORE.origin}/#store` }
     }))
   };
@@ -82,13 +99,15 @@ export default async function ItemPage({ params }: { params: Promise<{ slug: str
           <ProductPhoto src={item.image} alt={item.name} />
           <div>
             <h1>{item.name}</h1>
-            <p className="itemPrice">{item.price || "Confirm at the counter"}</p>
+            {unavailable ? <p>Currently unavailable. This item is not on today&apos;s menu.</p> : null}
+            {unavailable && !crediblePrice ? null : <p className="itemPrice">{unavailable ? `Last listed in-store price: ${item.price}` : (item.price || "Confirm at the counter")}</p>}
             {item.mg ? <p className="flowerMeta"><span>{item.mg}</span></p> : null}
             {item.thc ? <p className="flowerMeta"><span>THC {item.thc}</span></p> : null}
-            <MenuPreviewNote />
+            {unavailable ? null : <MenuPreviewNote />}
             {isCigarette ? <p>Tobacco products are for adults 19+. Bring government photo ID to {STORE.street}.</p> : isNicotine ? <p>Nicotine vapes are for adults 19+. Nicotine is addictive. This list is separate from flower.</p> : <p>{item.name} is listed for the counter at {STORE.street}. The price above is the in-store price from the menu. Adults 19+.</p>}
             <div className="heroActions">
-              <Link href={backHref}>Back to {backLabel}</Link>
+              <Link href={backHref}>{unavailable ? `See ${backLabel}` : `Back to ${backLabel}`}</Link>
+              <Link className="ghost" href="/menu">Menu</Link>
               <a className="ghost" href={`tel:${STORE.phoneHref}`}>Call {STORE.phone}</a>
             </div>
             <p className="truthNote">Hours: {STORE.hoursLabel}. {STORE.street}.</p>
