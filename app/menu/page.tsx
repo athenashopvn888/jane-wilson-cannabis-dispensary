@@ -6,7 +6,9 @@ import ItemGrid from "../components/ItemGrid";
 import JsonLd from "../components/JsonLd";
 import MenuPreviewNote from "../components/MenuPreviewNote";
 import Nav from "../components/Nav";
+import { productsForCategory } from "../lib/catalog";
 import { cigaretteItems, flowersForTier, getMenu, nicotineVapeItems } from "../lib/inventory";
+import { CATEGORY_LINKS } from "../lib/shopLinks";
 import { SHOW_CIGARETTES } from "../lib/siteConfig";
 import { STORE, TIERS } from "../lib/store";
 import styles from "../jwc-pages.module.css";
@@ -113,7 +115,7 @@ export default async function MenuPage() {
             <Link href="/nicotine-vapes-jane-street">Nicotine vapes</Link>
           </h2>
           {vapes.length > 0 ? (
-            <ItemGrid items={vapes} />
+            <ItemGrid items={vapes} catalog={menu.items} />
           ) : (
             <p className={styles.prose}>No nicotine vapes are listed right now. Confirm devices at the counter. Adults 19+. Nicotine is addictive.</p>
           )}
@@ -123,9 +125,24 @@ export default async function MenuPage() {
             <h2>
               <Link href="/native-cigarettes-jane-street">Native cigarettes</Link>
             </h2>
-            {cigarettes.length > 0 ? <ItemGrid items={cigarettes} /> : <p className={styles.prose}>No cigarettes are listed online right now. Ask at the shop. Adults 19+.</p>}
+            {cigarettes.length > 0 ? <ItemGrid items={cigarettes} catalog={menu.items} /> : <p className={styles.prose}>No cigarettes are listed online right now. Ask at the shop. Adults 19+.</p>}
           </section>
         ) : null}
+        {CATEGORY_LINKS.map((category) => {
+          const products = productsForCategory(menu.items, category.slug);
+          return (
+            <section className={styles.section} key={category.slug} id={category.slug}>
+              <h2>
+                <Link href={category.path}>{category.title}</Link>
+              </h2>
+              {products.length > 0 ? (
+                <ItemGrid items={products} catalog={menu.items} />
+              ) : (
+                <p className={styles.prose}>Nothing is listed in {category.title} right now. Confirm that section at the counter.</p>
+              )}
+            </section>
+          );
+        })}
         <p className={styles.prose}>
           <Link href="/guides">Cannabis strain guides</Link>
           {" · "}

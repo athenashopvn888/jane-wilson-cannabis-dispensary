@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
 import Nav from "../components/Nav";
 import { SHOW_CIGARETTES } from "../lib/siteConfig";
+import { AREA_LINKS } from "../lib/shopLinks";
 import { STORE, TIERS } from "../lib/store";
 
 export const metadata: Metadata = {
@@ -94,6 +95,13 @@ export default function JaneStreetPage() {
         <article><span>ADDRESS</span><h2>{STORE.street}</h2><p>{STORE.locality}</p><a href={STORE.maps}>Open map →</a></article>
         <article><span>HOURS</span><h2>{STORE.hoursLabel}</h2><p>{STORE.street}</p><a href={`tel:${STORE.phoneHref}`}>{STORE.phone} →</a></article>
         <article><span>MENU</span><h2>{SHOW_CIGARETTES ? "Flower, cigarettes, vapes" : "Flower and vapes"}</h2><p>The menu changes through the day. Call or drop in to check a strain before you make the trip.</p><Link href="/#weed-tiers">Browse flower tiers →</Link></article>
+      </section>
+
+      <section className="localTierList">
+        <p className="eyebrow">NEARBY AREAS</p>
+        <h2>Neighbourhoods around Jane and Wilson</h2>
+        <p>These pages are visit notes for people coming from nearby parts of North York. The counter is still Unit 12.</p>
+        <div>{AREA_LINKS.map((area) => <Link key={area.path} href={area.path}><span className="localTierName">{area.title}</span><small>{area.detail}</small><b>Open area page →</b></Link>)}</div>
       </section>
 
       <section className="faq"><p className="eyebrow">JANE STREET FAQ</p><h2>Questions about the shop</h2>{faqs.map((faq) => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</section>

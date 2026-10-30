@@ -9,6 +9,7 @@
 import flowersJson from "./flowers.json";
 import itemsJson from "./items.json";
 import { fetchMenuPayload, LIVE_MENU_STORE } from "./menuFeed";
+import { isCigaretteCategory } from "./siteConfig";
 import { STORE, TIERS, WEIGHTS, type FlowerWeight, tierByKey, tierBySlug } from "./store";
 
 export interface PricePoint {
@@ -169,12 +170,26 @@ export function nicotineVapeItems(items: ItemProduct[]) {
   return itemsByCategory(items, "VAPE PENS").filter(hasCrediblePublicPrice);
 }
 
-export function itemPath(item: ItemProduct) {
-  return `/item/${item.slug}`;
+/** In-feed shelf rows that can have a public product page. Cigarette rows stay out. */
+export function shelfItems(items: ItemProduct[]) {
+  return items.filter((item) => !isCigaretteCategory(item.category) && hasCrediblePublicPrice(item));
+}
+
+/** Two feed rows can share a slug. The public path stays the slug when it is unique. */
+export function itemPublicSlug(item: ItemProduct, items: ItemProduct[]) {
+  const twins = items.filter((other) => other.slug === item.slug && other.category.toUpperCase() === item.category.toUpperCase());
+  if (twins.length < 2) return item.slug;
+  const suffix = item.sku.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return suffix ? `${item.slug}-${suffix}` : item.slug;
+}
+
+export function itemPath(item: ItemProduct, items: ItemProduct[] = []) {
+  return `/item/${items.length ? itemPublicSlug(item, items) : item.slug}`;
 }
 
 export function findPublicItem(items: ItemProduct[], slug: string) {
-  return [...cigaretteItems(items), ...nicotineVapeItems(items)].find((item) => item.slug === slug);
+  const pool = [...cigaretteItems(items), ...shelfItems(items)];
+  return pool.find((item) => itemPublicSlug(item, pool) === slug);
 }
 
 export function availableFlowerPrices(flower: FlowerProduct) {
