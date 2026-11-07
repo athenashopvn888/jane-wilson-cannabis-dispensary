@@ -1,0 +1,87 @@
+.main {
+  min-height: 100vh;
+  background: #f7f3ec;
+  color: #1d1530;
+}
+
+.article {
+  width: min(760px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 36px 0 72px;
+}
+
+.article h1 {
+  margin: 0 0 12px;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.85rem, 4.2vw, 2.55rem);
+  line-height: 1.15;
+  font-weight: 400;
+  color: #3d0f66;
+}
+
+.checked {
+  margin: 0 0 16px;
+  color: #5a4d6e;
+}
+
+.article h2 {
+  margin: 32px 0 12px;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  font-size: 1.55rem;
+  line-height: 1.25;
+  color: #3d0f66;
+}
+
+.article p,
+.article li {
+  line-height: 1.7;
+  color: #3a2d4f;
+}
+
+.article a {
+  color: #681ca8;
+  font-weight: 800;
+}
+
+.article ul,
+.article ol {
+  margin: 0 0 16px;
+  padding-left: 1.3rem;
+}
+
+.article li + li {
+  margin-top: 8px;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  margin: 8px 0 18px;
+}
+
+.article table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 0.95rem;
+}
+
+.article th,
+.article td {
+  border: 1px solid #ddd0ee;
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.45;
+}
+
+.article th {
+  background: #f3e9fc;
+  color: #3d0f66;
+  font-weight: 700;
+}
+
+.sources {
+  margin-top: 28px;
+  color: #5a4d6e;
+}
