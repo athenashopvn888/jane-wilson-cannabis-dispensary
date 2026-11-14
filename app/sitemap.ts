@@ -35,6 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/resources", changeFrequency: "weekly" as const, priority: 0.7 },
     ...RESOURCE_ARTICLES.map((article) => ({ path: `/resources/${article.slug}`, changeFrequency: "monthly" as const, priority: 0.6 })),
     { path: "/resources/pre-ground-cannabis-vs-whole-flower", changeFrequency: "monthly" as const, priority: 0.6 },
+    { path: "/resources/how-to-tell-if-weed-is-old", changeFrequency: "monthly" as const, priority: 0.6 },
     { path: "/menu", changeFrequency: "daily" as const, priority: 0.85 },
     { path: "/dispensary-near-me", changeFrequency: "weekly" as const, priority: 0.9 },
     { path: "/guides/indica", changeFrequency: "weekly" as const, priority: 0.6 },
