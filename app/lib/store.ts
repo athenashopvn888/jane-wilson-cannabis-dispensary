@@ -28,7 +28,8 @@ export const STORE = {
   neighbourhoods: ["Jane and Wilson", "Downsview", "North York"],
   hoursLabel: "10:00 AM – 12:00 AM (midnight) daily",
   hoursOpens: "10:00",
-  hoursCloses: "00:00"
+  /** Schema.org end-of-day. Visible copy stays on hoursLabel (midnight). */
+  hoursCloses: "24:00"
 } as const;
 
 export const HOURS_DAYS = [

@@ -13,6 +13,7 @@ import { deliveryHoursSchema, DELIVERY_HOURS_LABEL } from "../lib/deliveryHours"
 import { deliveryTierStats, tierCardFacts } from "../lib/deliveryStats";
 import { sortProducts, type DeliveryProduct } from "../lib/pricing";
 import { PRICE_RULE_FAQ, STORE_PRICE_ON_DELIVERY_FAQ } from "../lib/content/faqs";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE } from "../lib/store";
 import styles from "../jwc-pages.module.css";
 import "./delivery.css";
@@ -25,12 +26,12 @@ const URL_ = `${STORE.origin}${PATH}`;
 const TITLE = "Weed Delivery Menu in North York | Jane Wilson Cannabis Dispensary Weed Delivery";
 const DESC = "Weed delivery and cannabis delivery menu from Jane Wilson Cannabis Dispensary in North York. Bulk delivery pricing from 7g, separate from in-store prices. Adults 19+, ID checked at the door.";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialImage({
   title: { absolute: TITLE },
   description: DESC,
   alternates: { canonical: URL_ },
   openGraph: { title: TITLE, description: DESC, url: URL_, type: "website" }
-};
+});
 
 const FAQS = [
   { q: "Where does delivery start?", a: "Delivery uses bulk pricing, starting at 7 grams, with a minimum order. We confirm the total when you order." },

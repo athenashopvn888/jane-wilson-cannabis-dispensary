@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE } from "../lib/store";
 import styles from "./seo.module.css";
 
@@ -10,12 +11,12 @@ const PAGE_URL = `${ORIGIN}/hours`;
 const TITLE = "Jane Wilson Cannabis Dispensary Hours | Daily 10:00 AM – 12:00 AM at 2111 Jane St, Unit 12";
 const DESCRIPTION = "Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12, North York, ON M3M 1A2: daily 10:00 am – 12:00 am. Day-by-day hours, phone +1 (437) 465-7700 and visit links. Adults 19+ with photo ID.";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialImage({
   title: { absolute: TITLE },
   description: DESCRIPTION,
   alternates: { canonical: PAGE_URL },
   openGraph: { title: TITLE, description: DESCRIPTION, url: PAGE_URL, type: "website" },
-};
+});
 
 const FAQS = [
   { q: "What are Jane Wilson Cannabis Dispensary's hours?", a: "Daily 10:00 AM – 12:00 AM. Day-by-day hours are listed on this page." },
@@ -33,7 +34,7 @@ const jsonLd = {
       url: ORIGIN,
       telephone: "+14374657700",
       address: { "@type": "PostalAddress", streetAddress: "2111 Jane St, Unit 12", addressLocality: "North York", addressRegion: "ON", postalCode: "M3M 1A2", addressCountry: "CA" },
-      openingHoursSpecification: [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "10:00", "closes": "00:00"}],
+      openingHoursSpecification: [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "10:00", "closes": "24:00"}],
     },
     { "@type": "WebPage", "@id": `${PAGE_URL}#webpage`, url: PAGE_URL, name: TITLE, description: DESCRIPTION, about: { "@id": "https://janewilsoncannabisdispensary.com/#store" } },
     {

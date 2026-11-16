@@ -8,6 +8,7 @@ import "./globals.css";
 import JsonLd from "./components/JsonLd";
 import { getFleetContent } from "./lib/fleetContent";
 import { SHOW_CIGARETTES } from "./lib/siteConfig";
+import { withSocialImage } from "./lib/socialImage";
 import { STORE, storeSchema } from "./lib/store";
 
 const bodyFont = Manrope({
@@ -23,7 +24,7 @@ const displayFont = DM_Serif_Display({
   display: "swap"
 });
 
-const metadata: Metadata = {
+const metadata: Metadata = withSocialImage({
   metadataBase: new URL(STORE.origin),
   title: { default: "Jane Wilson Cannabis Dispensary Weed Delivery | Jane St North York", template: "%s | Jane Wilson Cannabis" },
   description: SHOW_CIGARETTES
@@ -49,7 +50,7 @@ const metadata: Metadata = {
     locale: "en_CA",
     type: "website"
   }
-};
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const fleet = await getFleetContent();

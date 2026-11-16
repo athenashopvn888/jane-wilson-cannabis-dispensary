@@ -34,7 +34,7 @@ test("exact approved NAP, hours, and canonical domain are centralized", () => {
   assert.match(store, /10:00 AM – 12:00 AM \(midnight\) daily/);
   assert.match(store, /openingHoursSpecification/);
   assert.match(store, /hoursOpens: "10:00"/);
-  assert.match(store, /hoursCloses: "00:00"/);
+  assert.match(store, /hoursCloses: "24:00"/);
   assert.match(store, /opens: STORE.hoursOpens/);
 });
 
@@ -303,6 +303,10 @@ test("sitemap lists live routes and omits the demoted North York path", () => {
   assert.match(read("app/lib/fleet/routes.ts"), /\/weed-delivery-toronto/);
   const northYork = read("app/weed-dispensary-north-york/page.tsx");
   assert.match(northYork, /permanentRedirect\("\/weed-dispensary-jane-street"\)/);
+  const nextConfig = read("next.config.ts");
+  assert.match(nextConfig, /source: "\/weed-dispensary-north-york"/);
+  assert.match(nextConfig, /destination: "https:\/\/janewilsoncannabisdispensary\.com\/weed-dispensary-jane-street"/);
+  assert.match(nextConfig, /statusCode: 301/);
 });
 
 test("directions links use the single Google Business Profile URL", () => {

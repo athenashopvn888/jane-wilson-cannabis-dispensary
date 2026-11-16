@@ -8,17 +8,18 @@ import Nav from "../components/Nav";
 import { collectionSchema } from "../lib/collectionSchema";
 import { getMenu, nicotineVapeItems } from "../lib/inventory";
 import { SHOW_CIGARETTES } from "../lib/siteConfig";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE } from "../lib/store";
 import BannerSlots from "../components/BannerSlots";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialImage({
   title: "Nicotine Vapes on Jane Street | Jane Wilson",
   description: "Nicotine vape listings at Jane Wilson Cannabis Dispensary, 2111 Jane St, Unit 12, North York. Adults 19+. Nicotine is addictive. Open 10:00 AM to midnight daily.",
   alternates: { canonical: "/nicotine-vapes-jane-street" },
   openGraph: { title: "Nicotine Vapes on Jane Street", url: "/nicotine-vapes-jane-street" }
-};
+});
 
 const faqs = [
   {

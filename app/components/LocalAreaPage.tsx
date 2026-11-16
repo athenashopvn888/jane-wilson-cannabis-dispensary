@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { localAreaBySlug } from "../lib/localAreas";
 import { AREA_LINKS } from "../lib/shopLinks";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE, storeSchema } from "../lib/store";
 import Footer from "./Footer";
 import JsonLd from "./JsonLd";
@@ -13,12 +14,12 @@ export function areaMetadata(slug: string): Metadata {
   const area = localAreaBySlug(slug);
   if (!area) return {};
   const title = `${area.title} | Jane Wilson Cannabis Dispensary`;
-  return {
+  return withSocialImage({
     title: { absolute: title },
     description: area.description,
     alternates: { canonical: area.path },
     openGraph: { title, description: area.description, url: area.path, type: "website" }
-  };
+  });
 }
 
 export default function LocalAreaPage({ slug }: { slug: string }) {

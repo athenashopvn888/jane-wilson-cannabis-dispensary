@@ -5,6 +5,7 @@ import Footer from "../../components/Footer";
 import JsonLd from "../../components/JsonLd";
 import Nav from "../../components/Nav";
 import { RESOURCE_ARTICLES, resourceBySlug, type TextPart } from "../../lib/content/resources";
+import { withSocialImage } from "../../lib/socialImage";
 import { STORE } from "../../lib/store";
 import styles from "../../jwc-pages.module.css";
 
@@ -17,12 +18,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const article = resourceBySlug(slug);
   if (!article) return {};
   const url = `${STORE.origin}/resources/${article.slug}`;
-  return {
+  return withSocialImage({
     title: { absolute: article.seoTitle },
     description: article.description,
     alternates: { canonical: url },
     openGraph: { title: article.seoTitle, description: article.description, url, type: "article" },
-  };
+  });
 }
 
 function Parts({ parts }: { parts: TextPart[] }) {

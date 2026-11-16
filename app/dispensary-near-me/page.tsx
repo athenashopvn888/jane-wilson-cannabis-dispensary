@@ -3,6 +3,7 @@ import Link from "next/link";
 import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
 import Nav from "../components/Nav";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE, TIERS, storeSchema } from "../lib/store";
 import styles from "../jwc-pages.module.css";
 
@@ -30,12 +31,12 @@ const FAQS = [
   },
 ];
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialImage({
   title: { absolute: TITLE },
   description: DESCRIPTION,
   alternates: { canonical: URL_ },
   openGraph: { title: TITLE, description: DESCRIPTION, url: URL_, type: "website" },
-};
+});
 
 export default function DispensaryNearMePage() {
   const schema = {

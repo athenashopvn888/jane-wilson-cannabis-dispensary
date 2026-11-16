@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
       { source: "/aaa", destination: "/aaa-weed", permanent: true },
       { source: "/aa", destination: "/aa-weed", permanent: true },
       { source: "/budget", destination: "/budget-weed", permanent: true },
+      {
+        source: "/weed-dispensary-north-york",
+        destination: "https://janewilsoncannabisdispensary.com/weed-dispensary-jane-street",
+        statusCode: 301
+      },
       ...cigaretteRedirects()
     ];
   }

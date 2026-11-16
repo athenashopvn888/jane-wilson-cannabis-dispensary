@@ -3,6 +3,7 @@ import Link from "next/link";
 import Footer from "../../components/Footer";
 import JsonLd from "../../components/JsonLd";
 import Nav from "../../components/Nav";
+import { withSocialImage } from "../../lib/socialImage";
 import styles from "./article.module.css";
 
 const TITLE = "How to Tell If Weed Is Old: A No-Nonsense Field Guide for Your Stash";
@@ -11,7 +12,7 @@ const DESCRIPTION =
 const CANONICAL = "https://janewilsoncannabisdispensary.com/resources/how-to-tell-if-weed-is-old";
 const PUBLISHED = "2026-11-14";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialImage({
   title: { absolute: TITLE },
   description: DESCRIPTION,
   alternates: { canonical: CANONICAL },
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
     publishedTime: PUBLISHED,
     modifiedTime: PUBLISHED,
   },
-};
+});
 
 const articleSchema = {
   "@context": "https://schema.org",

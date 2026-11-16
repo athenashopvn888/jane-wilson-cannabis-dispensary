@@ -4,14 +4,15 @@ import Link from "next/link";
 import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
 import Nav from "../components/Nav";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE, storeSchema } from "../lib/store";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialImage({
   title: "Visit Jane Wilson Cannabis | Jane St Unit 12",
   description: "Plan a visit to Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12. Directions, TTC, parking and daily hours (10 AM to midnight).",
   alternates: { canonical: "/visit" },
   openGraph: { title: "Visit Jane Wilson Cannabis Dispensary", url: "/visit" }
-};
+});
 
 const faqs = [
   {
