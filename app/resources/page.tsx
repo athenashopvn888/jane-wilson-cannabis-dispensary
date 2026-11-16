@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
 import Nav from "../components/Nav";
 import { RESOURCE_ARTICLES } from "../lib/content/resources";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE } from "../lib/store";
 import styles from "../jwc-pages.module.css";
 
@@ -12,12 +13,12 @@ const TITLE = "Resources | Jane Wilson Cannabis Dispensary | Jane Street North Y
 const DESCRIPTION =
   "Local guides for Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12: flower tiers, indica sativa and hybrid labels, and visiting Jane Street at Wilson. Adults 19+.";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialImage({
   title: { absolute: TITLE },
   description: DESCRIPTION,
   alternates: { canonical: URL_ },
   openGraph: { title: TITLE, description: DESCRIPTION, url: URL_, type: "website" },
-};
+});
 
 export default function ResourcesPage() {
   const schema = {

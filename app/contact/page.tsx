@@ -3,6 +3,7 @@ import Link from "next/link";
 import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
 import Nav from "../components/Nav";
+import { withSocialImage } from "../lib/socialImage";
 import { HOURS_DAYS, STORE, storeSchema } from "../lib/store";
 import styles from "../jwc-pages.module.css";
 
@@ -10,12 +11,12 @@ const PATH = "/contact";
 const TITLE = "Contact Jane Wilson Cannabis Dispensary | Jane St North York";
 const DESCRIPTION = "Visit or call Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12, North York, ON M3M 1A2. Open 10:00 AM to midnight daily. Adults 19+.";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialImage({
   title: { absolute: TITLE },
   description: DESCRIPTION,
   alternates: { canonical: PATH },
   openGraph: { title: TITLE, description: DESCRIPTION, url: PATH, type: "website" }
-};
+});
 
 export default function ContactPage() {
   const url = `${STORE.origin}${PATH}`;

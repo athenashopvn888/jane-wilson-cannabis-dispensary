@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import WeedDeliveryGuide, { type WeedDeliveryCopy } from "../components/WeedDeliveryGuide";
 import { DELIVERY_HOURS_LABEL } from "../lib/deliveryHours";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE } from "../lib/store";
 
 const PATH = "/weed-delivery-toronto";
@@ -51,12 +52,12 @@ const COPY: WeedDeliveryCopy = {
   areaServed: ["Toronto", "North York"]
 };
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialImage({
   title: { absolute: TITLE },
   description: DESC,
   alternates: { canonical: `${STORE.origin}${PATH}` },
   openGraph: { title: TITLE, description: DESC, url: `${STORE.origin}${PATH}`, type: "website" }
-};
+});
 
 export default function WeedDeliveryTorontoPage() {
   return <WeedDeliveryGuide copy={COPY} />;

@@ -5,13 +5,14 @@ import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
 import StrainList from "./_components/StrainList";
 import { GUIDES } from "../lib/content/guides";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE } from "../lib/store";
 import styles from "../jwc-pages.module.css";
 
 const URL_ = `${STORE.origin}/guides`;
 const TITLE = "Cannabis Strain Guides | Jane Wilson Cannabis Dispensary";
 const DESC = "Strain guides from Jane Wilson Cannabis Dispensary: family trees, aroma and what to look for. Indica, sativa and hybrid.";
-export const metadata: Metadata = { title: { absolute: TITLE }, description: DESC, alternates: { canonical: URL_ }, openGraph: { title: TITLE, description: DESC, url: URL_, type: "website" } };
+export const metadata: Metadata = withSocialImage({ title: { absolute: TITLE }, description: DESC, alternates: { canonical: URL_ }, openGraph: { title: TITLE, description: DESC, url: URL_, type: "website" } });
 
 export default function GuidesPage() {
   const schema = {

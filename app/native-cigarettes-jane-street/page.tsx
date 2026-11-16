@@ -11,17 +11,18 @@ import Nav from "../components/Nav";
 import { collectionSchema } from "../lib/collectionSchema";
 import { cigaretteItems, getMenu } from "../lib/inventory";
 import { SHOW_CIGARETTES, VAPE_PAGE_PATH } from "../lib/siteConfig";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE } from "../lib/store";
 import BannerSlots from "../components/BannerSlots";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialImage({
   title: "Native Cigarettes on Jane Street | Jane Wilson",
   description: "Native cigarette listings at Jane Wilson Cannabis Dispensary, 2111 Jane St, Unit 12, North York. Adults 19+. Open 10:00 AM to midnight daily.",
   alternates: { canonical: "/native-cigarettes-jane-street" },
   openGraph: { title: "Native Cigarettes on Jane Street", url: "/native-cigarettes-jane-street" }
-};
+});
 
 const faqs = [
   {

@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
 import FaqBlock, { faqSchema } from "../components/FaqBlock";
 import { HOME_FAQS, PRICE_RULE_FAQ, STORE_PRICE_ON_DELIVERY_FAQ } from "../lib/content/faqs";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE } from "../lib/store";
 import styles from "../jwc-pages.module.css";
 
@@ -12,7 +13,7 @@ const URL_ = `${STORE.origin}/faq`;
 const TITLE = "FAQ | Jane Wilson Cannabis Dispensary | Jane St North York";
 const DESC = "Answers about the Jane Wilson Cannabis Dispensary address, ID, flower weights, delivery and why delivery prices differ from in-store prices.";
 
-export const metadata: Metadata = { title: { absolute: TITLE }, description: DESC, alternates: { canonical: URL_ }, openGraph: { title: TITLE, description: DESC, url: URL_, type: "website" } };
+export const metadata: Metadata = withSocialImage({ title: { absolute: TITLE }, description: DESC, alternates: { canonical: URL_ }, openGraph: { title: TITLE, description: DESC, url: URL_, type: "website" } });
 
 export default function FaqPage() {
   const all = [PRICE_RULE_FAQ, STORE_PRICE_ON_DELIVERY_FAQ, ...HOME_FAQS];

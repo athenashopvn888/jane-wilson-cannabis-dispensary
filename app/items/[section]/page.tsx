@@ -10,6 +10,7 @@ import { categoryBySlug, productsForCategory } from "../../lib/catalog";
 import { collectionSchema } from "../../lib/collectionSchema";
 import { getMenu, itemPath } from "../../lib/inventory";
 import { CATEGORY_LINKS } from "../../lib/shopLinks";
+import { withSocialImage } from "../../lib/socialImage";
 import { STORE } from "../../lib/store";
 import styles from "../../jwc-pages.module.css";
 
@@ -25,12 +26,12 @@ export async function generateMetadata({ params }: { params: Promise<{ section: 
   if (!category) return {};
   const title = `${category.title} | Jane Wilson Cannabis Dispensary`;
   const description = `${category.detail} In-store at ${STORE.street}, North York. Adults 19+. Prices come from the current menu.`;
-  return {
+  return withSocialImage({
     title: { absolute: title },
     description,
     alternates: { canonical: category.path },
     openGraph: { title, description, url: category.path, type: "website" }
-  };
+  });
 }
 
 export default async function CategoryPage({ params }: { params: Promise<{ section: string }> }) {

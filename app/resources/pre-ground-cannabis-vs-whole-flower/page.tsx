@@ -3,6 +3,7 @@ import Link from "next/link";
 import Footer from "../../components/Footer";
 import JsonLd from "../../components/JsonLd";
 import Nav from "../../components/Nav";
+import { withSocialImage } from "../../lib/socialImage";
 import styles from "./article.module.css";
 
 const TITLE =
@@ -13,7 +14,7 @@ const CANONICAL =
   "https://janewilsoncannabisdispensary.com/resources/pre-ground-cannabis-vs-whole-flower";
 const PUBLISHED = "2026-11-07";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialImage({
   title: { absolute: TITLE },
   description: DESCRIPTION,
   alternates: { canonical: CANONICAL },
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
     publishedTime: PUBLISHED,
     modifiedTime: PUBLISHED,
   },
-};
+});
 
 const articleSchema = {
   "@context": "https://schema.org",

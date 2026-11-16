@@ -10,6 +10,7 @@ import { productsForCategory } from "../lib/catalog";
 import { cigaretteItems, flowersForTier, getMenu, nicotineVapeItems } from "../lib/inventory";
 import { CATEGORY_LINKS } from "../lib/shopLinks";
 import { SHOW_CIGARETTES } from "../lib/siteConfig";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE, TIERS } from "../lib/store";
 import styles from "../jwc-pages.module.css";
 
@@ -20,12 +21,12 @@ const TITLE = "Menu | Jane Wilson Cannabis Dispensary | Jane Street North York";
 const DESCRIPTION =
   "In-store menu preview for Jane Wilson Cannabis Dispensary at 2111 Jane St, Unit 12, North York. Flower tiers and nicotine vapes. Adults 19+. Confirm availability at the counter.";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialImage({
   title: { absolute: TITLE },
   description: DESCRIPTION,
   alternates: { canonical: URL_ },
   openGraph: { title: TITLE, description: DESCRIPTION, url: URL_, type: "website" },
-};
+});
 
 export default async function MenuPage() {
   const menu = await getMenu();

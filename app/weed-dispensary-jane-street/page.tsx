@@ -6,14 +6,15 @@ import JsonLd from "../components/JsonLd";
 import Nav from "../components/Nav";
 import { SHOW_CIGARETTES } from "../lib/siteConfig";
 import { AREA_LINKS } from "../lib/shopLinks";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE, TIERS } from "../lib/store";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialImage({
   title: "Weed Dispensary Jane Street at Wilson | North York",
   description: "Jane Wilson Cannabis Dispensary is the Jane Street storefront at 2111 Jane St, Unit 12 near Wilson Avenue and Downsview. Five flower tiers, nicotine vapes, open 10 AM to midnight daily.",
   alternates: { canonical: "/weed-dispensary-jane-street" },
   openGraph: { title: "Jane Street Weed Dispensary at Wilson Avenue", url: "/weed-dispensary-jane-street" }
-};
+});
 
 const faqs = [
   {

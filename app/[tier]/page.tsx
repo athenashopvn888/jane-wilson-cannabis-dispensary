@@ -15,6 +15,7 @@ import { tierShelfLine } from "../lib/catalog";
 import { collectionSchema } from "../lib/collectionSchema";
 import { flowerHref, flowersForTier, getMenu } from "../lib/inventory";
 import { SHOW_CIGARETTES } from "../lib/siteConfig";
+import { withSocialImage } from "../lib/socialImage";
 import { STORE, TIERS, WEIGHTS } from "../lib/store";
 import BannerSlots from "../components/BannerSlots";
 
@@ -28,12 +29,12 @@ export async function generateMetadata({ params }: { params: Promise<{ tier: str
   const { tier: slug } = await params;
   const tier = TIERS.find((item) => item.slug === slug);
   if (!tier) return {};
-  return {
+  return withSocialImage({
     title: `${tier.name} on Jane Street | North York`,
     description: `${tier.summary} Compare 3g, ${isFreeGramTier(tier.key) ? "6g" : "5g"}, 14g, and 28g listings at Jane Wilson Cannabis Dispensary near Jane Street and Wilson Avenue in North York.`,
     alternates: { canonical: `/${tier.slug}` },
     openGraph: { title: `${tier.name} | Jane Wilson Cannabis`, url: `/${tier.slug}` }
-  };
+  });
 }
 
 export default async function TierPage({ params }: { params: Promise<{ tier: string }> }) {
