@@ -1,4 +1,5 @@
 import { FULL_NAME_NAP } from "./lib/fullNameNap";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import BannerCreative from "./components/BannerCreative";
@@ -15,6 +16,10 @@ import MobileLeadBanner from "./components/MobileLeadBanner";
 import FleetAnnouncementBanner from "./components/fleet/FleetAnnouncementBanner";
 import { CODED_BANNERS } from "./lib/fleet/config";
 import { getFleetContent } from "./lib/fleetContent";
+
+export const metadata: Metadata = {
+  title: { absolute: "Jane Wilson Cannabis Dispensary near me | Weed Delivery | Jane St North York" }
+};
 
 const faqs = [
   {
