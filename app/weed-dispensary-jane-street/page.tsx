@@ -10,7 +10,7 @@ import { withSocialImage } from "../lib/socialImage";
 import { STORE, TIERS } from "../lib/store";
 
 export const metadata: Metadata = withSocialImage({
-  title: "Weed Dispensary Jane Street at Wilson | North York",
+  title: "Weed Dispensary near me | Jane Street at Wilson | North York",
   description: "Jane Wilson Cannabis Dispensary is the Jane Street storefront at 2111 Jane St, Unit 12 near Wilson Avenue and Downsview. Five flower tiers, nicotine vapes, open 10 AM to midnight daily.",
   alternates: { canonical: "/weed-dispensary-jane-street" },
   openGraph: { title: "Jane Street Weed Dispensary at Wilson Avenue", url: "/weed-dispensary-jane-street" }
